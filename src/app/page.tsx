@@ -24,7 +24,7 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-2 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-2" style={{maxWidth:'120px'}}>
           {/* LinkedIn Button */}
           <a
-            href="https://www.linkedin.com/"
+            href="https://www.linkedin.com/company/108120360/admin/dashboard/"
             target="_blank"
             rel="noopener noreferrer"
             style={{ clipPath: 'url(#squircleClip)' }}
