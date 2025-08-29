@@ -10,7 +10,8 @@ export default function Home() {
         OELRIX
       </h1>
       <p className="text-lg md:text-xl text-center text-white mix-blend-exclusion max-w-2xl leading-relaxed z-10 mt-4">
-        Launching soon. We are preparing to introduce innovative solutions to the market. Follow us on LinkedIn and X for the latest updates.
+        The future of creation is loading. We're forging a new universe of next-gen assets for developers, designers, and digital creators.<br /><br />
+        Phase-1 deployment is imminent.
       </p>
       {/* Squircle SVG ClipPath Definition */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
@@ -36,7 +37,7 @@ export default function Home() {
           </a>
           {/* Instagram Button */}
           <a
-            href="https://instagram.com/"
+            href="https://instagram.com/oelrix"
             target="_blank"
             rel="noopener noreferrer"
             style={{ clipPath: 'url(#squircleClip)' }}
@@ -48,7 +49,7 @@ export default function Home() {
           </a>
           {/* X Button */}
           <a
-            href="https://x.com/"
+            href="https://x.com/oelrixx"
             target="_blank"
             rel="noopener noreferrer"
             style={{ clipPath: 'url(#squircleClip)' }}
