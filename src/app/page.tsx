@@ -1,6 +1,8 @@
 "use client";
 
+
 import { LavaLamp } from "@/components/fluid-blob";
+import ModernButton from "../components/ModernButton";
 
 export default function Home() {
   return (
@@ -10,9 +12,11 @@ export default function Home() {
         OELRIX
       </h1>
       <p className="text-lg md:text-xl text-center text-white mix-blend-exclusion max-w-2xl leading-relaxed z-10 mt-4">
-        The future of creation is loading. We're forging a new universe of next-gen assets for developers, designers, and digital creators.<br /><br />
-        Phase-1 deployment is imminent.
+        Unlock a universe of ready-to-use UI assets for developers and designers. Craftrix, our first project, is now live.
       </p>
+      <div className="z-10 mt-6">
+        <ModernButton />
+      </div>
       {/* Squircle SVG ClipPath Definition */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
