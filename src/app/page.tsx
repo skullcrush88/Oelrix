@@ -2,7 +2,7 @@
 
 
 import { LavaLamp } from "../../components/fluid-blob";
-import ModernButton from "../components/ModernButton";
+import ModernButton from "@/components/ModernButton";
 
 export default function Home() {
   return (
