@@ -1,7 +1,7 @@
 "use client";
 
 
-import { LavaLamp } from "@/components/fluid-blob";
+import { LavaLamp } from "../../components/fluid-blob";
 import ModernButton from "../components/ModernButton";
 
 export default function Home() {
