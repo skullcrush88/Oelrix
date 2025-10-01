@@ -2,7 +2,7 @@
 
 
 import { LavaLamp } from "../../components/fluid-blob";
-import ModernButton from "@/components/ModernButton";
+import CraftrixButton from "../components/ModernButton";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
         Unlock a universe of ready-to-use UI assets for developers and designers. Craftrix, our first project, is now live.
       </p>
       <div className="z-10 mt-6">
-        <ModernButton />
+  <CraftrixButton />
       </div>
       {/* Squircle SVG ClipPath Definition */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
