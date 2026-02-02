@@ -2,7 +2,6 @@
 
 
 import { LavaLamp } from "../../components/fluid-blob";
-import CraftrixButton from "../components/ModernButton";
 
 export default function Home() {
   return (
@@ -11,12 +10,6 @@ export default function Home() {
       <h1 className="text-7xl md:text-9xl font-extrabold tracking-tight mix-blend-exclusion text-white whitespace-nowrap z-10 uppercase">
         OELRIX
       </h1>
-      <p className="text-lg md:text-xl text-center text-white mix-blend-exclusion max-w-2xl leading-relaxed z-10 mt-4">
-        Unlock a universe of ready-to-use UI assets for developers and designers. Craftrix, our first project, is now live.
-      </p>
-      <div className="z-10 mt-6">
-  <CraftrixButton />
-      </div>
       {/* Squircle SVG ClipPath Definition */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
