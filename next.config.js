@@ -8,6 +8,11 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
     return config;
   },
+  turbopack: {
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
 };
 
 module.exports = nextConfig;
