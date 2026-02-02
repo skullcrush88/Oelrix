@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center relative">
       <LavaLamp />
-      <h1 className="text-[10rem] md:text-[18rem] font-extrabold tracking-tight mix-blend-exclusion text-white whitespace-nowrap z-10 uppercase">
+      <h1 className="text-[5rem] sm:text-[8rem] md:text-[18rem] font-extrabold tracking-tight mix-blend-exclusion text-white whitespace-nowrap z-10 uppercase">
         OELRIX
       </h1>
       <div className="fixed bottom-8 left-0 right-0 z-10 flex justify-center">
