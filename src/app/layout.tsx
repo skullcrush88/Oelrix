@@ -1,4 +1,5 @@
 import './globals.css';
+import RouteLoader from '../components/RouteLoader';
 
 export default function RootLayout({
   children,
@@ -25,7 +26,10 @@ export default function RootLayout({
         <meta name="twitter:description" content="Unlock a universe of ready-to-use UI assets for developers and designers. Craftrix, our first project, is now live." />
         <meta name="twitter:image" content="/favicon.png" />
       </head>
-      <body>{children}</body>
+      <body>
+        <RouteLoader />
+        {children}
+      </body>
     </html>
   );
 }
