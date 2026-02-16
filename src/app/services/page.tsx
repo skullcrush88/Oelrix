@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const thunderHeading = localFont({
-  src: "../../../thunder/Fonts/Web-PS/Thunder-BlackLC.woff2",
+  src: "../../../THUNDER/Fonts/Web-PS/Thunder-BlackLC.woff2",
   weight: "900",
   style: "normal",
   display: "swap",
