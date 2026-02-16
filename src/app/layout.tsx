@@ -1,9 +1,14 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Oelrix — Modern Websites for Brands',
+  title: "Oelrix — Modern Websites for Brands",
   description:
-    'Oelrix creates refined, modern websites for businesses and brands that value clarity, design, and presence.',
+    "Oelrix creates refined, modern websites for businesses and brands that value clarity, design, and presence.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
