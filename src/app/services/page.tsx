@@ -1,138 +1,382 @@
 "use client";
 
+import localFont from "next/font/local";
 import Link from "next/link";
-import { LavaLamp } from "../../../components/fluid-blob";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+const thunderHeading = localFont({
+  src: "../../../thunder/Fonts/Web-PS/Thunder-BlackLC.woff2",
+  weight: "900",
+  style: "normal",
+  display: "swap",
+});
+
+const services = [
+  {
+    title: "Business Websites",
+    description:
+      "Multi-page sites with clear IA, refined layout systems, and strong brand presentation.",
+  },
+  {
+    title: "Landing Pages",
+    description:
+      "Focused landing experiences with crisp messaging, bold CTAs, and campaign-ready flow.",
+  },
+  {
+    title: "Website Redesign",
+    description:
+      "Rebuilds that clean up visuals, update structure, and modernize the user journey.",
+  },
+];
+
+const servicesOverview = [
+  {
+    title: "Strategy Sprint",
+    description:
+      "Rapid discovery to align goals, audience, and content before design begins.",
+  },
+  {
+    title: "UX & Content",
+    description:
+      "Information architecture, wireflows, and copy guidance for clear user paths.",
+  },
+  {
+    title: "UI System",
+    description:
+      "A scalable visual system with components, tokens, and layout rules.",
+  },
+];
+
+const introLines = [
+  "Clear scope, clean systems, and measurable outcomes.",
+  "Every deliverable is mapped to a client goal.",
+  "You get a site that performs, not just a site that looks good.",
+];
+
+const processSteps = ["Discovery", "Design", "Build", "Launch"];
+const processStepColors = [
+  "text-blue-400",
+  "text-yellow-400",
+  "text-red-400",
+  "text-green-400",
+];
 
 export default function Services() {
-  return (
-    <main className="min-h-screen w-screen relative text-white overflow-hidden">
-      <LavaLamp />
-      <div className="absolute inset-0 bg-black/60" />
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [activeService, setActiveService] = useState(0);
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-28 sm:pt-20 lg:pt-24">
-        <header className="relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-black/50 to-black/20 backdrop-blur-xl p-8 sm:p-12 shadow-2xl">
-          <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/5 blur-3xl" />
-          <div className="relative">
-            <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-white/20 bg-white/5">
-              <span className="text-xs uppercase tracking-[0.25em] text-white/80 font-semibold">
-                Our Sites
+  const introRefs = useRef<Array<HTMLParagraphElement | null>>([]);
+  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const detailRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const closingRef = useRef<HTMLDivElement | null>(null);
+
+  const [introVisible, setIntroVisible] = useState<boolean[]>(
+    () => introLines.map(() => false)
+  );
+  const [stepsVisible, setStepsVisible] = useState<boolean[]>(
+    () => processSteps.map(() => false)
+  );
+  const [closingVisible, setClosingVisible] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsLoaded(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    const introObserver = new IntersectionObserver(
+      (entries) => {
+        setIntroVisible((prev) => {
+          const next = [...prev];
+          for (const entry of entries) {
+            const index = introRefs.current.indexOf(
+              entry.target as HTMLParagraphElement
+            );
+            if (index >= 0 && entry.isIntersecting) {
+              next[index] = true;
+            }
+          }
+          return next;
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    introRefs.current.forEach((node) => node && introObserver.observe(node));
+
+    return () => introObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const stepsObserver = new IntersectionObserver(
+      (entries) => {
+        setStepsVisible((prev) => {
+          const next = [...prev];
+          for (const entry of entries) {
+            const index = stepRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index >= 0 && entry.isIntersecting) {
+              next[index] = true;
+            }
+          }
+          return next;
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    stepRefs.current.forEach((node) => node && stepsObserver.observe(node));
+
+    return () => stepsObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const detailObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = detailRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index >= 0) {
+              setActiveService(index);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.6,
+        rootMargin: "-10% 0% -40% 0%",
+      }
+    );
+
+    detailRefs.current.forEach((node) => node && detailObserver.observe(node));
+
+    return () => detailObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!closingRef.current) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setClosingVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(closingRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const detailCardClasses = useMemo(
+    () =>
+      services.map((_, index) => {
+        const isActive = index === activeService;
+        const isBefore = index < activeService;
+        return [
+          "transition-all duration-700 ease-out",
+          "rounded-3xl border border-white/10 bg-white/5",
+          "backdrop-blur-xl shadow-[0_30px_80px_rgba(0,0,0,0.4)]",
+          isActive
+            ? "opacity-100 scale-100 translate-y-0 z-30"
+            : isBefore
+            ? "opacity-40 scale-95 -translate-y-6 z-10"
+            : "opacity-60 scale-95 translate-y-6 z-20",
+        ].join(" ");
+      }),
+    [activeService]
+  );
+
+  const headingFontClass = `${thunderHeading.className} font-black uppercase services-heading`;
+
+  return (
+    <main className="bg-[#090909] text-white">
+      <style jsx global>{`
+        @keyframes ambientShift {
+          0% {
+            transform: translate3d(0%, 0%, 0);
+          }
+          50% {
+            transform: translate3d(-4%, -2%, 0);
+          }
+          100% {
+            transform: translate3d(0%, 0%, 0);
+          }
+        }
+        .services-heading {
+          letter-spacing: 0.06em;
+        }
+      `}</style>
+
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 -z-10 opacity-70"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 45%), radial-gradient(circle at 80% 10%, rgba(255,255,255,0.05), transparent 40%), radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 55%)",
+            animation: "ambientShift 18s ease-in-out infinite",
+          }}
+        />
+
+        <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
+          <p
+            className={`mb-6 text-sm uppercase tracking-[0.4em] text-white/50 transition-all duration-700 ease-out ${
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            Oelrix Studio
+          </p>
+          <h1
+            className={`${headingFontClass} w-fit mx-auto text-6xl leading-[1.02] tracking-tight text-white md:text-8xl lg:text-9xl transition-all duration-700 ease-out ${
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            Our Services.
+          </h1>
+          <p
+            className={`mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg transition-all duration-700 ease-out ${
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            Oelrix delivers focused web work with clear outputs, timelines, and launch-ready assets.
+          </p>
+        </div>
+      </section>
+
+      <section className="relative mx-auto max-w-5xl px-6 pb-16 pt-10">
+        <div className="sticky top-24 space-y-8">
+          {introLines.map((line, index) => (
+            <p
+              key={line}
+              ref={(node) => {
+                introRefs.current[index] = node;
+              }}
+              className={`text-2xl leading-relaxed text-white/80 md:text-3xl transition-all duration-700 ease-out ${
+                introVisible[index]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+        <div className="h-24" aria-hidden="true" />
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-28">
+        <div className="grid gap-8 md:grid-cols-3">
+          {servicesOverview.map((service) => (
+            <div
+              key={service.title}
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 transition-all duration-500 hover:-translate-y-2 hover:border-white/30"
+            >
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+              </div>
+              <h3 className={`${headingFontClass} relative text-3xl text-white md:text-4xl`}>
+                {service.title}
+              </h3>
+              <p className="relative mt-4 text-sm leading-relaxed text-white/70">
+                {service.description}
+              </p>
+              <span className="relative mt-10 inline-flex text-xs uppercase tracking-[0.3em] text-white/50">
+                Explore
               </span>
             </div>
-            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-4 bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-              Live Demos That Speak
-            </h1>
-            <p className="text-lg text-white/70 leading-relaxed max-w-3xl">
-              We showcase capability through real, working demo sites. Each build
-              is designed to be modern, responsive, and production-ready.
-            </p>
-          </div>
-        </header>
+          ))}
+        </div>
+      </section>
 
-        <section className="mt-16 grid gap-6 lg:grid-cols-3">
-          {[
-            {
-              name: "Craftrix",
-              type: "UI Assets Platform",
-              status: "Live",
-              tags: ["Design System", "Components", "Landing"],
-            },
-            {
-              name: "Pulse Studio",
-              type: "Agency Website",
-              status: "Demo",
-              tags: ["Branding", "Portfolio", "Responsive"],
-            },
-            {
-              name: "Nova SaaS",
-              type: "Product Landing",
-              status: "Demo",
-              tags: ["Conversion", "Pricing", "UI"],
-            },
-            {
-              name: "Atlas Works",
-              type: "Business Site",
-              status: "Demo",
-              tags: ["Corporate", "Clean", "Fast"],
-            },
-            {
-              name: "Mono Gallery",
-              type: "Portfolio",
-              status: "Demo",
-              tags: ["Minimal", "Grid", "Typography"],
-            },
-            {
-              name: "Beacon",
-              type: "Startup Landing",
-              status: "Demo",
-              tags: ["Hero", "CTA", "Modern"],
-            },
-          ].map((site) => (
+      <section className="relative mx-auto max-w-5xl px-6 pb-32">
+        <div className="mb-12">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">
+            Focused Delivery
+          </p>
+          <h2 className={`${headingFontClass} mt-4 text-5xl text-white md:text-6xl`}>
+            What clients receive, clearly defined.
+          </h2>
+        </div>
+
+        <div className="space-y-12">
+          {services.map((service, index) => (
             <div
-              key={site.name}
-              className="group relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-black/40 to-black/15 backdrop-blur-xl p-6 shadow-2xl hover:border-white/35 transition-all duration-500"
+              key={`${service.title}-detail`}
+              ref={(node) => {
+                detailRefs.current[index] = node;
+              }}
+              className={detailCardClasses[index]}
             >
-              <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-white/5 blur-2xl group-hover:bg-white/10 transition-all duration-500" />
-              <div className="relative">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-white/60">{site.type}</p>
-                  <span className="text-xs uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/20 bg-white/5 text-white/70">
-                    {site.status}
-                  </span>
-                </div>
-                <h3 className="mt-4 text-2xl font-semibold tracking-tight">
-                  {site.name}
+              <div className="px-8 py-10 md:px-12">
+                <p className="text-xs uppercase tracking-[0.4em] text-white/40">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className={`${headingFontClass} mt-4 text-4xl text-white md:text-5xl`}>
+                  {service.title}
                 </h3>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {site.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-3 py-1 rounded-full bg-white/10 text-white/70"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
-                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
-                  <span>Interactive preview ready</span>
-                </div>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
+                  {service.description}
+                </p>
               </div>
             </div>
           ))}
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-16 grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 rounded-3xl border border-white/20 bg-black/30 backdrop-blur-xl p-8 shadow-2xl">
-            <h2 className="text-2xl font-semibold mb-3">How We Present Work</h2>
-            <p className="text-white/70 leading-relaxed">
-              Instead of long proposals, we build real demos. You see layout,
-              motion, and responsiveness before committing. It’s the fastest way
-              to validate fit.
-            </p>
-          </div>
-          <div className="rounded-3xl border border-white/20 bg-black/30 backdrop-blur-xl p-8 shadow-2xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-3">
-              Focus
-            </p>
-            <ul className="space-y-3 text-white/75">
-              <li className="flex items-center gap-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-                Clean visual systems
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-                Responsive by default
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-                UX-first interactions
-              </li>
-            </ul>
-          </div>
-        </section>
-      </div>
+      <section className="mx-auto max-w-6xl px-6 pb-32">
+        <div className="mb-10">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">
+            Process
+          </p>
+          <h2 className={`${headingFontClass} mt-4 text-5xl text-white md:text-6xl`}>
+            Clarity from first call to launch.
+          </h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-4">
+          {processSteps.map((step, index) => (
+            <div
+              key={step}
+              ref={(node) => {
+                stepRefs.current[index] = node;
+              }}
+              className={`rounded-2xl border border-white/10 bg-white/5 px-6 py-8 text-center transition-all duration-700 ease-out ${
+                stepsVisible[index]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+            >
+              <p className="text-xs uppercase tracking-[0.4em] text-white/40">
+                Step {index + 1}
+              </p>
+              <p
+                className={`${headingFontClass} mt-4 text-2xl md:text-3xl ${
+                  processStepColors[index] || "text-white"
+                }`}
+              >
+                {step}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <div className="fixed bottom-8 left-0 right-0 z-10 flex justify-center px-4">
+      <section className="mx-auto max-w-4xl px-6 pb-24">
+        <div
+          ref={closingRef}
+          className={`rounded-3xl border border-white/10 bg-white/5 px-8 py-16 text-center transition-all duration-700 ease-out ${
+            closingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <p className={`${headingFontClass} text-4xl leading-[1.1] text-white md:text-5xl`}>
+            We ship websites that feel premium and work on day one.
+          </p>
+        </div>
+      </section>
+
+      <div className="fixed bottom-8 left-0 right-0 z-[999] flex justify-center px-4">
         <nav className="flex flex-row gap-2 sm:gap-4 md:gap-8 bg-black/30 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl px-3 sm:px-6 md:px-10 py-2 sm:py-3 md:py-4">
           <Link
             href="/"
@@ -150,7 +394,7 @@ export default function Services() {
             href="/services"
             className="text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
           >
-            Our Sites
+            Our Services
           </Link>
           <Link
             href="/contact"
