@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LavaLamp } from "../../components/fluid-blob";
+import { LavaLamp } from "../../fluid-bob";
 
 type ServicesSectionProps = {
   includeNav?: boolean;
@@ -135,37 +135,6 @@ export default function ServicesSection({ includeNav = false }: ServicesSectionP
           </div>
         </section>
       </div>
-
-      {includeNav && (
-        <div className="fixed bottom-8 left-0 right-0 z-[999] flex justify-center px-4">
-          <nav className="flex flex-row gap-2 sm:gap-4 md:gap-8 bg-black/30 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl px-3 sm:px-6 md:px-10 py-2 sm:py-3 md:py-4">
-            <Link
-              href="/"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              About
-            </Link>
-            <Link
-              href="/services"
-              className="text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Our Services
-            </Link>
-            <Link
-              href="/contact"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Contact
-            </Link>
-          </nav>
-        </div>
-      )}
     </section>
   );
 }

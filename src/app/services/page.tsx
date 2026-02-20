@@ -1,15 +1,7 @@
 "use client";
 
-import localFont from "next/font/local";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-
-const thunderHeading = localFont({
-  src: "../../../THUNDER/Fonts/Web-PS/Thunder-BlackLC.woff2",
-  weight: "900",
-  style: "normal",
-  display: "swap",
-});
 
 const services = [
   {
@@ -190,7 +182,7 @@ export default function Services() {
     [activeService]
   );
 
-  const headingFontClass = `${thunderHeading.className} font-black uppercase services-heading`;
+  const headingFontClass = `font-black uppercase services-heading`;
 
   return (
     <main className="bg-[#090909] text-white">
@@ -375,35 +367,6 @@ export default function Services() {
           </p>
         </div>
       </section>
-
-      <div className="fixed bottom-8 left-0 right-0 z-[999] flex justify-center px-4">
-        <nav className="flex flex-row gap-2 sm:gap-4 md:gap-8 bg-black/30 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl px-3 sm:px-6 md:px-10 py-2 sm:py-3 md:py-4">
-          <Link
-            href="/"
-            className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-          >
-            About
-          </Link>
-          <Link
-            href="/services"
-            className="text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-          >
-            Our Services
-          </Link>
-          <Link
-            href="/contact"
-            className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-          >
-            Contact
-          </Link>
-        </nav>
-      </div>
     </main>
   );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Waves from "./Waves";
 
 type AboutSectionProps = {
   includeNav?: boolean;
@@ -35,6 +36,7 @@ const layeredValues = [
 ];
 
 const clientTypes = ["Brands", "Startups", "Businesses", "Creators"];
+const actionWords = ["build", "create", "design", "deploy"];
 
 const approachSteps = [
   {
@@ -64,13 +66,18 @@ const clamp = (value: number, min: number, max: number) =>
 
 export default function AboutSection({ includeNav = false }: AboutSectionProps) {
   const [heroVisible, setHeroVisible] = useState(false);
+  const [activeActionWord, setActiveActionWord] = useState(0);
   const [lineVisible, setLineVisible] = useState<boolean[]>(
     () => statementLines.map(() => false)
+  );
+  const [valueVisible, setValueVisible] = useState<boolean[]>(
+    () => layeredValues.map(() => false)
   );
   const [finalVisible, setFinalVisible] = useState(false);
   const [activeApproach, setActiveApproach] = useState(0);
   const [heroParallax, setHeroParallax] = useState(0);
   const lineRefs = useRef<Array<HTMLParagraphElement | null>>([]);
+  const valueCardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const finalRef = useRef<HTMLDivElement | null>(null);
   const approachRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -78,6 +85,13 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setHeroVisible(true));
     return () => cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveActionWord((prev) => (prev + 1) % actionWords.length);
+    }, 2600);
+    return () => window.clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -100,6 +114,29 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
     );
 
     lineRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setValueVisible((prev) => {
+          const next = [...prev];
+          entries.forEach((entry) => {
+            const index = valueCardRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index >= 0 && entry.isIntersecting) {
+              next[index] = true;
+            }
+          });
+          return next;
+        });
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    valueCardRefs.current.forEach((node) => node && observer.observe(node));
     return () => observer.disconnect();
   }, []);
 
@@ -193,11 +230,47 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             opacity: 1;
           }
         }
+        @keyframes wordLiftFade {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 18px, 0);
+            filter: blur(5px);
+          }
+          20% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+          }
+          80% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            filter: blur(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translate3d(0, -14px, 0);
+            filter: blur(3px);
+          }
+        }
       `}</style>
 
-      <div ref={heroRef} className="relative min-h-screen">
-        <div className="absolute inset-0 -z-10">
+      <div ref={heroRef} className="relative min-h-screen overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-[#0c0c0c]" />
+          <Waves
+            className="pointer-events-none z-20 mix-blend-screen opacity-95"
+            lineColor="rgba(255,255,255,0.42)"
+            backgroundColor="transparent"
+            waveSpeedX={0.0125}
+            waveSpeedY={0.01}
+            waveAmpX={40}
+            waveAmpY={20}
+            friction={0.9}
+            tension={0.01}
+            maxCursorMove={120}
+            xGap={12}
+            yGap={36}
+          />
           <div
             className="absolute -top-32 left-1/3 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-[140px]"
             style={{ animation: "gradientFloat 18s ease-in-out infinite" }}
@@ -208,7 +281,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           />
         </div>
 
-        <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-24 pt-28">
+        <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-24 pt-28">
           <div
             className={`max-w-3xl transition-all duration-1000 ease-out ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -217,18 +290,29 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           >
             <p className="mb-4 text-xs uppercase tracking-[0.5em] text-white/60">About</p>
             <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">
-              About Oelrix
+              At Oelrix
             </h1>
-            <p className="mt-6 text-lg text-white/70 sm:text-xl">
-              We are a studio devoted to presence, where design becomes the quiet authority a
-              brand is remembered for.
+            <div className="mt-8 flex items-center gap-4 text-[clamp(2.25rem,7.5vw,5.25rem)] leading-[1.08] tracking-[-0.02em]">
+              <span className="font-semibold tracking-tight text-white">WE</span>
+              <span className="relative inline-flex min-w-[3.2ch] items-center overflow-visible">
+                <span
+                  key={actionWords[activeActionWord]}
+                  className="inline-block font-semibold leading-[1.05] text-white"
+                  style={{ animation: "wordLiftFade 2.6s ease-in-out infinite" }}
+                >
+                  {actionWords[activeActionWord]}
+                </span>
+              </span>
+            </div>
+            <p className="mt-10 text-lg text-white/70 sm:text-xl">
+          We are a studio devoted to presence, where design serves as the quiet authority that defines a brand’s perception. At Oelrix, we craft every detail with precision and purpose, ensuring what you present communicates credibility, clarity, and distinction.
             </p>
           </div>
         </div>
       </div>
 
-      <section className="relative mx-auto max-w-5xl px-6 py-24">
-        <div className="space-y-6">
+      <section className="relative mx-auto max-w-6xl px-6 py-24">
+        <div className="max-w-3xl space-y-6">
           {statementLines.map((line, index) => (
             <p
               key={line}
@@ -254,24 +338,43 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Layered by intent.</h2>
         </div>
         <div className="grid gap-6">
-          {layeredValues.map((value, index) => (
+          {layeredValues.map((value, index) => {
+            const direction = index === 1 ? 1 : -1;
+            const offset = direction * 100;
+            return (
             <div
               key={value.title}
-              className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
+              ref={(node) => {
+                valueCardRefs.current[index] = node;
+              }}
+              className="rounded-3xl bg-gradient-to-b from-white/20 via-white/10 to-white/15 p-[1px] shadow-[0_22px_60px_rgba(0,0,0,0.5)] transition-[transform,opacity,filter] duration-[1050ms]"
+              style={{
+                transform: valueVisible[index]
+                  ? "translate3d(0,0,0)"
+                  : `translate3d(${offset}px,0,0)`,
+                opacity: valueVisible[index] ? 1 : 0,
+                filter: valueVisible[index] ? "blur(0px)" : "blur(7px)",
+                transitionDelay: `${index * 160}ms`,
+                transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                willChange: "transform, opacity, filter",
+              }}
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                  {value.title}
-                </h3>
-                <span className="text-xs uppercase tracking-[0.4em] text-white/40">
-                  0{index + 1}
-                </span>
+              <div className="rounded-[calc(1.5rem-1px)] border border-white/10 bg-gradient-to-b from-[#121316] via-[#0d0f12] to-[#090a0c] p-8 backdrop-blur-2xl">
+                <div className="flex items-start justify-between">
+                  <h3 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+                    {value.title}
+                  </h3>
+                  <span className="pt-1 text-xs uppercase tracking-[0.45em] text-white/35">
+                    0{index + 1}
+                  </span>
+                </div>
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/60">
+                  {value.body}
+                </p>
               </div>
-              <p className="mt-4 max-w-2xl text-sm text-white/60 sm:text-base">
-                {value.body}
-              </p>
             </div>
-          ))}
+          );
+          })}
         </div>
       </section>
 
@@ -373,37 +476,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           </p>
         </div>
       </section>
-
-      {includeNav && (
-        <div className="fixed bottom-8 left-0 right-0 z-[999] flex justify-center px-4">
-          <nav className="flex flex-row gap-2 sm:gap-4 md:gap-8 bg-black/30 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl px-3 sm:px-6 md:px-10 py-2 sm:py-3 md:py-4">
-            <Link
-              href="/"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              About
-            </Link>
-            <Link
-              href="/services"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Our Services
-            </Link>
-            <Link
-              href="/contact"
-              className="text-white/80 hover:text-white hover:scale-110 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium tracking-wide"
-            >
-              Contact
-            </Link>
-          </nav>
-        </div>
-      )}
     </section>
   );
 }
+

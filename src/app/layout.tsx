@@ -1,4 +1,5 @@
 import './globals.css';
+import NavBar from '../components/NavBar';
 
 export const metadata = {
   title: "Oelrix — Modern Websites for Brands",
@@ -25,6 +26,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <NavBar />
       </body>
     </html>
   );
