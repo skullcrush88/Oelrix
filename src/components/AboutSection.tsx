@@ -293,7 +293,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
               At Oelrix
             </h1>
             <div className="mt-8 flex items-center gap-4 text-[clamp(2.25rem,7.5vw,5.25rem)] leading-[1.08] tracking-[-0.02em]">
-              <span className="font-semibold tracking-tight text-white">WE</span>
+              <span className="font-semibold tracking-tight text-white normal-case">We</span>
               <span className="relative inline-flex min-w-[3.2ch] items-center overflow-visible">
                 <span
                   key={actionWords[activeActionWord]}

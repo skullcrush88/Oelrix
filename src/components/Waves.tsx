@@ -124,7 +124,7 @@ type WavePoint = {
 };
 
 const Waves = ({
-  lineColor = "rgba(255,255,255,0.22)",
+  lineColor = "rgba(255,255,255,0.12)",
   backgroundColor = "transparent",
   waveSpeedX = 0.0125,
   waveSpeedY = 0.01,
@@ -291,7 +291,7 @@ const Waves = ({
       ctx.clearRect(0, 0, width, height);
       ctx.beginPath();
       ctx.strokeStyle = configRef.current.lineColor;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 0.75;
 
       linesRef.current.forEach((points) => {
         let p1 = moved(points[0], false);

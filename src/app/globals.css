@@ -142,6 +142,7 @@
     0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   width: fit-content;
+  max-width: calc(100vw - 2rem);
 }
 
 .glass-radio-group input {
@@ -153,9 +154,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
+  min-width: 70px;
   font-size: 14px;
-  padding: 0.8rem 1.6rem;
+  padding: 0.8rem 1rem;
   cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -163,6 +164,15 @@
   position: relative;
   z-index: 2;
   transition: color 0.3s ease-in-out;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .glass-radio-group label {
+    min-width: 120px;
+    padding: 0.8rem 1.6rem;
+  }
 }
 
 .glass-radio-group label:hover {
@@ -177,7 +187,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: calc(100% / 4); /* updated for 4 */
+  width: 25%; /* 100% / 4 items */
   border-radius: 1rem;
   z-index: 1;
   transition:
