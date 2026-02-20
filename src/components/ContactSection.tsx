@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Beams from "./Beams";
 
 type ContactSectionProps = {
   includeNav?: boolean;
@@ -112,19 +113,20 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
         }
       `}</style>
 
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#0a0a0a]" />
-        <div
-          className="absolute -top-40 left-1/4 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-[140px]"
-          style={{ animation: "glowFloat 18s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute bottom-0 right-10 h-[22rem] w-[22rem] rounded-full bg-white/5 blur-[120px]"
-          style={{ animation: "glowFloat 22s ease-in-out infinite" }}
+      <div className="absolute inset-0 z-0">
+        <Beams
+          beamWidth={3}
+          beamHeight={30}
+          beamNumber={20}
+          lightColor="#ffffff"
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={30}
         />
       </div>
 
-      <div className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 pb-20 pt-28 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 pb-20 pt-28 text-center">
         <div
           className={`transition-all duration-1000 ease-out ${
             heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -139,7 +141,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
         </div>
       </div>
 
-      <section className="relative mx-auto max-w-5xl px-6 pb-24">
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24">
         <div className="grid gap-6 md:grid-cols-2">
           {contactOptions.map((option) => (
             <a
@@ -165,7 +167,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-5xl px-6 pb-24 text-center">
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24 text-center">
         <div
           ref={emailRef}
           className={`transition-all duration-1000 ${
@@ -181,7 +183,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
         </div>
       </section>
 
-      <section className="relative px-6 pb-28 text-center">
+      <section className="relative z-10 px-6 pb-28 text-center">
         <p className="text-lg text-white/60 transition-opacity duration-1000">
           We work with brands that value presence.
         </p>

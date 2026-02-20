@@ -232,3 +232,11 @@
     0 0 10px rgba(255, 255, 255, 0.4) inset;
 }
 
+/* Ensure cursor is visible on contact page */
+#contact {
+  cursor: auto;
+}
+
+#contact * {
+  cursor: auto;
+}
