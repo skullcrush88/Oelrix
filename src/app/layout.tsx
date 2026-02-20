@@ -1,5 +1,6 @@
 import './globals.css';
 import NavBar from '../components/NavBar';
+import RouteLoader from '../components/RouteLoader';
 
 export const metadata = {
   title: "Oelrix — Modern Websites for Brands",
@@ -18,15 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ background: '#000' }}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Oelrix" />
       </head>
-      <body>
+      <body style={{ background: '#000' }}>
         {children}
         <NavBar />
+        <RouteLoader />
       </body>
     </html>
   );
