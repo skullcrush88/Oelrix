@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Beams from "./Beams";
+import Footer from "./Footer";
 
 type ContactSectionProps = {
   includeNav?: boolean;
@@ -188,6 +189,8 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
           We work with brands that value presence.
         </p>
       </section>
+
+      <Footer />
     </section>
   );
 }

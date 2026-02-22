@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Waves from "./Waves";
+import Footer from "./Footer";
 
 type AboutSectionProps = {
   includeNav?: boolean;
@@ -476,6 +477,8 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           </p>
         </div>
       </section>
+
+      <Footer />
     </section>
   );
 }

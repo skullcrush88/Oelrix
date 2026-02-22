@@ -1,372 +1,276 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-
-const services = [
-  {
-    title: "Business Websites",
-    description:
-      "Multi-page sites with clear IA, refined layout systems, and strong brand presentation.",
-  },
-  {
-    title: "Landing Pages",
-    description:
-      "Focused landing experiences with crisp messaging, bold CTAs, and campaign-ready flow.",
-  },
-  {
-    title: "Website Redesign",
-    description:
-      "Rebuilds that clean up visuals, update structure, and modernize the user journey.",
-  },
-];
-
-const servicesOverview = [
-  {
-    title: "Strategy Sprint",
-    description:
-      "Rapid discovery to align goals, audience, and content before design begins.",
-  },
-  {
-    title: "UX & Content",
-    description:
-      "Information architecture, wireflows, and copy guidance for clear user paths.",
-  },
-  {
-    title: "UI System",
-    description:
-      "A scalable visual system with components, tokens, and layout rules.",
-  },
-];
-
-const introLines = [
-  "Clear scope, clean systems, and measurable outcomes.",
-  "Every deliverable is mapped to a client goal.",
-  "You get a site that performs, not just a site that looks good.",
-];
-
-const processSteps = ["Discovery", "Design", "Build", "Launch"];
-const processStepColors = [
-  "text-blue-400",
-  "text-yellow-400",
-  "text-red-400",
-  "text-green-400",
-];
+import { useEffect, useRef, useState } from "react";
+import LightRays from "@/components/LightRays";
+import Footer from "@/src/components/Footer";
 
 export default function Services() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [activeService, setActiveService] = useState(0);
+  const [introVisible, setIntroVisible] = useState(false);
+  const [statementVisible, setStatementVisible] = useState<boolean[]>([false, false, false]);
+  const [blockVisible, setBlockVisible] = useState<boolean[]>([false, false, false]);
+  const [capabilityVisible, setCapabilityVisible] = useState<boolean[]>([false, false]);
+  const [manifestoVisible, setManifestoVisible] = useState(false);
 
-  const introRefs = useRef<Array<HTMLParagraphElement | null>>([]);
-  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const detailRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const closingRef = useRef<HTMLDivElement | null>(null);
-
-  const [introVisible, setIntroVisible] = useState<boolean[]>(
-    () => introLines.map(() => false)
-  );
-  const [stepsVisible, setStepsVisible] = useState<boolean[]>(
-    () => processSteps.map(() => false)
-  );
-  const [closingVisible, setClosingVisible] = useState(false);
+  const introRef = useRef<HTMLDivElement>(null);
+  const statementRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null]);
+  const blockRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const capabilityRefs = useRef<(HTMLParagraphElement | null)[]>([null, null]);
+  const manifestoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const frame = requestAnimationFrame(() => setIsLoaded(true));
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  useEffect(() => {
-    const introObserver = new IntersectionObserver(
-      (entries) => {
-        setIntroVisible((prev) => {
-          const next = [...prev];
-          for (const entry of entries) {
-            const index = introRefs.current.indexOf(
-              entry.target as HTMLParagraphElement
-            );
-            if (index >= 0 && entry.isIntersecting) {
-              next[index] = true;
-            }
-          }
-          return next;
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    introRefs.current.forEach((node) => node && introObserver.observe(node));
-
-    return () => introObserver.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const stepsObserver = new IntersectionObserver(
-      (entries) => {
-        setStepsVisible((prev) => {
-          const next = [...prev];
-          for (const entry of entries) {
-            const index = stepRefs.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (index >= 0 && entry.isIntersecting) {
-              next[index] = true;
-            }
-          }
-          return next;
-        });
-      },
-      { threshold: 0.4 }
-    );
-
-    stepRefs.current.forEach((node) => node && stepsObserver.observe(node));
-
-    return () => stepsObserver.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const detailObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = detailRefs.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (index >= 0) {
-              setActiveService(index);
-            }
-          }
-        });
-      },
-      {
-        threshold: 0.6,
-        rootMargin: "-10% 0% -40% 0%",
-      }
-    );
-
-    detailRefs.current.forEach((node) => node && detailObserver.observe(node));
-
-    return () => detailObserver.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!closingRef.current) return undefined;
+    if (!introRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setClosingVisible(true);
+          setIntroVisible(true);
         }
       },
       { threshold: 0.5 }
     );
-
-    observer.observe(closingRef.current);
+    observer.observe(introRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const detailCardClasses = useMemo(
-    () =>
-      services.map((_, index) => {
-        const isActive = index === activeService;
-        const isBefore = index < activeService;
-        return [
-          "transition-all duration-700 ease-out",
-          "rounded-3xl border border-white/10 bg-white/5",
-          "backdrop-blur-xl shadow-[0_30px_80px_rgba(0,0,0,0.4)]",
-          isActive
-            ? "opacity-100 scale-100 translate-y-0 z-30"
-            : isBefore
-            ? "opacity-40 scale-95 -translate-y-6 z-10"
-            : "opacity-60 scale-95 translate-y-6 z-20",
-        ].join(" ");
-      }),
-    [activeService]
-  );
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = statementRefs.current.indexOf(entry.target as HTMLParagraphElement);
+            if (index >= 0) {
+              setStatementVisible((prev) => {
+                const next = [...prev];
+                next[index] = true;
+                return next;
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    statementRefs.current.forEach((ref) => ref && observer.observe(ref));
+    return () => observer.disconnect();
+  }, []);
 
-  const headingFontClass = `font-black uppercase services-heading`;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = blockRefs.current.indexOf(entry.target as HTMLDivElement);
+            if (index >= 0) {
+              setBlockVisible((prev) => {
+                const next = [...prev];
+                next[index] = true;
+                return next;
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    blockRefs.current.forEach((ref) => ref && observer.observe(ref));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = capabilityRefs.current.indexOf(entry.target as HTMLParagraphElement);
+            if (index >= 0) {
+              setCapabilityVisible((prev) => {
+                const next = [...prev];
+                next[index] = true;
+                return next;
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    capabilityRefs.current.forEach((ref) => ref && observer.observe(ref));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!manifestoRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setManifestoVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(manifestoRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <main className="bg-[#090909] text-white">
-      <style jsx global>{`
-        @keyframes ambientShift {
-          0% {
-            transform: translate3d(0%, 0%, 0);
-          }
-          50% {
-            transform: translate3d(-4%, -2%, 0);
-          }
-          100% {
-            transform: translate3d(0%, 0%, 0);
-          }
-        }
-        .services-heading {
-          letter-spacing: 0.06em;
-        }
-      `}</style>
-
-      <section className="relative overflow-hidden">
+    <main className="w-full bg-black text-white overflow-hidden">
+      {/* INTRO SECTION */}
+      <section className="relative w-full min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-12 py-24">
+        {/* LightRays Background */}
+        <div className="absolute inset-0 w-full h-full">
+          <LightRays
+            raysOrigin="top-right"
+            raysColor="#ffffff"
+            raysSpeed={1}
+            lightSpread={1}
+            rayLength={2}
+            pulsating={false}
+            fadeDistance={1.6}
+            saturation={1}
+            followMouse
+            mouseInfluence={0.1}
+            noiseAmount={0}
+            distortion={0}
+          />
+        </div>
         <div
-          className="absolute inset-0 -z-10 opacity-70"
-          style={{
-            background:
-              "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 45%), radial-gradient(circle at 80% 10%, rgba(255,255,255,0.05), transparent 40%), radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 55%)",
-            animation: "ambientShift 18s ease-in-out infinite",
-          }}
-        />
-
-        <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
-          <p
-            className={`mb-6 text-sm uppercase tracking-[0.4em] text-white/50 transition-all duration-700 ease-out ${
-              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            Oelrix Studio
-          </p>
-          <h1
-            className={`${headingFontClass} w-fit mx-auto text-6xl leading-[1.02] tracking-tight text-white md:text-8xl lg:text-9xl transition-all duration-700 ease-out ${
-              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            Our Services.
+          ref={introRef}
+          className={`max-w-3xl relative z-10 transition-all duration-1000 ease-out ${
+            introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-12">Oelrix Studio</p>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight mb-8">
+            We build digital presence that defines how brands are perceived.
           </h1>
-          <p
-            className={`mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg transition-all duration-700 ease-out ${
-              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            Oelrix delivers focused web work with clear outputs, timelines, and launch-ready assets.
+          <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl">
+            Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
           </p>
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-5xl px-6 pb-16 pt-10">
-        <div className="sticky top-24 space-y-8">
-          {introLines.map((line, index) => (
+      {/* STATEMENT STRIP */}
+      <section className="w-full py-28 px-6 sm:px-8 md:px-12 flex justify-start">
+        <div className="max-w-2xl space-y-8">
+          {["Clarity over noise.", "Structure over decoration.", "Intent over excess."].map(
+            (line, index) => (
+              <p
+                key={line}
+                ref={(el) => {
+                  statementRefs.current[index] = el;
+                }}
+                className={`text-3xl sm:text-4xl md:text-5xl font-bold leading-tight transition-all duration-1000 ease-out ${
+                  statementVisible[index]
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
+                {line}
+              </p>
+            )
+          )}
+        </div>
+      </section>
+
+      {/* BUILD BLOCKS */}
+      <section className="w-full">
+        {/* BLOCK 01 */}
+        <div
+          ref={(el) => {
+            blockRefs.current[0] = el;
+          }}
+          className={`min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-12 py-24 border-b border-white/10 transition-all duration-1000 ease-out ${
+            blockVisible[0] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-6">Build 01</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+              Brand Websites
+            </h2>
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+              Structured digital spaces built to present your brand with confidence and clarity. We design every detail to communicate value, establish trust, and reflect your true standard.
+            </p>
+          </div>
+        </div>
+
+        {/* BLOCK 02 */}
+        <div
+          ref={(el) => {
+            blockRefs.current[1] = el;
+          }}
+          className={`min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-12 py-24 border-b border-white/10 transition-all duration-1000 ease-out ${
+            blockVisible[1] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="max-w-2xl ml-auto">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-6">Build 02</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+              Focused Landing Pages
+            </h2>
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+              High-clarity pages designed to guide attention, highlight your core value, and turn interest into action. Each element serves the conversion goal.
+            </p>
+          </div>
+        </div>
+
+        {/* BLOCK 03 */}
+        <div
+          ref={(el) => {
+            blockRefs.current[2] = el;
+          }}
+          className={`min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-12 py-24 transition-all duration-1000 ease-out ${
+            blockVisible[2] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-6">Build 03</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+              Site Refinement
+            </h2>
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+              We elevate existing digital presence through strategic redesign and structural refinement. Every update aligns perception with your brand's true standard.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CAPABILITY STATEMENT */}
+      <section className="w-full py-32 px-6 sm:px-8 md:px-12 flex justify-start">
+        <div className="max-w-2xl space-y-8">
+          {["We don't build volume.", "We build clarity."].map((line, index) => (
             <p
               key={line}
-              ref={(node) => {
-                introRefs.current[index] = node;
+              ref={(el) => {
+                capabilityRefs.current[index] = el;
               }}
-              className={`text-2xl leading-relaxed text-white/80 md:text-3xl transition-all duration-700 ease-out ${
-                introVisible[index]
+              className={`text-4xl sm:text-5xl md:text-6xl font-bold leading-tight transition-all duration-1000 ease-out ${
+                capabilityVisible[index]
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-6"
+                  : "opacity-0 translate-y-4"
               }`}
             >
               {line}
             </p>
           ))}
         </div>
-        <div className="h-24" aria-hidden="true" />
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-28">
-        <div className="grid gap-8 md:grid-cols-3">
-          {servicesOverview.map((service) => (
-            <div
-              key={service.title}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 transition-all duration-500 hover:-translate-y-2 hover:border-white/30"
-            >
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent" />
-              </div>
-              <h3 className={`${headingFontClass} relative text-3xl text-white md:text-4xl`}>
-                {service.title}
-              </h3>
-              <p className="relative mt-4 text-sm leading-relaxed text-white/70">
-                {service.description}
-              </p>
-              <span className="relative mt-10 inline-flex text-xs uppercase tracking-[0.3em] text-white/50">
-                Explore
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-5xl px-6 pb-32">
-        <div className="mb-12">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">
-            Focused Delivery
-          </p>
-          <h2 className={`${headingFontClass} mt-4 text-5xl text-white md:text-6xl`}>
-            What clients receive, clearly defined.
-          </h2>
-        </div>
-
-        <div className="space-y-12">
-          {services.map((service, index) => (
-            <div
-              key={`${service.title}-detail`}
-              ref={(node) => {
-                detailRefs.current[index] = node;
-              }}
-              className={detailCardClasses[index]}
-            >
-              <div className="px-8 py-10 md:px-12">
-                <p className="text-xs uppercase tracking-[0.4em] text-white/40">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <h3 className={`${headingFontClass} mt-4 text-4xl text-white md:text-5xl`}>
-                  {service.title}
-                </h3>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
-                  {service.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 pb-32">
-        <div className="mb-10">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">
-            Process
-          </p>
-          <h2 className={`${headingFontClass} mt-4 text-5xl text-white md:text-6xl`}>
-            Clarity from first call to launch.
-          </h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-4">
-          {processSteps.map((step, index) => (
-            <div
-              key={step}
-              ref={(node) => {
-                stepRefs.current[index] = node;
-              }}
-              className={`rounded-2xl border border-white/10 bg-white/5 px-6 py-8 text-center transition-all duration-700 ease-out ${
-                stepsVisible[index]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-6"
-              }`}
-            >
-              <p className="text-xs uppercase tracking-[0.4em] text-white/40">
-                Step {index + 1}
-              </p>
-              <p
-                className={`${headingFontClass} mt-4 text-2xl md:text-3xl ${
-                  processStepColors[index] || "text-white"
-                }`}
-              >
-                {step}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-4xl px-6 pb-24">
+      {/* MANIFESTO */}
+      <section className="w-full py-32 px-6 sm:px-8 md:px-12 flex justify-center">
         <div
-          ref={closingRef}
-          className={`rounded-3xl border border-white/10 bg-white/5 px-8 py-16 text-center transition-all duration-700 ease-out ${
-            closingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          ref={manifestoRef}
+          className={`text-center max-w-3xl transition-all duration-1000 ease-out ${
+            manifestoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className={`${headingFontClass} text-4xl leading-[1.1] text-white md:text-5xl`}>
-            We ship websites that feel premium and work on day one.
+          <p className="text-2xl sm:text-3xl md:text-4xl leading-relaxed text-white/80">
+            What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
           </p>
         </div>
       </section>
+
+      <Footer />
     </main>
   );
 }
+
