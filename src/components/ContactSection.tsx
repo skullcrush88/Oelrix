@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import Beams from "./Beams";
+import Footer from "./Footer";
 
 type ContactSectionProps = {
   includeNav?: boolean;
@@ -790,6 +791,8 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
           We work with brands that value presence.
         </p>
       </section>
+
+      <Footer />
     </section>
   );
 }
