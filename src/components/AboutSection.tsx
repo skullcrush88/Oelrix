@@ -86,7 +86,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   const finalRef = useRef<HTMLDivElement | null>(null);
   const approachRefs = useRef<Array<HTMLDivElement | null>>([]);
   const statementSectionRef = useRef<HTMLElement | null>(null);
-  const statementBgRef = useRef<HTMLElement | null>(null);
+  const statementBgRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setHeroVisible(true));
