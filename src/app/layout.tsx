@@ -1,6 +1,8 @@
-import './globals.css';
-import NavBar from '../components/NavBar';
-import RouteLoader from '../components/RouteLoader';
+import "./globals.css";
+import "../lib/debugRepeat";
+import NavBar from "../components/NavBar";
+import RouteLoader from "../components/RouteLoader";
+import RepeatDebugClient from "../components/RepeatDebugClient";
 
 export const metadata = {
   title: "Oelrix — Modern Websites for Brands",
@@ -27,6 +29,7 @@ export default function RootLayout({
       </head>
       <body style={{ background: '#000' }}>
         {children}
+        <RepeatDebugClient />
         <NavBar />
         <RouteLoader />
       </body>
