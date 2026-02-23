@@ -368,15 +368,15 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           />
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="relative z-10 mx-auto max-w-6xl px-6">
-          <div className="max-w-3xl space-y-6">
+        <div className="relative z-10 mx-auto max-w-6xl px-6 flex flex-col sm:block">
+          <div className="max-w-none sm:max-w-3xl space-y-3 sm:space-y-6 w-1/2 sm:w-auto text-sm sm:text-base">
             {statementLines.map((line, index) => (
               <p
                 key={line}
                 ref={(node) => {
                   lineRefs.current[index] = node;
                 }}
-                className={`text-3xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out sm:text-4xl ${
+                className={`text-lg sm:text-3xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out sm:text-4xl ${
                   lineVisible[index]
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-6"
