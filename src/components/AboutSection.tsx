@@ -71,6 +71,9 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   const [lineVisible, setLineVisible] = useState<boolean[]>(
     () => statementLines.map(() => false)
   );
+  const [statementBgVisible, setStatementBgVisible] = useState(false);
+  const [statementScaleRef, setStatementScaleRef] = useState(0);
+  const [statementParallaxRef, setStatementParallaxRef] = useState(0);
   const [valueVisible, setValueVisible] = useState<boolean[]>(
     () => layeredValues.map(() => false)
   );
@@ -82,6 +85,8 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   const heroRef = useRef<HTMLDivElement | null>(null);
   const finalRef = useRef<HTMLDivElement | null>(null);
   const approachRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const statementSectionRef = useRef<HTMLElement | null>(null);
+  const statementBgRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setHeroVisible(true));
@@ -115,6 +120,21 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
     );
 
     lineRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!statementSectionRef.current) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatementBgVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(statementSectionRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -182,6 +202,25 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         const rect = heroRef.current.getBoundingClientRect();
         const offset = clamp(1 - rect.top / window.innerHeight, 0, 1);
         setHeroParallax(offset * 24);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (statementBgRef.current) {
+        const rect = statementBgRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const positionRatio = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+        const scale = clamp(0.8 + positionRatio * 0.4, 0.8, 1.2);
+        const isMobile = window.innerWidth < 768;
+        const parallax = (positionRatio - 0.5) * (isMobile ? 20 : 40);
+        setStatementScaleRef(scale);
+        setStatementParallaxRef(parallax);
       }
     };
 
@@ -312,28 +351,46 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </div>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-24">
-        <div className="max-w-3xl space-y-6">
-          {statementLines.map((line, index) => (
-            <p
-              key={line}
-              ref={(node) => {
-                lineRefs.current[index] = node;
-              }}
-              className={`text-3xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out sm:text-4xl ${
-                lineVisible[index]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-6"
-              }`}
-              style={{ transitionDelay: `${index * 120}ms` }}
-            >
-              {line}
-            </p>
-          ))}
+      <section
+        ref={statementSectionRef}
+        className="relative w-full overflow-hidden pb-8 pt-12 sm:pb-16 sm:pt-24"
+      >
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            ref={statementBgRef}
+            className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-[1600ms] ease-out"
+            style={{
+              backgroundImage: "url('/silver_surfer__.jpg')",
+              transform: `scale(${statementScaleRef}) translateY(${statementParallaxRef}px) ${statementBgVisible
+                ? "translate3d(0,0,0)"
+                : "translate3d(0,40px,0)"}`,
+            }}
+          />
+          <div className="absolute inset-0 bg-black/55" />
+        </div>
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
+          <div className="max-w-3xl space-y-6">
+            {statementLines.map((line, index) => (
+              <p
+                key={line}
+                ref={(node) => {
+                  lineRefs.current[index] = node;
+                }}
+                className={`text-3xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out sm:text-4xl ${
+                  lineVisible[index]
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-6"
+                }`}
+                style={{ transitionDelay: `${index * 120}ms` }}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-28">
+      <section className="relative mx-auto max-w-6xl px-6 pt-16 pb-28">
         <div className="mb-12">
           <p className="text-xs uppercase tracking-[0.4em] text-white/50">Values</p>
           <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Layered by intent.</h2>
