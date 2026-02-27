@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -98,10 +98,10 @@ void main() {
         vec3 p = cameraPos + ray * t;
         vec3 normal = getNormal(p);
         float fresnel = pow(1.0 + dot(ray, normal), 3.0);
-        color = vec3(fresnel);
+        color = vec3(1.0 - fresnel);
         gl_FragColor = vec4(color, 1.0);
     } else {
-        gl_FragColor = vec4(1.0);
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
 }
 `;
@@ -151,8 +151,26 @@ function LavaLampShader() {
 }
 
 export const LavaLamp = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div style={{ width: '100%', height: '100%', background: '#000', position: "absolute" }}>
+    <div 
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        background: '#fff', 
+        position: "absolute",
+        opacity: isLoaded ? 1 : 1,
+        transition: 'opacity 0.5s ease-out'
+      }}
+    >
       <Canvas
         camera={{
           left: -0.5,
@@ -164,7 +182,18 @@ export const LavaLamp = () => {
           position: [0, 0, 2]
         }}
         orthographic
-        gl={{ antialias: true }}
+        gl={{ 
+          antialias: true,
+          powerPreference: 'high-performance',
+          alpha: false,
+          premultipliedAlpha: false,
+          stencil: false,
+          depth: true
+        }}
+        dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, 2) : 1}
+        onCreated={(state) => {
+          setIsLoaded(true);
+        }}
       >
         <LavaLampShader />
       </Canvas>

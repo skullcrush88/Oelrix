@@ -44,21 +44,25 @@ const approachSteps = [
     title: "Understand",
     body: "We study the signal a brand needs to send before we shape the form.",
     accent: "from-white/20 via-white/5 to-transparent",
+    image: "/understand.png",
   },
   {
     title: "Design",
     body: "We translate intention into structure, light, and rhythm.",
     accent: "from-white/10 via-white/15 to-transparent",
+    image: "/design.png",
   },
   {
     title: "Refine",
     body: "We tune contrast, pace, and texture until the experience feels exact.",
     accent: "from-white/15 via-white/10 to-transparent",
+    image: "/refine.png",
   },
   {
     title: "Deliver",
     body: "We release with discipline, protecting the standard we set.",
     accent: "from-white/20 via-white/5 to-transparent",
+    image: "/deliver.png",
   },
 ];
 
@@ -79,12 +83,14 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   );
   const [finalVisible, setFinalVisible] = useState(false);
   const [activeApproach, setActiveApproach] = useState(0);
+  const [approachFadeIn, setApproachFadeIn] = useState(true);
   const [heroParallax, setHeroParallax] = useState(0);
+  const autoRotateRef = useRef<NodeJS.Timeout | null>(null);
   const lineRefs = useRef<Array<HTMLParagraphElement | null>>([]);
   const valueCardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const finalRef = useRef<HTMLDivElement | null>(null);
-  const approachRefs = useRef<Array<HTMLDivElement | null>>([]);
+
   const statementSectionRef = useRef<HTMLElement | null>(null);
   const statementBgRef = useRef<HTMLDivElement | null>(null);
 
@@ -175,26 +181,42 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = approachRefs.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (index >= 0) {
-              setActiveApproach(index);
-            }
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
 
-    approachRefs.current.forEach((node) => node && observer.observe(node));
-    return () => observer.disconnect();
+
+  useEffect(() => {
+    const startAutoRotate = () => {
+      autoRotateRef.current = window.setInterval(() => {
+        setApproachFadeIn(false);
+        setTimeout(() => {
+          setActiveApproach((prev) => (prev + 1) % approachSteps.length);
+          setApproachFadeIn(true);
+        }, 300);
+      }, 4000);
+    };
+
+    startAutoRotate();
+    return () => {
+      if (autoRotateRef.current) clearInterval(autoRotateRef.current);
+    };
   }, []);
+
+  const handlePrevApproach = () => {
+    if (autoRotateRef.current) clearInterval(autoRotateRef.current);
+    setApproachFadeIn(false);
+    setTimeout(() => {
+      setActiveApproach((prev) => (prev - 1 + approachSteps.length) % approachSteps.length);
+      setApproachFadeIn(true);
+    }, 300);
+  };
+
+  const handleNextApproach = () => {
+    if (autoRotateRef.current) clearInterval(autoRotateRef.current);
+    setApproachFadeIn(false);
+    setTimeout(() => {
+      setActiveApproach((prev) => (prev + 1) % approachSteps.length);
+      setApproachFadeIn(true);
+    }, 300);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -397,7 +419,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
         <div className="grid gap-6">
           {layeredValues.map((value, index) => {
-            const direction = index === 1 ? 1 : -1;
+            const direction = (index === 1 || index === 3) ? 1 : -1;
             const offset = direction * 100;
             return (
             <div
@@ -457,11 +479,10 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             >
               <div className="absolute inset-0 rounded-3xl bg-white/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative">
-                <p className="text-xs uppercase tracking-[0.4em] text-white/50">Focus</p>
-                <h3 className="mt-4 text-3xl font-semibold tracking-tight">
+                <h3 className="text-3xl font-semibold tracking-tight">
                   {type}
                 </h3>
-                <p className="mt-3 text-sm text-white/60">
+                <p className="mt-4 text-sm text-white/60">
                   Teams seeking a point of view, not just a layout.
                 </p>
               </div>
@@ -479,9 +500,6 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
               {approachSteps.map((step, index) => (
                 <div
                   key={step.title}
-                  ref={(node) => {
-                    approachRefs.current[index] = node;
-                  }}
                   className="max-w-lg"
                 >
                   <p className="text-xs uppercase tracking-[0.4em] text-white/40">
@@ -498,21 +516,60 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             </div>
           </div>
           <div className="relative">
-            <div className="sticky top-24">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-10 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div
-                  className={`mb-6 h-40 w-full rounded-2xl bg-gradient-to-br ${
-                    approachSteps[activeApproach].accent
-                  }`}
-                />
-                <p className="text-xs uppercase tracking-[0.4em] text-white/50">Now</p>
-                <h3 className="mt-3 text-3xl font-semibold">
-                  {approachSteps[activeApproach].title}
-                </h3>
-                <p className="mt-4 text-sm text-white/60 sm:text-base">
-                  {approachSteps[activeApproach].body}
-                </p>
+            <div className="sticky top-24 flex items-center gap-4">
+              <button
+                onClick={handlePrevApproach}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
+                aria-label="Previous step"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-10 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl overflow-hidden flex-1">
+                <div className="relative mb-8 h-48 w-full rounded-2xl bg-white/5 overflow-hidden">
+                  <img
+                    src={approachSteps[activeApproach].image}
+                    alt={approachSteps[activeApproach].title}
+                    className="w-full h-full object-cover transition-opacity duration-700"
+                    style={{ opacity: approachFadeIn ? 1 : 0 }}
+                  />
+                </div>
+                <div className={`space-y-4 transition-opacity duration-500 ${approachFadeIn ? "opacity-100" : "opacity-0"}`}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs uppercase tracking-[0.4em] text-white/40">
+                      Step 0{activeApproach + 1}
+                    </span>
+                    <div className="flex gap-1.5">
+                      {approachSteps.map((_, idx) => (
+                        <div
+                          key={idx}
+                          className={`h-1 rounded-full transition-all duration-300 ${
+                            idx === activeApproach
+                              ? "w-6 bg-white/70"
+                              : "w-1.5 bg-white/20"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <h3 className="text-3xl font-semibold">
+                    {approachSteps[activeApproach].title}
+                  </h3>
+                  <p className="text-sm text-white/60 sm:text-base">
+                    {approachSteps[activeApproach].body}
+                  </p>
+                </div>
               </div>
+              <button
+                onClick={handleNextApproach}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
+                aria-label="Next step"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
