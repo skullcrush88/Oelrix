@@ -44,25 +44,25 @@ const approachSteps = [
     title: "Understand",
     body: "We study the signal a brand needs to send before we shape the form.",
     accent: "from-white/20 via-white/5 to-transparent",
-    image: "/understand.png",
+    image: "/Understand.png",
   },
   {
     title: "Design",
     body: "We translate intention into structure, light, and rhythm.",
     accent: "from-white/10 via-white/15 to-transparent",
-    image: "/design.png",
+    image: "/Design.png",
   },
   {
     title: "Refine",
     body: "We tune contrast, pace, and texture until the experience feels exact.",
     accent: "from-white/15 via-white/10 to-transparent",
-    image: "/refine.png",
+    image: "/Refine.png",
   },
   {
     title: "Deliver",
     body: "We release with discipline, protecting the standard we set.",
     accent: "from-white/20 via-white/5 to-transparent",
-    image: "/deliver.png",
+    image: "/Deliver.png",
   },
 ];
 
