@@ -55,10 +55,10 @@ export default function NavBar() {
               <button
                 key={item.path}
                 onClick={() => handleClick(item.path)}
-                className={`relative px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-md ${
+                className={`relative px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-md cursor-pointer ${
                   pathname === item.path
-                    ? 'text-white bg-white/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-white bg-white/10 shadow-lg shadow-white/5'
+                    : 'text-white/70 hover:text-white hover:bg-white/5 hover:scale-105 hover:shadow-md hover:shadow-white/5 active:scale-95 active:bg-white/10'
                 }`}
               >
                 {item.label}
@@ -73,7 +73,7 @@ export default function NavBar() {
           <div className="hidden md:block">
             <button
               onClick={() => handleClick('/contact')}
-              className="px-4 py-1.5 text-[13px] font-semibold text-white bg-white/10 border border-white/20 rounded-md transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:scale-[1.02] active:scale-95"
+              className="px-4 py-1.5 text-[13px] font-semibold text-white bg-white/10 border border-white/20 rounded-md transition-all duration-300 cursor-pointer hover:bg-white/15 hover:border-white/30 hover:scale-[1.05] hover:shadow-lg hover:shadow-white/10 active:scale-95 active:shadow-sm"
             >
               Get Started
             </button>
@@ -81,7 +81,7 @@ export default function NavBar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/5 rounded-md transition-all"
+            className="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/5 rounded-md transition-all cursor-pointer hover:scale-110 active:scale-95"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -114,10 +114,10 @@ export default function NavBar() {
               <button
                 key={item.path}
                 onClick={() => handleClick(item.path)}
-                className={`px-4 py-3 text-left text-sm font-medium rounded-md transition-all ${
+                className={`px-4 py-3 text-left text-sm font-medium rounded-md transition-all cursor-pointer ${
                   pathname === item.path
-                    ? 'text-white bg-white/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-white bg-white/10 shadow-lg shadow-white/5'
+                    : 'text-white/70 hover:text-white hover:bg-white/5 hover:translate-x-1 active:scale-95 active:bg-white/10'
                 }`}
               >
                 {item.label}
@@ -125,7 +125,7 @@ export default function NavBar() {
             ))}
             <button
               onClick={() => handleClick('/contact')}
-              className="mt-2 px-4 py-3 text-sm font-semibold text-white bg-white/10 border border-white/20 rounded-md hover:bg-white/15 transition-all"
+              className="mt-2 px-4 py-3 text-sm font-semibold text-white bg-white/10 border border-white/20 rounded-md hover:bg-white/15 transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg hover:shadow-white/10 active:scale-95"
             >
               Get Started
             </button>
