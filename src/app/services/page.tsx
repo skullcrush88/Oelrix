@@ -358,7 +358,7 @@ export default function Services() {
         />
         <div
           ref={introRef}
-          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 max-w-full md:max-w-[55%] transition-all duration-1000 ease-out flex items-center h-full ${
+          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 max-w-full md:max-w-[55%] transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
             introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -381,7 +381,7 @@ export default function Services() {
         <div className="relative max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-start md:items-end">
             {/* Text on left */}
-            <div className="space-y-2 order-1">
+            <div className="space-y-2 order-1 mt-8 sm:mt-0">
               {["Clarity over noise.", "Structure over decoration.", "Intent over excess."].map(
                 (line, index) => (
                   <p
