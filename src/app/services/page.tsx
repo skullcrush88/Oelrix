@@ -5,15 +5,14 @@ import Image from "next/image";
 import LightRays from "@/components/LightRays";
 import MarqueeTicker from "@/src/components/MarqueeTicker";
 import Footer from "@/src/components/Footer";
-
-type InViewOptions = {
-  threshold?: number;
-  rootMargin?: string;
-};
+import { useInView } from "@/src/hooks/useInView";
 
 type PreviewCard = {
   label: string;
   href: string;
+  image: string;
+  description?: string;
+  note?: string;
 };
 
 type Service = {
@@ -23,6 +22,7 @@ type Service = {
   deliverables: string[];
   align: "left" | "right";
   previews: PreviewCard[];
+  customLayout?: boolean;
 };
 
 const SERVICES: Service[] = [
@@ -39,14 +39,21 @@ const SERVICES: Service[] = [
       "Analytics setup",
     ],
     align: "right",
+    customLayout: true,
     previews: [
       {
-        label: "Project Preview 01",
-        href: "https://placeholder.com",
+        label: "NOXE",
+        href: "https://v0-noxe-fragrance-website.vercel.app/",
+        image: "/NOXE.png",
+        description: "Luxury fragrance brand — dark editorial website",
+        note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
       {
-        label: "Project Preview 02",
-        href: "https://placeholder.com",
+        label: "ARCUS",
+        href: "https://arcus-oelrix-p2.vercel.app/",
+        image: "/ARCUS.png",
+        description: "Premium architecture & interior design studio website",
+        note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
     ],
   },
@@ -63,14 +70,21 @@ const SERVICES: Service[] = [
       "Fast load performance",
     ],
     align: "left",
+    customLayout: true,
     previews: [
       {
         label: "Project Preview 01",
         href: "https://placeholder.com",
+        image: "/Deliver.png",
+        description: "High-converting landing page template",
+        note: "Designed for maximum clarity and action.",
       },
       {
         label: "Project Preview 02",
         href: "https://placeholder.com",
+        image: "/Design.png",
+        description: "Lead generation focused design",
+        note: "Optimized conversion funnel.",
       },
     ],
   },
@@ -87,46 +101,53 @@ const SERVICES: Service[] = [
       "Improved mobile experience",
     ],
     align: "right",
+    customLayout: true,
     previews: [
       {
         label: "Project Preview 01",
         href: "https://placeholder.com",
+        image: "/Refine.png",
+        description: "Modern redesign transformation",
+        note: "Preserved SEO while improving design.",
       },
       {
         label: "Project Preview 02",
         href: "https://placeholder.com",
+        image: "/Understand.png",
+        description: "Performance-focused refinement",
+        note: "Enhanced user experience and speed.",
       },
     ],
   },
 ];
 
-function useInView<T extends HTMLElement>({ threshold = 0.35, rootMargin = "0px" }: InViewOptions = {}) {
-  const ref = useRef<T | null>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold, rootMargin }
-    );
-
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold, rootMargin]);
-
-  return { ref, isInView };
+function revealClasses(isVisible: boolean) {
+  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+    isVisible ? "opacity-100 translate-y-0 translate-x-0 scale-100" : "opacity-0"
+  }`;
 }
 
-function revealClasses(isVisible: boolean) {
-  return `transition-all duration-[600ms] ease-out ${
-    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+function fadeUp(isVisible: boolean, delay: number = 0) {
+  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]"
+  }`;
+}
+
+function slideInLeft(isVisible: boolean, delay: number = 0) {
+  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+    isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[40px]"
+  }`;
+}
+
+function slideInRight(isVisible: boolean, delay: number = 0) {
+  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+    isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[40px]"
+  }`;
+}
+
+function scaleIn(isVisible: boolean) {
+  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+    isVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
   }`;
 }
 
@@ -144,12 +165,36 @@ function CheckIcon() {
   );
 }
 
+function WordSplit({ text, isVisible }: { text: string; isVisible: boolean }) {
+  const words = text.split(" ");
+  return (
+    <>
+      {words.map((word, index) => (
+        <span
+          key={index}
+          className={`inline-block ${fadeUp(isVisible)} mr-3`}
+          style={{
+            transitionDelay: `${index * 80}ms`,
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(30px)",
+          }}
+        >
+          {word}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: PreviewCard; delay: number; isInView: boolean; shifted?: boolean }) {
+  const isImage = preview.href.endsWith('.png') || preview.href.endsWith('.jpg') || preview.href.endsWith('.jpeg');
+  
   return (
     <a
-      href={preview.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={isImage ? "#" : preview.href}
+      target={isImage ? undefined : "_blank"}
+      rel={isImage ? undefined : "noopener noreferrer"}
+      onClick={isImage ? (e) => e.preventDefault() : undefined}
       className={`group block ${shifted ? "sm:mt-6 md:mt-8" : ""}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -162,13 +207,20 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
           <span className="h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-[#28c840] shadow-[0_2px_8px_rgba(40,200,64,0.3)]" />
         </div>
         <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border-2 border-white/20 bg-gradient-to-b from-black to-black/90 shadow-inner">
-          {/* TODO: replace with real project URL */}
-          <iframe
-            src={preview.href}
-            title={preview.label}
-            className="h-32 sm:h-40 md:h-48 w-full bg-neutral-950"
-            loading="lazy"
-          />
+          {isImage ? (
+            <img
+              src={preview.href}
+              alt={preview.label}
+              className="h-32 sm:h-40 md:h-48 w-full object-contain bg-neutral-950"
+            />
+          ) : (
+            <iframe
+              src={preview.href}
+              title={preview.label}
+              className="h-32 sm:h-40 md:h-48 w-full bg-neutral-950"
+              loading="lazy"
+            />
+          )}
           <span className="pointer-events-none absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 translate-y-4 rounded-full border-2 border-white/70 bg-white/20 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold text-white opacity-0 shadow-lg backdrop-blur-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             View Site →
           </span>
@@ -179,9 +231,109 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
   );
 }
 
+function CleanProjectPreview({ preview, delay, isInView }: { preview: PreviewCard; delay: number; isInView: boolean }) {
+  return (
+    <a
+      href={preview.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      <div
+        className={`${scaleIn(isInView)} overflow-hidden rounded-sm`}
+        style={{ transitionDelay: `${delay}ms` }}
+      >
+        <img
+          src={preview.image}
+          alt={preview.label}
+          className="w-full object-cover transition-all duration-400 group-hover:opacity-90 group-hover:scale-[1.01]"
+          style={{ aspectRatio: '4/3' }}
+        />
+      </div>
+      <div className="mt-4">
+        <p className="text-xs uppercase tracking-widest text-white/40 font-semibold">{preview.label}</p>
+        <p className="text-sm text-white/70 mt-1">{preview.description}</p>
+        {preview.note && <p className="text-xs text-white/30 mt-2 italic">{preview.note}</p>}
+      </div>
+    </a>
+  );
+}
+
 function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBorder?: boolean }) {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.25 });
 
+  // Custom layout for Brand Websites
+  if (service.customLayout) {
+    return (
+      <div
+        ref={ref}
+        className={`relative px-6 sm:px-8 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
+      >
+        <div className="mx-auto max-w-7xl w-full">
+          {/* Top block - text only, full width */}
+          <div className="mb-24">
+            <div className={`flex flex-col ${service.align === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-16 items-start`}>
+              {/* Left column */}
+              <div className="w-full lg:w-1/2">
+                <p className={`${slideInRight(isInView)} text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+                  {service.tag}
+                </p>
+                <h2
+                  className={`${slideInRight(isInView)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight`}
+                  style={{ transitionDelay: "100ms" }}
+                >
+                  {service.title}
+                </h2>
+                <p
+                  className={`${slideInRight(isInView)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
+                  style={{ transitionDelay: "200ms" }}
+                >
+                  {service.description}
+                </p>
+              </div>
+
+              {/* Right column */}
+              <div className="w-full lg:w-1/2 pt-16">
+                <p
+                  className={`${slideInRight(isInView)} text-white/60 text-base leading-relaxed max-w-md`}
+                  style={{ transitionDelay: "300ms" }}
+                >
+                  Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated.
+                </p>
+
+                <div className={slideInRight(isInView)} style={{ transitionDelay: `400ms` }}>
+                  <a
+                    href="/contact"
+                    className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
+                  >
+                    Start this project
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom block - image grid */}
+          <div className="border-t border-white/10 pt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {service.previews.map((preview, index) => (
+                <CleanProjectPreview
+                  key={preview.label}
+                  preview={preview}
+                  delay={350 + index * 100}
+                  isInView={isInView}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Standard layout for other services
   const textOrder = service.align === "left" ? "order-2 md:order-1" : "order-2 md:order-2";
   const previewOrder = service.align === "left" ? "order-1 md:order-2" : "order-1 md:order-1";
   const textAlign = service.align === "left" ? "text-left" : "text-left md:text-right";
@@ -256,13 +408,11 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
 
 export default function Services() {
   const [introVisible, setIntroVisible] = useState(false);
-  const [statementVisible, setStatementVisible] = useState<boolean[]>([false, false, false]);
   const [capabilityVisible, setCapabilityVisible] = useState<boolean[]>([false, false]);
   const [manifestoVisible, setManifestoVisible] = useState(false);
   const { ref: closingCtaRef, isInView: closingCtaVisible } = useInView<HTMLDivElement>({ threshold: 0.35 });
 
   const introRef = useRef<HTMLDivElement>(null);
-  const statementRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null]);
   const capabilityRefs = useRef<(HTMLParagraphElement | null)[]>([null, null]);
   const manifestoRef = useRef<HTMLDivElement>(null);
 
@@ -277,28 +427,6 @@ export default function Services() {
       { threshold: 0.5 }
     );
     observer.observe(introRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = statementRefs.current.indexOf(entry.target as HTMLParagraphElement);
-            if (index >= 0) {
-              setStatementVisible((prev) => {
-                const next = [...prev];
-                next[index] = true;
-                return next;
-              });
-            }
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    statementRefs.current.forEach((ref) => ref && observer.observe(ref));
     return () => observer.disconnect();
   }, []);
 
@@ -365,9 +493,9 @@ export default function Services() {
           <div className="w-full">
             <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-8 sm:mb-12">Oelrix Studio</p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6 sm:mb-8">
-              We build digital presence that defines how brands are perceived.
+              <WordSplit text="We build digital presence that defines how brands are perceived." isVisible={introVisible} />
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-2xl">
+            <p className={`${fadeUp(introVisible)} text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-2xl`}>
               Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
             </p>
           </div>
@@ -375,45 +503,6 @@ export default function Services() {
       </section>
 
       <MarqueeTicker />
-
-      {/* STATEMENT STRIP */}
-      <section className="relative w-full pt-16 sm:pt-24 pb-16 sm:pb-24 px-6 sm:px-8 md:px-12 overflow-hidden">
-        <div className="relative max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-start md:items-end">
-            {/* Text on left */}
-            <div className="space-y-2 order-1 mt-8 sm:mt-0">
-              {["Clarity over noise.", "Structure over decoration.", "Intent over excess."].map(
-                (line, index) => (
-                  <p
-                    key={line}
-                    ref={(el) => {
-                      statementRefs.current[index] = el;
-                    }}
-                    className={`text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight transition-all duration-1000 ease-out ${
-                      statementVisible[index]
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-4"
-                    }`}
-                  >
-                    {line}
-                  </p>
-                )
-              )}
-            </div>
-            
-            {/* Image on right */}
-            <div className="relative h-[280px] sm:h-[400px] md:h-[560px] overflow-hidden rounded-2xl order-2">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: "url('/service.png')",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* BUILD BLOCKS */}
       <section className="w-full">
@@ -432,8 +521,15 @@ export default function Services() {
           src="/bg12.png"
           alt="Oelrix Studio"
           fill
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectFit: 'cover', objectPosition: 'center', WebkitMaskImage: 'none', maskImage: 'none', opacity: 0.4 }}
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            WebkitMaskImage: 'none',
+            maskImage: 'none',
+            opacity: 0.4,
+            transform: closingCtaVisible ? "scale(1)" : "scale(1.05)",
+          }}
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-20 sm:py-32">
@@ -445,11 +541,12 @@ export default function Services() {
                   ref={(el) => {
                     capabilityRefs.current[index] = el;
                   }}
-                  className={`text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white transition-all duration-1000 ease-out ${
+                  className={`text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                     capabilityVisible[index]
                       ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-4"
+                      : "opacity-0 translate-y-[60px]"
                   }`}
+                  style={{ transitionDelay: `${index * 200}ms` }}
                 >
                   {line}
                 </p>
@@ -457,9 +554,10 @@ export default function Services() {
             </div>
             <div
               ref={manifestoRef}
-              className={`transition-all duration-1000 ease-out ${
-                manifestoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                manifestoVisible ? "opacity-100" : "opacity-0"
               }`}
+              style={{ transitionDelay: `600ms` }}
             >
               <p className="text-lg sm:text-2xl md:text-3xl leading-relaxed text-white max-w-4xl">
                 What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
@@ -475,14 +573,17 @@ export default function Services() {
       >
         <div className="mx-auto max-w-4xl text-center">
           <h2
-            className={`${revealClasses(closingCtaVisible)} text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full`}
-            style={{ transitionDelay: "0ms" }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full"
           >
-            Every great website starts with one conversation.
+            <WordSplit text="Every great website starts with one conversation." isVisible={closingCtaVisible} />
           </h2>
           <div
-            className={`${revealClasses(closingCtaVisible)} mt-8 sm:mt-12`}
-            style={{ transitionDelay: "100ms" }}
+            className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] mt-8 sm:mt-12`}
+            style={{
+              transitionDelay: `500ms`,
+              opacity: closingCtaVisible ? 1 : 0,
+              transform: closingCtaVisible ? "translateY(0)" : "translateY(16px)",
+            }}
           >
             <a
               href="/contact"
