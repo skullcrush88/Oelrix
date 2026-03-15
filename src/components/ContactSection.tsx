@@ -16,10 +16,11 @@ const budgetMinimum = 500;
 const contactOptions = [
   {
     label: "Email",
-    href: "mailto:contact@oelrix.com",
-    sublabel: "contact@oelrix.com",
+    href: "mailto:contact@oelrix.tech",
+    sublabel: "contact@oelrix.tech",
+    description: "Drop us a message anytime, we'll get back to you within 24 hours.",
     icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-7 w-7">
         <path
           d="M3 6.75h18v10.5H3V6.75zm1.5 1.5v7.5h15v-7.5l-7.5 4.5-7.5-4.5z"
           fill="currentColor"
@@ -28,37 +29,12 @@ const contactOptions = [
     ),
   },
   {
-    label: "Instagram",
-    href: "https://instagram.com/",
-    sublabel: "@oelrix",
-    icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
-        <path
-          d="M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zm5 5a5 5 0 100 10 5 5 0 000-10zm6-1.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-          fill="currentColor"
-        />
-      </svg>
-    ),
-  },
-  {
-    label: "WhatsApp",
-    href: "https://wa.me/",
-    sublabel: "Direct line",
-    icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
-        <path
-          d="M12 3a9 9 0 00-7.8 13.5L3 21l4.7-1.2A9 9 0 1012 3zm4.6 12.2c-.2.5-1 .9-1.6 1-.4.1-1 .1-1.7-.1-2.1-.7-3.7-2.4-4.5-4.3-.3-.7-.3-1.3-.2-1.7.1-.6.6-1.3 1.2-1.5.3-.1.6-.1.8.1.2.2.6.9.7 1.1.1.3.1.5 0 .7-.2.2-.3.4-.5.6-.1.1-.2.3-.1.6.2.6.8 1.6 1.8 2.5 1 .9 2.1 1.2 2.7 1.1.2 0 .4-.2.5-.3.2-.2.5-.8.7-1 .2-.2.4-.2.7-.1.3.1 1.7.8 1.9.9.2.1.4.2.4.4-.1.2-.2.5-.3.9z"
-          fill="currentColor"
-        />
-      </svg>
-    ),
-  },
-  {
     label: "LinkedIn",
-    href: "https://linkedin.com/",
-    sublabel: "Oelrix Studio",
+    href: "https://www.linkedin.com/company/oelrix",
+    sublabel: "Connect with us",
+    description: "Follow our journey and connect with our team on LinkedIn.",
     icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-7 w-7">
         <path
           d="M6.5 9H3.8v11h2.7V9zM5.1 4.1a1.6 1.6 0 100 3.2 1.6 1.6 0 000-3.2zM20.2 14.2c0-3-1.6-5.2-4.7-5.2-1.5 0-2.5.8-2.9 1.6V9H9.9v11h2.7v-5.9c0-1.6.3-3.1 2.2-3.1 1.9 0 1.9 1.8 1.9 3.2V20h2.7v-5.8z"
           fill="currentColor"
@@ -745,44 +721,35 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
       </section>
 
       <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2">
           {contactOptions.map((option) => (
             <a
               key={option.label}
               href={option.href}
               target={option.href.startsWith("http") ? "_blank" : undefined}
               rel={option.href.startsWith("http") ? "noreferrer" : undefined}
-              className="group relative flex items-center justify-between rounded-3xl border border-white/10 bg-white/5 p-8 text-left transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01]"
+              className="group relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-10 text-left transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(255,255,255,0.1)] hover:border-white/30"
             >
-              <div className="absolute inset-0 rounded-3xl bg-white/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-              <div className="relative flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-white/80">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5 blur-3xl transition-all duration-500 group-hover:scale-150 group-hover:bg-white/10" />
+              <div className="relative">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-gradient-to-br from-white/20 to-white/5 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:border-white/40 group-hover:shadow-[0_10px_30px_rgba(255,255,255,0.2)]">
                   {option.icon}
                 </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-white/50">{option.label}</p>
-                  <p className="mt-2 text-lg font-semibold text-white">{option.sublabel}</p>
+                <div className="mt-6">
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">{option.label}</p>
+                  <p className="mt-3 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-white/90">{option.sublabel}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{option.description}</p>
+                </div>
+                <div className="mt-8 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/70 transition-colors duration-300 group-hover:text-white">
+                  <span>Connect</span>
+                  <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </div>
               </div>
-              <span className="relative text-sm uppercase tracking-[0.4em] text-white/50">Open</span>
             </a>
           ))}
-        </div>
-      </section>
-
-      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24 text-center">
-        <div
-          ref={emailRef}
-          className={`transition-all duration-1000 ${
-            emailVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <p
-            className="text-2xl font-semibold uppercase tracking-[0.18em] text-white/90 sm:text-4xl"
-            style={{ animation: emailVisible ? "letterRise 1.2s ease-out" : "none" }}
-          >
-            contact@oelrix.com
-          </p>
         </div>
       </section>
 
