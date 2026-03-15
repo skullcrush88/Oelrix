@@ -150,31 +150,31 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
       href={preview.href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group block ${shifted ? "md:mt-8" : ""}`}
+      className={`group block ${shifted ? "sm:mt-6 md:mt-8" : ""}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div
-        className={`${revealClasses(isInView)} overflow-hidden rounded-3xl border-2 border-white/25 bg-gradient-to-br from-white/[0.12] via-white/[0.04] to-white/[0.02] p-5 shadow-[0_16px_48px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 group-hover:scale-105 group-hover:border-white/40 group-hover:shadow-[0_24px_64px_rgba(255,255,255,0.2),inset_0_1px_0_rgba(255,255,255,0.15)]`}
+        className={`${revealClasses(isInView)} overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-white/25 bg-gradient-to-br from-white/[0.12] via-white/[0.04] to-white/[0.02] p-3 sm:p-5 shadow-[0_16px_48px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 group-hover:scale-105 group-hover:border-white/40 group-hover:shadow-[0_24px_64px_rgba(255,255,255,0.2),inset_0_1px_0_rgba(255,255,255,0.15)]`}
       >
-        <div className="mb-4 flex items-center gap-3 px-1">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f57] shadow-[0_2px_8px_rgba(255,95,87,0.3)]" />
-          <span className="h-3 w-3 rounded-full bg-[#ffbd2e] shadow-[0_2px_8px_rgba(255,189,46,0.3)]" />
-          <span className="h-3 w-3 rounded-full bg-[#28c840] shadow-[0_2px_8px_rgba(40,200,64,0.3)]" />
+        <div className="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3 px-1">
+          <span className="h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-[#ff5f57] shadow-[0_2px_8px_rgba(255,95,87,0.3)]" />
+          <span className="h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-[#ffbd2e] shadow-[0_2px_8px_rgba(255,189,46,0.3)]" />
+          <span className="h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-[#28c840] shadow-[0_2px_8px_rgba(40,200,64,0.3)]" />
         </div>
-        <div className="relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-b from-black to-black/90 shadow-inner">
+        <div className="relative overflow-hidden rounded-lg sm:rounded-2xl border-2 border-white/20 bg-gradient-to-b from-black to-black/90 shadow-inner">
           {/* TODO: replace with real project URL */}
           <iframe
             src={preview.href}
             title={preview.label}
-            className="h-48 w-full bg-neutral-950"
+            className="h-32 sm:h-40 md:h-48 w-full bg-neutral-950"
             loading="lazy"
           />
-          <span className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-4 rounded-full border-2 border-white/70 bg-white/20 px-4 py-2 text-xs font-semibold text-white opacity-0 shadow-lg backdrop-blur-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <span className="pointer-events-none absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 translate-y-4 rounded-full border-2 border-white/70 bg-white/20 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold text-white opacity-0 shadow-lg backdrop-blur-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             View Site →
           </span>
         </div>
       </div>
-      <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-white/65">{preview.label}</p>
+      <p className="mt-3 sm:mt-4 text-xs font-bold uppercase tracking-[0.16em] text-white/65">{preview.label}</p>
     </a>
   );
 }
@@ -182,39 +182,39 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
 function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBorder?: boolean }) {
   const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.25 });
 
-  const textOrder = service.align === "left" ? "md:order-1" : "md:order-2";
-  const previewOrder = service.align === "left" ? "md:order-2" : "md:order-1";
+  const textOrder = service.align === "left" ? "order-2 md:order-1" : "order-2 md:order-2";
+  const previewOrder = service.align === "left" ? "order-1 md:order-2" : "order-1 md:order-1";
   const textAlign = service.align === "left" ? "text-left" : "text-left md:text-right";
   const listAlign = service.align === "left" ? "items-start" : "items-start md:items-end";
 
   return (
     <div
       ref={ref}
-      className={`relative min-h-screen px-6 py-24 sm:px-8 md:px-12 ${hasBorder ? "border-b border-white/15" : ""}`}
+      className={`relative min-h-screen md:min-h-auto px-6 sm:px-8 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
     >
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-20 md:grid-cols-2">
-        <div className={`${textOrder} max-w-2xl ${textAlign}`}>
-          <p className={`${revealClasses(isInView)} mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 md:gap-20 md:grid-cols-2">
+        <div className={`${textOrder} max-w-2xl w-full`}>
+          <p className={`${revealClasses(isInView)} mb-4 sm:mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
             {service.tag}
           </p>
           <h2
-            className={`${revealClasses(isInView)} mb-8 text-6xl font-black leading-tight tracking-tight sm:text-7xl md:text-8xl`}
+            className={`${revealClasses(isInView)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight`}
             style={{ transitionDelay: "100ms" }}
           >
             {service.title}
           </h2>
           <p
-            className={`${revealClasses(isInView)} text-lg leading-relaxed text-white/75 sm:text-xl md:text-base`}
+            className={`${revealClasses(isInView)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
             style={{ transitionDelay: "200ms" }}
           >
             {service.description}
           </p>
 
-          <ul className={`mt-12 space-y-5 ${listAlign}`}>
+          <ul className={`mt-8 sm:mt-12 space-y-4 sm:space-y-5 ${listAlign}`}>
             {service.deliverables.map((item, index) => (
               <li
                 key={item}
-                className={`${revealClasses(isInView)} flex max-w-md items-start gap-4 text-base text-white/80`}
+                className={`${revealClasses(isInView)} flex max-w-md items-start gap-3 sm:gap-4 text-sm sm:text-base text-white/80`}
                 style={{ transitionDelay: `${300 + index * 100}ms` }}
               >
                 <span className="mt-1.5 flex-shrink-0 rounded-full bg-white/15 p-1">
@@ -228,7 +228,7 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
           <div className={revealClasses(isInView)} style={{ transitionDelay: `${300 + service.deliverables.length * 100}ms` }}>
             <a
               href="/contact"
-              className="mt-12 inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-7 py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
+              className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
             >
               Start this project
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -343,7 +343,7 @@ export default function Services() {
       {/* INTRO SECTION */}
       <section className="relative w-full overflow-hidden min-h-screen">
         <Image
-          src="/bg10.jpeg"
+          src="/bg10.png"
           alt=""
           fill
           className="absolute inset-0 w-full h-full object-cover object-center"
@@ -358,16 +358,16 @@ export default function Services() {
         />
         <div
           ref={introRef}
-          className={`relative z-10 px-8 md:px-16 lg:px-24 py-32 max-w-[55%] transition-all duration-1000 ease-out flex items-center h-full ${
+          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 max-w-full md:max-w-[55%] transition-all duration-1000 ease-out flex items-center h-full ${
             introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-12">Oelrix Studio</p>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-8">
+          <div className="w-full">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-8 sm:mb-12">Oelrix Studio</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6 sm:mb-8">
               We build digital presence that defines how brands are perceived.
             </h1>
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-2xl">
               Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
             </p>
           </div>
@@ -377,11 +377,11 @@ export default function Services() {
       <MarqueeTicker />
 
       {/* STATEMENT STRIP */}
-      <section className="relative w-full pt-24 pb-24 px-6 sm:px-8 md:px-12 overflow-hidden">
+      <section className="relative w-full pt-16 sm:pt-24 pb-16 sm:pb-24 px-6 sm:px-8 md:px-12 overflow-hidden">
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-end">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-start md:items-end">
             {/* Text on left */}
-            <div className="space-y-2">
+            <div className="space-y-2 order-1">
               {["Clarity over noise.", "Structure over decoration.", "Intent over excess."].map(
                 (line, index) => (
                   <p
@@ -389,7 +389,7 @@ export default function Services() {
                     ref={(el) => {
                       statementRefs.current[index] = el;
                     }}
-                    className={`text-6xl md:text-7xl lg:text-8xl font-bold leading-tight transition-all duration-1000 ease-out ${
+                    className={`text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight transition-all duration-1000 ease-out ${
                       statementVisible[index]
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-4"
@@ -402,7 +402,7 @@ export default function Services() {
             </div>
             
             {/* Image on right */}
-            <div className="relative h-[560px] sm:h-[680px] overflow-hidden rounded-2xl">
+            <div className="relative h-[280px] sm:h-[400px] md:h-[560px] overflow-hidden rounded-2xl order-2">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
@@ -436,7 +436,7 @@ export default function Services() {
           style={{ objectFit: 'cover', objectPosition: 'center', WebkitMaskImage: 'none', maskImage: 'none', opacity: 0.4 }}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 px-8 md:px-16 lg:px-24 py-32">
+        <div className="relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-20 sm:py-32">
           <div className="space-y-6">
             <div>
               {["We don't build volume.", "We build clarity."].map((line, index) => (
@@ -445,7 +445,7 @@ export default function Services() {
                   ref={(el) => {
                     capabilityRefs.current[index] = el;
                   }}
-                  className={`text-left text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-white transition-all duration-1000 ease-out ${
+                  className={`text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white transition-all duration-1000 ease-out ${
                     capabilityVisible[index]
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-4"
@@ -461,7 +461,7 @@ export default function Services() {
                 manifestoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <p className="text-2xl sm:text-3xl md:text-4xl leading-relaxed text-white">
+              <p className="text-lg sm:text-2xl md:text-3xl leading-relaxed text-white max-w-4xl">
                 What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
               </p>
             </div>
@@ -471,22 +471,22 @@ export default function Services() {
 
       <section
         ref={closingCtaRef}
-        className="w-full bg-transparent py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center"
+        className="w-full bg-transparent py-24 sm:py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center"
       >
         <div className="mx-auto max-w-4xl text-center">
           <h2
-            className={`${revealClasses(closingCtaVisible)} text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full`}
+            className={`${revealClasses(closingCtaVisible)} text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full`}
             style={{ transitionDelay: "0ms" }}
           >
             Every great website starts with one conversation.
           </h2>
           <div
-            className={`${revealClasses(closingCtaVisible)} mt-12`}
+            className={`${revealClasses(closingCtaVisible)} mt-8 sm:mt-12`}
             style={{ transitionDelay: "100ms" }}
           >
             <a
               href="/contact"
-              className="inline-block text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
+              className="inline-block text-xs sm:text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
             >
               Start yours →
             </a>
