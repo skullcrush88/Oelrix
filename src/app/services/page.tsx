@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import LightRays from "@/components/LightRays";
 import MarqueeTicker from "@/src/components/MarqueeTicker";
 import Footer from "@/src/components/Footer";
@@ -340,37 +341,36 @@ export default function Services() {
   return (
     <main className="w-full bg-black text-white overflow-hidden">
       {/* INTRO SECTION */}
-      <section className="relative w-full flex flex-col justify-center px-6 pt-24 pb-24 sm:px-8 md:px-12">
-        {/* LightRays Background */}
-        <div className="absolute inset-0 w-full h-full">
-          <LightRays
-            raysOrigin="top-right"
-            raysColor="#ffffff"
-            raysSpeed={1}
-            lightSpread={1}
-            rayLength={2}
-            pulsating={false}
-            fadeDistance={1.6}
-            saturation={1}
-            followMouse
-            mouseInfluence={0.1}
-            noiseAmount={0}
-            distortion={0}
-          />
-        </div>
+      <section className="relative w-full overflow-hidden min-h-screen">
+        <Image
+          src="/bg10.jpeg"
+          alt=""
+          fill
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ opacity: 0.5 }}
+          priority
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 100%)'
+          }}
+        />
         <div
           ref={introRef}
-          className={`max-w-3xl relative z-10 transition-all duration-1000 ease-out ${
+          className={`relative z-10 px-8 md:px-16 lg:px-24 py-32 max-w-[55%] transition-all duration-1000 ease-out flex items-center h-full ${
             introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-12">Oelrix Studio</p>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight mb-8">
-            We build digital presence that defines how brands are perceived.
-          </h1>
-          <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl">
-            Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
-          </p>
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-12">Oelrix Studio</p>
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-8">
+              We build digital presence that defines how brands are perceived.
+            </h1>
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl">
+              Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -426,78 +426,69 @@ export default function Services() {
         ))}
       </section>
 
-      {/* CAPABILITY STATEMENT */}
-      <section className="w-full pt-24 px-6 sm:px-8 md:px-12 flex justify-start">
-        <div className="max-w-2xl space-y-6">
-          {["We don't build volume.", "We build clarity."].map((line, index) => (
-            <p
-              key={line}
-              ref={(el) => {
-                capabilityRefs.current[index] = el;
-              }}
-              className={`text-left text-4xl sm:text-5xl md:text-6xl font-bold leading-tight transition-all duration-1000 ease-out ${
-                capabilityVisible[index]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
+      {/* CAPABILITY STATEMENT & MANIFESTO */}
+      <section className="relative w-full overflow-hidden min-h-[600px]">
+        <Image
+          src="/bg12.png"
+          alt="Oelrix Studio"
+          fill
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectFit: 'cover', objectPosition: 'center', WebkitMaskImage: 'none', maskImage: 'none', opacity: 0.4 }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 px-8 md:px-16 lg:px-24 py-32">
+          <div className="space-y-6">
+            <div>
+              {["We don't build volume.", "We build clarity."].map((line, index) => (
+                <p
+                  key={line}
+                  ref={(el) => {
+                    capabilityRefs.current[index] = el;
+                  }}
+                  className={`text-left text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-white transition-all duration-1000 ease-out ${
+                    capabilityVisible[index]
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4"
+                  }`}
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+            <div
+              ref={manifestoRef}
+              className={`transition-all duration-1000 ease-out ${
+                manifestoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              {line}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      {/* MANIFESTO */}
-      <section className="w-full pb-24 px-6 sm:px-8 md:px-12 flex justify-start">
-        <div
-          ref={manifestoRef}
-          className={`text-left max-w-2xl transition-all duration-1000 ease-out ${
-            manifestoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <p className="text-2xl sm:text-3xl md:text-4xl leading-relaxed text-white/60">
-            What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
-          </p>
-        </div>
-      </section>
-
-      <section className="relative w-full overflow-hidden border-y border-white/10 px-6 py-28 sm:px-8 md:px-12">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(circle_at_85%_80%,rgba(255,255,255,0.08),transparent_45%)]" />
-        <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
-        <div
-          ref={closingCtaRef}
-          className="relative mx-auto w-full max-w-5xl rounded-3xl border border-white/15 bg-white/[0.03] px-8 py-12 text-center backdrop-blur-sm sm:px-12 sm:py-14"
-        >
-          <div className="mx-auto max-w-3xl">
-            <p
-              className={`${revealClasses(closingCtaVisible)} mb-5 text-xs uppercase tracking-[0.28em] text-white/45`}
-              style={{ transitionDelay: "0ms" }}
-            >
-              Final Step
-            </p>
-            <h3
-              className={`${revealClasses(closingCtaVisible)} text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl`}
-              style={{ transitionDelay: "100ms" }}
-            >
-              Not sure which fits you?
-            </h3>
-            <p
-              className={`${revealClasses(closingCtaVisible)} mt-5 text-base leading-relaxed text-white/70 sm:text-lg`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              Tell us about your project and we'll point you in the right direction.
-            </p>
+              <p className="text-2xl sm:text-3xl md:text-4xl leading-relaxed text-white">
+                What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
+              </p>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section
+        ref={closingCtaRef}
+        className="w-full bg-transparent py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center"
+      >
+        <div className="mx-auto max-w-4xl text-center">
+          <h2
+            className={`${revealClasses(closingCtaVisible)} text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full`}
+            style={{ transitionDelay: "0ms" }}
+          >
+            Every great website starts with one conversation.
+          </h2>
           <div
-            className={`${revealClasses(closingCtaVisible)} mt-8`}
-            style={{ transitionDelay: "300ms" }}
+            className={`${revealClasses(closingCtaVisible)} mt-12`}
+            style={{ transitionDelay: "100ms" }}
           >
             <a
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/80 bg-white px-8 py-3 text-sm font-medium uppercase tracking-[0.14em] text-black shadow-[0_8px_30px_rgba(255,255,255,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-[0_10px_35px_rgba(255,255,255,0.28)]"
+              className="inline-block text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
             >
-              Let's Talk
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              Start yours →
             </a>
           </div>
         </div>
