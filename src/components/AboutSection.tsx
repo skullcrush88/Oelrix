@@ -1,9 +1,11 @@
 ﻿"use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Waves from "./Waves";
 import Footer from "./Footer";
+import SmoothScroll from "./SmoothScroll";
 import { useInView } from "@/src/hooks/useInView";
 
 type AboutSectionProps = {
@@ -276,7 +278,8 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   };
 
   return (
-    <section id="about" className="relative w-screen overflow-hidden bg-[#050505] text-white">
+    <SmoothScroll>
+      <section id="about" className="relative w-screen overflow-hidden bg-[#050505] text-white">
       <style jsx>{`
         @keyframes gradientFloat {
           0% {
@@ -419,39 +422,43 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-12">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Values</p>
-          <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Layered by intent.</h2>
+      <section className="relative w-full overflow-hidden">
+        <div className="relative w-full px-8 md:px-16 lg:px-24 py-24 space-y-6">
+          <p className="text-xs uppercase tracking-[0.5em] text-white/40">Values</p>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight max-w-4xl">Layered by intent.</h2>
         </div>
-        <div className="border-t border-white/10">
+        <div className="w-full">
           {layeredValues.map((value, index) => (
             <div
               key={value.title}
               ref={(node) => {
                 valueCardRefs.current[index] = node;
               }}
-              className={`flex flex-col md:flex-row justify-between items-start gap-8 border-b border-white/10 py-8 transition-all duration-700 ease-out ${
-                valueVisible[index] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              className={`group relative min-h-screen overflow-hidden flex flex-col justify-center items-start px-8 md:px-16 lg:px-24 border-b border-white/10 transition-all duration-700 ease-out ${
+                valueVisible[index] ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <div className="flex gap-8 items-baseline flex-shrink-0">
-                <span className="text-xs text-white/20 tracking-widest font-mono">0{index + 1}</span>
-                <h3 className="text-4xl md:text-5xl font-bold text-white whitespace-nowrap">
-                  {value.title}
-                </h3>
-              </div>
-              <p className="text-sm text-white/50 max-w-sm text-right">
+              <p className="absolute top-12 left-8 md:left-16 lg:left-24 text-xs uppercase tracking-widest text-white/20">
+                0{index + 1}
+              </p>
+
+              <h3 className="text-[15vw] font-bold leading-none text-white">
+                {value.title}
+              </h3>
+
+              <p className="absolute bottom-12 right-8 md:right-16 lg:right-24 max-w-sm text-right text-sm text-white/0 group-hover:text-white/60 transition-all duration-700">
                 {value.body}
               </p>
+
+              <div className="absolute bottom-0 left-0 h-px bg-white/20 w-0 group-hover:w-full transition-all duration-700" />
             </div>
           ))}
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-24">
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <section className="relative w-full px-6 py-24 pb-24 border-t border-white/10">
+        <div className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between max-w-6xl mx-auto">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-white/50">Who we work with</p>
             <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Partners with ambition.</h2>
@@ -460,19 +467,35 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             We partner with people who believe brand is felt before it is understood.
           </p>
         </div>
-        <div className="flex flex-col md:flex-row border-t border-white/10 gap-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-6xl mx-auto">
           {clientTypes.map((type, index) => (
             <div
               key={type.name}
-              className={`border-r border-white/10 last:border-r-0 px-8 py-10 flex-1 transition-all duration-700 ease-out ${
-                valueVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"
+              className={`group relative overflow-hidden transition-all duration-700 ease-out ${
+                valueVisible[index] ? "opacity-100" : "opacity-0"
               }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{ transitionDelay: `${index * 100}ms`, aspectRatio: '4/3' }}
             >
-              <h3 className="text-2xl font-bold text-white mb-3">
+              <Image
+                src={["/brands.jpg", "/startups.jpg", "/businesses.jpg", "/creators.jpg"][index]}
+                alt={type.name}
+                fill
+                className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+
+              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-500" />
+
+              <div
+                className="absolute bottom-0 left-0 right-0 h-2/3 transition-all duration-500"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)' }}
+              />
+
+              <h3 className="absolute bottom-8 left-8 text-3xl font-bold text-white group-hover:-translate-y-8 transition-all duration-500">
                 {type.name}
               </h3>
-              <p className="text-sm text-white/50">
+
+              <p className="absolute bottom-8 left-8 text-sm text-white/70 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                 {type.description}
               </p>
             </div>
@@ -480,47 +503,69 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-28">
+      <section className="relative mx-auto max-w-6xl px-6 py-28 pb-24 border-t border-white/10">
         <div className="space-y-10">
           <p className="text-xs uppercase tracking-[0.4em] text-white/50">Approach</p>
           <h2 className="text-4xl font-semibold sm:text-5xl">A calm, precise process.</h2>
-          <div className="space-y-10 relative">
-            <div
-              className="pointer-events-none absolute right-0 top-0 text-[20vw] font-black text-white/5 transition-all duration-300"
-              style={{
-                opacity: 0.3,
-              }}
-            >
-              {String(hoveredApproachStep + 1).padStart(2, '0')}
-            </div>
-            <div className="space-y-10 relative z-10">
+          <div className="flex flex-col lg:flex-row gap-16 items-start">
+            {/* Left side - Steps list */}
+            <div className="w-full lg:w-1/2 space-y-0 border-t border-white/10">
               {approachSteps.map((step, index) => (
                 <div
                   key={step.title}
                   onMouseEnter={() => setHoveredApproachStep(index)}
-                  className={`max-w-lg cursor-default transition-all duration-500 ease-out ${
+                  className={`cursor-pointer transition-all duration-300 ease-out py-6 border-b border-white/10 group hover:bg-white/[0.01] px-6 -mx-6 ${
                     valueVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
                   }`}
                   style={{ transitionDelay: `${index * 120}ms` }}
                 >
-                  <p className="text-xs uppercase tracking-[0.4em] text-white/40">
+                  <p className="text-xs uppercase tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors duration-300">
                     Step 0{index + 1}
                   </p>
-                  <h3 className="mt-3 text-3xl font-semibold tracking-tight">
+                  <h3 className="mt-3 text-2xl font-semibold tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left text-white/80 group-hover:text-white">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-sm text-white/60 sm:text-base">
+                  <p className="mt-2 text-sm text-white/60 sm:text-base">
                     {step.body}
                   </p>
                 </div>
               ))}
+            </div>
+
+            {/* Right side - Dynamic card */}
+            <div className="w-full lg:w-1/2 sticky top-32">
+              <div className="rounded-none border border-white/10 overflow-hidden bg-black/40 backdrop-blur-sm">
+                {/* Image container */}
+                <div className="relative w-full aspect-square overflow-hidden bg-white/5">
+                  <Image
+                    key={hoveredApproachStep}
+                    src={["/Understand.png", "/Design.png", "/Refine.png", "/Deliver.png"][hoveredApproachStep]}
+                    alt={approachSteps[hoveredApproachStep]?.title || "Step"}
+                    fill
+                    className="object-cover transition-opacity duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                </div>
+
+                {/* Info strip */}
+                <div className="bg-black/80 px-6 py-4 border-t border-white/10">
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+                    {String(hoveredApproachStep + 1).padStart(2, '0')} — Step
+                  </p>
+                  <h4 className="mt-2 text-xl font-semibold text-white">
+                    {approachSteps[hoveredApproachStep]?.title}
+                  </h4>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <Footer />
-    </section>
+      </section>
+    </SmoothScroll>
   );
 }
 
