@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import LightRays from "@/components/LightRays";
 import MarqueeTicker from "@/src/components/MarqueeTicker";
+import CustomCursor from "@/src/components/CustomCursor";
+import SmoothScroll from "@/src/components/SmoothScroll";
 import Footer from "@/src/components/Footer";
 import { useInView } from "@/src/hooks/useInView";
 
@@ -73,18 +75,18 @@ const SERVICES: Service[] = [
     customLayout: true,
     previews: [
       {
-        label: "Project Preview 01",
-        href: "https://placeholder.com",
-        image: "/Deliver.png",
-        description: "High-converting landing page template",
-        note: "Designed for maximum clarity and action.",
+        label: "VELOX",
+        href: "#",
+        image: "/Velox.jpg",
+        description: "Electric vehicle product launch page",
+        note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
       {
-        label: "Project Preview 02",
-        href: "https://placeholder.com",
-        image: "/Design.png",
-        description: "Lead generation focused design",
-        note: "Optimized conversion funnel.",
+        label: "ZENIT",
+        href: "#",
+        image: "/zenit.png",
+        description: "SaaS productivity app launch page",
+        note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
     ],
   },
@@ -104,18 +106,18 @@ const SERVICES: Service[] = [
     customLayout: true,
     previews: [
       {
-        label: "Project Preview 01",
-        href: "https://placeholder.com",
-        image: "/Refine.png",
-        description: "Modern redesign transformation",
-        note: "Preserved SEO while improving design.",
+        label: "BEFORE",
+        href: "#",
+        image: "/before.jpg",
+        description: "Local business website — full redesign & revamp",
+        note: "A concept transformation. Designed & built by Oelrix.",
       },
       {
-        label: "Project Preview 02",
-        href: "https://placeholder.com",
-        image: "/Understand.png",
-        description: "Performance-focused refinement",
-        note: "Enhanced user experience and speed.",
+        label: "AFTER",
+        href: "#",
+        image: "/after.jpg",
+        description: "Local business website — full redesign & revamp",
+        note: "A concept transformation. Designed & built by Oelrix.",
       },
     ],
   },
@@ -247,7 +249,7 @@ function CleanProjectPreview({ preview, delay, isInView }: { preview: PreviewCar
         <img
           src={preview.image}
           alt={preview.label}
-          className="w-full object-cover transition-all duration-400 group-hover:opacity-90 group-hover:scale-[1.01]"
+          className="w-full object-contain transition-all duration-400 group-hover:opacity-90 group-hover:scale-[1.01]"
           style={{ aspectRatio: '4/3' }}
         />
       </div>
@@ -299,7 +301,11 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                   className={`${slideInRight(isInView)} text-white/60 text-base leading-relaxed max-w-md`}
                   style={{ transitionDelay: "300ms" }}
                 >
-                  Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated.
+                  {service.tag === "LAUNCH" 
+                    ? "Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated."
+                    : service.tag === "ESTABLISH"
+                    ? "Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated."
+                    : "Every refinement project begins with a full audit of what exists — structure, performance, and perception. We rebuild what needs rebuilding and sharpen what doesn't."}
                 </p>
 
                 <div className={slideInRight(isInView)} style={{ transitionDelay: `400ms` }}>
@@ -317,16 +323,45 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
 
           {/* Bottom block - image grid */}
           <div className="border-t border-white/10 pt-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {service.previews.map((preview, index) => (
-                <CleanProjectPreview
-                  key={preview.label}
-                  preview={preview}
-                  delay={350 + index * 100}
-                  isInView={isInView}
-                />
-              ))}
-            </div>
+            {service.tag === "EVOLVE" ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Before Image */}
+                <div>
+                  <img
+                    src="/before.jpg"
+                    alt="Before"
+                    className="w-full object-cover rounded-sm hover:opacity-80 transition-opacity duration-300"
+                    style={{ aspectRatio: '16/10' }}
+                  />
+                  <p className="text-xs uppercase tracking-widest text-white/40 mt-4 mb-1">BEFORE</p>
+                  <p className="text-sm text-white/70">A brand lost in the noise</p>
+                </div>
+
+                {/* After Image */}
+                <div>
+                  <img
+                    src="/after.jpg"
+                    alt="After"
+                    className="w-full object-cover rounded-sm hover:opacity-80 transition-opacity duration-300"
+                    style={{ aspectRatio: '16/10' }}
+                  />
+                  <p className="text-xs uppercase tracking-widest text-white/40 mt-4 mb-1">AFTER</p>
+                  <p className="text-sm text-white/70">Clarity, structure, and intention — restored</p>
+                  <p className="text-xs text-white/30 italic mt-1">A concept transformation. Designed & built by Oelrix.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                {service.previews.map((preview, index) => (
+                  <CleanProjectPreview
+                    key={preview.label}
+                    preview={preview}
+                    delay={350 + index * 100}
+                    isInView={isInView}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -467,7 +502,9 @@ export default function Services() {
   }, []);
 
   return (
-    <main className="w-full bg-black text-white overflow-hidden">
+    <SmoothScroll>
+      <main className="w-full bg-black text-white overflow-hidden">
+        <CustomCursor />
       {/* INTRO SECTION */}
       <section className="relative w-full overflow-hidden min-h-screen">
         <Image
@@ -486,16 +523,16 @@ export default function Services() {
         />
         <div
           ref={introRef}
-          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 max-w-full md:max-w-[55%] transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
+          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
             introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <div className="w-full">
             <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-8 sm:mb-12">Oelrix Studio</p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6 sm:mb-8">
+            <h1 className="w-full text-5xl md:text-6xl lg:text-[6vw] font-bold tracking-tight leading-[0.9] mb-6 sm:mb-8">
               <WordSplit text="We build digital presence that defines how brands are perceived." isVisible={introVisible} />
             </h1>
-            <p className={`${fadeUp(introVisible)} text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-2xl`}>
+            <p className={`${fadeUp(introVisible)} mt-12 text-sm text-white/50 leading-relaxed max-w-sm`}>
               Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
             </p>
           </div>
@@ -517,6 +554,7 @@ export default function Services() {
 
       {/* CAPABILITY STATEMENT & MANIFESTO */}
       <section className="relative w-full overflow-hidden min-h-[600px]">
+        <style>{``}</style>
         <Image
           src="/bg12.png"
           alt="Oelrix Studio"
@@ -532,29 +570,63 @@ export default function Services() {
           }}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-20 sm:py-32">
+        <div className="relative z-10 py-20 sm:py-32">
           <div className="space-y-6">
-            <div>
+            <div className="w-full overflow-hidden">
               {["We don't build volume.", "We build clarity."].map((line, index) => (
-                <p
-                  key={line}
-                  ref={(el) => {
-                    capabilityRefs.current[index] = el;
-                  }}
-                  className={`text-left text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    capabilityVisible[index]
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-[60px]"
-                  }`}
-                  style={{ transitionDelay: `${index * 200}ms` }}
-                >
-                  {line}
-                </p>
+                <div key={line} className="w-full overflow-hidden">
+                  {index === 0 ? (
+                    // First line - static, full text visible
+                    <p
+                      ref={(el) => {
+                        capabilityRefs.current[index] = el;
+                      }}
+                      className={`px-6 sm:px-8 md:px-16 lg:px-24 font-bold leading-tight text-white transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        capabilityVisible[index]
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-[60px]"
+                      }`}
+                      style={{
+                        transitionDelay: `${index * 200}ms`,
+                        fontSize: 'clamp(2.5rem, 6.5vw, 8rem)',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {line}
+                    </p>
+                  ) : (
+                    // Second line - animated marquee
+                    <div
+                      style={{
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <p
+                        ref={(el) => {
+                          capabilityRefs.current[index] = el;
+                        }}
+                        className={`px-6 sm:px-8 md:px-16 lg:px-24 font-bold leading-tight text-white ${
+                          capabilityVisible[index]
+                            ? "opacity-100 translate-y-0 transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                            : "opacity-0 translate-y-[60px] transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        }`}
+                        style={{
+                          transitionDelay: `${index * 200}ms`,
+                          fontSize: 'clamp(2.5rem, 6.5vw, 8rem)',
+                          whiteSpace: 'nowrap',
+                          width: 'max-content',
+                        }}
+                      >
+                        {line}
+                      </p>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
             <div
               ref={manifestoRef}
-              className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] px-6 sm:px-8 md:px-16 lg:px-24 ${
                 manifestoVisible ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: `600ms` }}
@@ -569,11 +641,28 @@ export default function Services() {
 
       <section
         ref={closingCtaRef}
-        className="w-full bg-transparent py-24 sm:py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center"
+        className="w-full bg-transparent py-24 sm:py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center border-t border-white/10"
       >
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-5xl text-center relative">
+          <p className="text-xs uppercase tracking-widest text-white/20 mb-6 sm:mb-8">Oelrix Studio</p>
+          
+          {/* Radial glow behind heading */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '600px',
+              height: '600px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
+          
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full relative z-10"
           >
             <WordSplit text="Every great website starts with one conversation." isVisible={closingCtaVisible} />
           </h2>
@@ -583,6 +672,8 @@ export default function Services() {
               transitionDelay: `500ms`,
               opacity: closingCtaVisible ? 1 : 0,
               transform: closingCtaVisible ? "translateY(0)" : "translateY(16px)",
+              position: 'relative',
+              zIndex: 10,
             }}
           >
             <a
@@ -595,8 +686,10 @@ export default function Services() {
         </div>
       </section>
 
+      {/* Premium Footer */}
       <Footer />
     </main>
+    </SmoothScroll>
   );
 }
 

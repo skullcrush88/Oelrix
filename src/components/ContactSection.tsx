@@ -11,7 +11,6 @@ type ContactSectionProps = {
 
 const budgetCurrencyCode = "USD";
 const budgetCurrencySymbol = "$";
-const budgetMinimum = 500;
 
 const contactOptions = [
   {
@@ -172,12 +171,6 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
 
   const parsedBudget = Number(budgetInr);
   const hasBudget = budgetInr.trim() !== "";
-  const budgetTooLow =
-    budgetTouched &&
-    hasBudget &&
-    !Number.isNaN(parsedBudget) &&
-    parsedBudget < budgetMinimum;
-  const budgetMinLabel = `${budgetMinimum.toLocaleString()} ${budgetCurrencyCode}`;
   const selectedMeeting =
     meetingOptions.find((option) => option.id === selectedMeetingId) ?? null;
 
@@ -219,7 +212,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
       return;
     }
 
-    if (budgetTooLow || !quoteName.trim() || !quoteEmail.trim()) {
+    if (!quoteName.trim() || !quoteEmail.trim()) {
       setQuoteStatus("error");
       return;
     }
@@ -297,7 +290,8 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
   };
 
   return (
-    <section id="contact" className="relative min-h-screen w-screen overflow-hidden bg-[#050505] text-white">
+    <>
+      <section id="contact" className="relative min-h-screen w-screen overflow-hidden bg-[#050505] text-white">
       <style jsx>{`
         @keyframes glowFloat {
           0% {
@@ -422,27 +416,19 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
                 <div className="relative">
                   <input
                     type="number"
-                    min={budgetMinimum}
                     step={500}
                     value={budgetInr}
                     onChange={(event) => setBudgetInr(event.target.value)}
-                    onBlur={() => setBudgetTouched(true)}
-                    placeholder={`Minimum ${budgetMinLabel}`}
-                    className="h-14 w-full rounded-2xl border border-white/15 bg-[#151515] px-5 pr-20 text-white placeholder:text-white/45 focus:border-white/35 focus:outline-none"
+                    placeholder="Your budget (optional)"
+                    className="h-14 w-full rounded-2xl border border-white/10 bg-[#151515] px-5 pr-20 text-white placeholder:text-white/45 focus:border-white/35 focus:outline-none"
                   />
                   <span className="pointer-events-none absolute inset-y-0 right-5 flex items-center text-sm font-medium text-white/60">
                     {budgetCurrencySymbol}
                   </span>
                 </div>
-                {budgetTooLow ? (
-                  <p className="mt-2 text-left text-xs text-red-300/90">
-                    Minimum budget is {budgetMinLabel}.
-                  </p>
-                ) : (
-                  <p className="mt-2 text-left text-xs text-white/50">
-                    Minimum budget: {budgetMinLabel}.
-                  </p>
-                )}
+                <p className="mt-2 text-left text-xs text-white/50">
+                  Budget is optional
+                </p>
               </div>
 
               <div>
@@ -758,8 +744,9 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
           We work with brands that value presence.
         </p>
       </section>
-
-      <Footer />
     </section>
+
+    <Footer />
+    </>
   );
 }

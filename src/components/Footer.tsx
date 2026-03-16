@@ -4,17 +4,53 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative w-full border-t border-white/5 bg-black text-white">
-      <div className="mx-auto px-6 py-8 md:px-12">
-        <div className="flex items-center justify-center text-center">
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-xs text-white/30">
-            <p>© {currentYear} Oelrix</p>
-            <span className="hidden sm:inline">·</span>
-            <p>All rights reserved</p>
-            <span className="hidden sm:inline">·</span>
-            <p>Crafted with precision</p>
+    <footer className="w-full bg-[#080808] border-t border-white/10 px-8 md:px-16 lg:px-24">
+      {/* Top Block - Massive OELRIX Wordmark */}
+      <div className="pt-24 pb-16 border-b border-white/10">
+        <h1 className="text-[12vw] tracking-tighter text-white leading-none" style={{ fontFamily: 'Bebas Neue, sans-serif' }}>OELRIX</h1>
+      </div>
+
+      {/* Middle Block */}
+      <div className="py-12 flex justify-between items-start">
+        {/* Left Side - Description */}
+        <div className="flex-1">
+          <p className="text-sm text-white/30 max-w-xs">Premium web design studio</p>
+        </div>
+
+        {/* Right Side - Three Columns */}
+        <div className="flex gap-16 flex-1 justify-end">
+          {/* Column 1: Navigation */}
+          <div>
+            <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Navigation</p>
+            <nav className="space-y-2">
+              <a href="/" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</a>
+              <a href="/about" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</a>
+              <a href="/services" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</a>
+              <a href="/contact" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</a>
+            </nav>
+          </div>
+
+          {/* Column 2: Contact */}
+          <div>
+            <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Contact</p>
+            <a href="mailto:contact@oelrix.tech" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">contact@oelrix.tech</a>
+          </div>
+
+          {/* Column 3: Follow */}
+          <div>
+            <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Follow</p>
+            <div className="space-y-2">
+              <a href="#" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">LinkedIn</a>
+              <a href="#" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Instagram</a>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-white/5 py-6 flex justify-between items-center">
+        <p className="text-xs text-white/20">© {currentYear} Oelrix</p>
+        <p className="text-xs text-white/20 italic">Crafted with precision.</p>
       </div>
     </footer>
   );

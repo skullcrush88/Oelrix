@@ -5,7 +5,7 @@ import RouteLoader from "../components/RouteLoader";
 import RepeatDebugClient from "../components/RepeatDebugClient";
 
 export const metadata = {
-  title: "Oelrix — Modern Websites for Brands",
+  title: "Oelrix — Premium Web Design Studio",
   description:
     "Oelrix creates refined, modern websites for businesses and brands that value clarity, design, and presence.",
   icons: {
