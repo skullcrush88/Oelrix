@@ -570,8 +570,8 @@ export default function Services() {
           }}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 py-20 sm:py-32">
-          <div className="space-y-6">
+        <div className="relative z-10 py-20 sm:py-32 md:py-32">
+          <div className="space-y-6 sm:space-y-12">
             <div className="w-full overflow-hidden">
               {["We don't build volume.", "We build clarity."].map((line, index) => (
                 <div key={line} className="w-full overflow-hidden">
@@ -626,12 +626,12 @@ export default function Services() {
             </div>
             <div
               ref={manifestoRef}
-              className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] px-6 sm:px-8 md:px-16 lg:px-24 ${
+              className={`transition-all duration-[700ms] sm:duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] px-6 sm:px-8 md:px-16 lg:px-24 ${
                 manifestoVisible ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: `600ms` }}
             >
-              <p className="text-lg sm:text-2xl md:text-3xl leading-relaxed text-white max-w-4xl">
+              <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl leading-relaxed text-white max-w-4xl">
                 What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
               </p>
             </div>
