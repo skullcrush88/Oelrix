@@ -31,6 +31,10 @@ export default function NavBar() {
     { path: '/contact', label: 'Contact' },
   ];
 
+  if (pathname?.startsWith('/websites/')) {
+    return null;
+  }
+
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-6 transition-all duration-500 ${

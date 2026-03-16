@@ -52,7 +52,7 @@ const SERVICES: Service[] = [
       },
       {
         label: "ARCUS",
-        href: "https://arcus-oelrix-p2.vercel.app/",
+        href: "/websites/arcus",
         image: "/ARCUS.png",
         description: "Premium architecture & interior design studio website",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
