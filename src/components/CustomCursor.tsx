@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
+  const [isMobile, setIsMobile] = useState(true);
   const dotRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
@@ -11,9 +12,15 @@ export default function CustomCursor() {
   const isFirstMove = useRef(true);
 
   useEffect(() => {
-    // Disable custom cursor on mobile/touch devices
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    if (isMobile) {
+    // Check if device is mobile/touch
+    const checkMobile = () => {
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      setIsMobile(isMobileDevice);
+      return isMobileDevice;
+    };
+
+    const isMobileDevice = checkMobile();
+    if (isMobileDevice) {
       return; // Skip custom cursor on mobile, use native cursor
     }
 
@@ -122,7 +129,7 @@ export default function CustomCursor() {
     };
   }, []);
 
-  return (
+  return isMobile ? null : (
     <>
       {/* Small dot */}
       <div
