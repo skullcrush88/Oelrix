@@ -123,32 +123,32 @@ const SERVICES: Service[] = [
   },
 ];
 
-function revealClasses(isVisible: boolean) {
-  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+function revealClasses(isVisible: boolean, duration: number = 700) {
+  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
     isVisible ? "opacity-100 translate-y-0 translate-x-0 scale-100" : "opacity-0"
   }`;
 }
 
-function fadeUp(isVisible: boolean, delay: number = 0) {
-  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]"
+function fadeUp(isVisible: boolean, delay: number = 0, duration: number = 700, translateDistance: number = 30) {
+  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
+    isVisible ? "opacity-100 translate-y-0" : `opacity-0 translate-y-[${translateDistance}px]`
   }`;
 }
 
-function slideInLeft(isVisible: boolean, delay: number = 0) {
-  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+function slideInLeft(isVisible: boolean, delay: number = 0, duration: number = 700) {
+  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
     isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[40px]"
   }`;
 }
 
-function slideInRight(isVisible: boolean, delay: number = 0) {
-  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+function slideInRight(isVisible: boolean, delay: number = 0, duration: number = 700) {
+  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
     isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[40px]"
   }`;
 }
 
-function scaleIn(isVisible: boolean) {
-  return `transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+function scaleIn(isVisible: boolean, duration: number = 700) {
+  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
     isVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
   }`;
 }
@@ -167,18 +167,18 @@ function CheckIcon() {
   );
 }
 
-function WordSplit({ text, isVisible }: { text: string; isVisible: boolean }) {
+function WordSplit({ text, isVisible, duration = 700, translateY = 30 }: { text: string; isVisible: boolean; duration?: number; translateY?: number }) {
   const words = text.split(" ");
   return (
     <>
       {words.map((word, index) => (
         <span
           key={index}
-          className={`inline-block ${fadeUp(isVisible)} mr-3`}
+          className={`inline-block ${fadeUp(isVisible, 0, duration, translateY)} mr-3 will-change-[transform,opacity]`}
           style={{
             transitionDelay: `${index * 80}ms`,
             opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateY(0)" : "translateY(30px)",
+            transform: isVisible ? "translateY(0)" : `translateY(${translateY}px)`,
           }}
         >
           {word}
@@ -263,43 +263,57 @@ function CleanProjectPreview({ preview, delay, isInView }: { preview: PreviewCar
 }
 
 function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBorder?: boolean }) {
-  const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.25 });
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    setIsMobileView(window.innerWidth < 768);
+    const handleResize = () => setIsMobileView(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const duration = isMobileView ? 900 : 700;
+  const staggerDelay = isMobileView ? 60 : 100;
+  const translateY = isMobileView ? 16 : 30;
+  const threshold = isMobileView ? 0.1 : 0.25;
+
+  const { ref, isInView } = useInView<HTMLDivElement>({ threshold });
 
   // Custom layout for Brand Websites
   if (service.customLayout) {
     return (
       <div
         ref={ref}
-        className={`relative px-6 sm:px-8 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
+        className={`relative px-6 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
       >
         <div className="mx-auto max-w-7xl w-full">
           {/* Top block - text only, full width */}
           <div className="mb-24">
-            <div className={`flex flex-col ${service.align === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-16 items-start`}>
+            <div className={`flex flex-col ${service.align === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 md:gap-16 items-start`}>
               {/* Left column */}
               <div className="w-full lg:w-1/2">
-                <p className={`${slideInRight(isInView)} text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+                <p className={`${slideInRight(isInView, 0, duration)} text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
                   {service.tag}
                 </p>
                 <h2
-                  className={`${slideInRight(isInView)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight`}
-                  style={{ transitionDelay: "100ms" }}
+                  className={`${slideInRight(isInView, 0, duration)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight`}
+                  style={{ transitionDelay: `${staggerDelay}ms` }}
                 >
                   {service.title}
                 </h2>
                 <p
-                  className={`${slideInRight(isInView)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
-                  style={{ transitionDelay: "200ms" }}
+                  className={`${slideInRight(isInView, 0, duration)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
+                  style={{ transitionDelay: `${staggerDelay * 2}ms` }}
                 >
                   {service.description}
                 </p>
               </div>
 
               {/* Right column */}
-              <div className="w-full lg:w-1/2 pt-16">
+              <div className="w-full lg:w-1/2 pt-0 md:pt-16">
                 <p
-                  className={`${slideInRight(isInView)} text-white/60 text-base leading-relaxed max-w-md`}
-                  style={{ transitionDelay: "300ms" }}
+                  className={`${slideInRight(isInView, 0, duration)} text-white/60 text-base leading-relaxed max-w-md`}
+                  style={{ transitionDelay: `${staggerDelay * 3}ms` }}
                 >
                   {service.tag === "LAUNCH" 
                     ? "Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated."
@@ -308,10 +322,10 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                     : "Every refinement project begins with a full audit of what exists — structure, performance, and perception. We rebuild what needs rebuilding and sharpen what doesn't."}
                 </p>
 
-                <div className={slideInRight(isInView)} style={{ transitionDelay: `400ms` }}>
+                <div className={slideInRight(isInView, 0, duration)} style={{ transitionDelay: `${staggerDelay * 4}ms` }}>
                   <a
                     href="/contact"
-                    className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
+                    className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
                   >
                     Start this project
                     <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -351,7 +365,7 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {service.previews.map((preview, index) => (
                   <CleanProjectPreview
                     key={preview.label}
@@ -377,22 +391,22 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
   return (
     <div
       ref={ref}
-      className={`relative min-h-screen md:min-h-auto px-6 sm:px-8 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
+      className={`relative min-h-screen md:min-h-auto px-6 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
     >
       <div className="mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 md:gap-20 md:grid-cols-2">
         <div className={`${textOrder} max-w-2xl w-full`}>
-          <p className={`${revealClasses(isInView)} mb-4 sm:mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+          <p className={`${revealClasses(isInView, duration)} mb-4 sm:mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
             {service.tag}
           </p>
           <h2
-            className={`${revealClasses(isInView)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight`}
-            style={{ transitionDelay: "100ms" }}
+            className={`${revealClasses(isInView, duration)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight`}
+            style={{ transitionDelay: `${staggerDelay}ms` }}
           >
             {service.title}
           </h2>
           <p
-            className={`${revealClasses(isInView)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
-            style={{ transitionDelay: "200ms" }}
+            className={`${revealClasses(isInView, duration)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
+            style={{ transitionDelay: `${staggerDelay * 2}ms` }}
           >
             {service.description}
           </p>
@@ -401,8 +415,8 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
             {service.deliverables.map((item, index) => (
               <li
                 key={item}
-                className={`${revealClasses(isInView)} flex max-w-md items-start gap-3 sm:gap-4 text-sm sm:text-base text-white/80`}
-                style={{ transitionDelay: `${300 + index * 100}ms` }}
+                className={`${revealClasses(isInView, duration)} flex max-w-md items-start gap-3 sm:gap-4 text-sm sm:text-base text-white/80`}
+                style={{ transitionDelay: `${300 + index * staggerDelay}ms` }}
               >
                 <span className="mt-1.5 flex-shrink-0 rounded-full bg-white/15 p-1">
                   <CheckIcon />
@@ -412,10 +426,10 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
             ))}
           </ul>
 
-          <div className={revealClasses(isInView)} style={{ transitionDelay: `${300 + service.deliverables.length * 100}ms` }}>
+          <div className={revealClasses(isInView, duration)} style={{ transitionDelay: `${300 + service.deliverables.length * staggerDelay}ms` }}>
             <a
               href="/contact"
-              className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
+              className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
             >
               Start this project
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -445,7 +459,22 @@ export default function Services() {
   const [introVisible, setIntroVisible] = useState(false);
   const [capabilityVisible, setCapabilityVisible] = useState<boolean[]>([false, false]);
   const [manifestoVisible, setManifestoVisible] = useState(false);
-  const { ref: closingCtaRef, isInView: closingCtaVisible } = useInView<HTMLDivElement>({ threshold: 0.35 });
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    setIsMobileView(window.innerWidth < 768);
+    const handleResize = () => setIsMobileView(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const introThreshold = isMobileView ? 0.1 : 0.5;
+  const ctaThreshold = isMobileView ? 0.1 : 0.35;
+  const duration = isMobileView ? 900 : 700;
+  const staggerDelay = isMobileView ? 60 : 100;
+  const translateY = isMobileView ? 16 : 30;
+
+  const { ref: closingCtaRef, isInView: closingCtaVisible } = useInView<HTMLDivElement>({ threshold: ctaThreshold });
 
   const introRef = useRef<HTMLDivElement>(null);
   const capabilityRefs = useRef<(HTMLParagraphElement | null)[]>([null, null]);
@@ -459,11 +488,11 @@ export default function Services() {
           setIntroVisible(true);
         }
       },
-      { threshold: 0.5 }
+      { threshold: introThreshold }
     );
     observer.observe(introRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [introThreshold]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -481,11 +510,11 @@ export default function Services() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: introThreshold }
     );
     capabilityRefs.current.forEach((ref) => ref && observer.observe(ref));
     return () => observer.disconnect();
-  }, []);
+  }, [introThreshold]);
 
   useEffect(() => {
     if (!manifestoRef.current) return;
@@ -495,18 +524,18 @@ export default function Services() {
           setManifestoVisible(true);
         }
       },
-      { threshold: 0.5 }
+      { threshold: introThreshold }
     );
     observer.observe(manifestoRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [introThreshold]);
 
   return (
     <SmoothScroll>
       <main className="w-full bg-black text-white overflow-hidden">
         <CustomCursor />
       {/* INTRO SECTION */}
-      <section className="relative w-full overflow-hidden min-h-screen">
+      <section className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen">
         <Image
           src="/bg10.png"
           alt=""
@@ -523,16 +552,16 @@ export default function Services() {
         />
         <div
           ref={introRef}
-          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
+          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 pb-16 transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
             introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <div className="w-full">
             <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-8 sm:mb-12">Oelrix Studio</p>
             <h1 className="w-full text-5xl md:text-6xl lg:text-[6vw] font-bold tracking-tight leading-[0.9] mb-6 sm:mb-8">
-              <WordSplit text="We build digital presence that defines how brands are perceived." isVisible={introVisible} />
+              <WordSplit text="We build digital presence that defines how brands are perceived." isVisible={introVisible} duration={duration} translateY={translateY} />
             </h1>
-            <p className={`${fadeUp(introVisible)} mt-12 text-sm text-white/50 leading-relaxed max-w-sm`}>
+            <p className={`${fadeUp(introVisible, 0, duration, translateY)} mt-12 text-sm text-white/50 leading-relaxed max-w-sm`}>
               Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
             </p>
           </div>
@@ -581,14 +610,14 @@ export default function Services() {
                       ref={(el) => {
                         capabilityRefs.current[index] = el;
                       }}
-                      className={`px-6 sm:px-8 md:px-16 lg:px-24 font-bold leading-tight text-white transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      className={`text-4xl md:text-[8vw] px-6 md:px-16 lg:px-24 pt-16 pb-16 font-bold leading-tight text-white will-change-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                         capabilityVisible[index]
                           ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-[60px]"
+                          : `opacity-0 translate-y-[${isMobileView ? 16 : 60}px]`
                       }`}
                       style={{
                         transitionDelay: `${index * 200}ms`,
-                        fontSize: 'clamp(2.5rem, 6.5vw, 8rem)',
+                        transitionDuration: `${duration}ms`,
                         whiteSpace: 'nowrap',
                       }}
                     >
@@ -605,15 +634,16 @@ export default function Services() {
                         ref={(el) => {
                           capabilityRefs.current[index] = el;
                         }}
-                        className={`px-6 sm:px-8 md:px-16 lg:px-24 font-bold leading-tight text-white ${
-                          capabilityVisible[index]
-                            ? "opacity-100 translate-y-0 transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-                            : "opacity-0 translate-y-[60px] transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-                        }`}
-                        style={{
-                          transitionDelay: `${index * 200}ms`,
-                          fontSize: 'clamp(2.5rem, 6.5vw, 8rem)',
-                          whiteSpace: 'nowrap',
+                      className={`text-4xl md:text-[8vw] px-6 md:px-16 lg:px-24 pt-16 pb-16 font-bold leading-tight text-white will-change-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        capabilityVisible[index]
+                          ? "opacity-100 translate-y-0"
+                          : `opacity-0 translate-y-[${isMobileView ? 16 : 60}px]`
+                      }`}
+                      style={{
+                        transitionDelay: `${index * 200}ms`,
+                        transitionDuration: `${duration}ms`,
+                        whiteSpace: 'nowrap',
+
                           width: 'max-content',
                         }}
                       >
@@ -626,10 +656,10 @@ export default function Services() {
             </div>
             <div
               ref={manifestoRef}
-              className={`transition-all duration-[700ms] sm:duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] px-6 sm:px-8 md:px-16 lg:px-24 ${
+              className={`ease-[cubic-bezier(0.16,1,0.3,1)] px-6 md:px-16 lg:px-24 will-change-[opacity] ${
                 manifestoVisible ? "opacity-100" : "opacity-0"
               }`}
-              style={{ transitionDelay: `600ms` }}
+              style={{ transitionDelay: `600ms`, transitionDuration: `${duration}ms` }}
             >
               <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl leading-relaxed text-white max-w-4xl">
                 What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
@@ -641,7 +671,7 @@ export default function Services() {
 
       <section
         ref={closingCtaRef}
-        className="w-full bg-transparent py-24 sm:py-40 px-6 sm:px-8 md:px-12 flex flex-col items-center justify-center border-t border-white/10"
+        className="w-full bg-transparent py-24 sm:py-40 px-6 md:px-12 flex flex-col items-center justify-center border-t border-white/10"
       >
         <div className="mx-auto max-w-5xl text-center relative">
           <p className="text-xs uppercase tracking-widest text-white/20 mb-6 sm:mb-8">Oelrix Studio</p>
@@ -664,12 +694,13 @@ export default function Services() {
           <h2
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full relative z-10"
           >
-            <WordSplit text="Every great website starts with one conversation." isVisible={closingCtaVisible} />
+            <WordSplit text="Every great website starts with one conversation." isVisible={closingCtaVisible} duration={duration} translateY={translateY} />
           </h2>
           <div
-            className={`transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] mt-8 sm:mt-12`}
+            className={`ease-[cubic-bezier(0.16,1,0.3,1)] mt-8 sm:mt-12 will-change-[transform,opacity]`}
             style={{
               transitionDelay: `500ms`,
+              transitionDuration: `${duration}ms`,
               opacity: closingCtaVisible ? 1 : 0,
               transform: closingCtaVisible ? "translateY(0)" : "translateY(16px)",
               position: 'relative',

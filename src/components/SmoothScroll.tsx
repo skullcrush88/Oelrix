@@ -12,10 +12,10 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
   const animationFrameIdRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Disable Lenis on mobile devices
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    // Disable Lenis on mobile devices with device detection + viewport check
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
     if (isMobile) {
-      return;
+      return; // skip Lenis on mobile, use native scroll
     }
 
     // Initialize Lenis with custom settings

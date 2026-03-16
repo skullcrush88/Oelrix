@@ -11,6 +11,12 @@ export default function CustomCursor() {
   const isFirstMove = useRef(true);
 
   useEffect(() => {
+    // Disable custom cursor on mobile/touch devices
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+    if (isMobile) {
+      return; // Skip custom cursor on mobile, use native cursor
+    }
+
     // Hide default cursor
     document.body.style.cursor = 'none';
 
