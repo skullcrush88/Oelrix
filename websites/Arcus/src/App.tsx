@@ -295,6 +295,13 @@ function App() {
               <button className="hover:opacity-70 transition-opacity duration-300">TERMS</button>
             </div>
           </div>
+
+          <p
+            className="mt-8 text-[10px] sm:text-xs tracking-[0.22em] text-center uppercase"
+            style={{ color: '#1A1A1A', opacity: 0.28 }}
+          >
+            Designed by Oelrix
+          </p>
         </div>
       </footer>
     </div>

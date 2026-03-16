@@ -1,0 +1,17 @@
+
+> oelrixcomingsoon@1.0.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.4:3000
+- Environments: .env.local
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+Creating turbopack project {
+  dir: 'C:\\Users\\junai\\Desktop\\New folder (2)\\Oelrix',
+  testMode: true
+}
+✓ Ready in 1525ms
