@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Waves from "./Waves";
 import Footer from "./Footer";
+import { useInView } from "@/src/hooks/useInView";
 
 type AboutSectionProps = {
   includeNav?: boolean;
@@ -36,7 +37,12 @@ const layeredValues = [
   },
 ];
 
-const clientTypes = ["Brands", "Startups", "Businesses", "Creators"];
+const clientTypes = [
+  { name: "Brands", description: "Established names ready to be seen differently" },
+  { name: "Startups", description: "New ventures that need presence from day one" },
+  { name: "Businesses", description: "Growing companies outpacing their current site" },
+  { name: "Creators", description: "Individuals who treat their work as a brand" },
+];
 const actionWords = ["build", "create", "design", "deploy"];
 
 const approachSteps = [
@@ -83,6 +89,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   );
   const [finalVisible, setFinalVisible] = useState(false);
   const [activeApproach, setActiveApproach] = useState(0);
+  const [hoveredApproachStep, setHoveredApproachStep] = useState(0);
   const [approachFadeIn, setApproachFadeIn] = useState(true);
   const [heroParallax, setHeroParallax] = useState(0);
   const autoRotateRef = useRef<number | null>(null);
@@ -398,7 +405,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
                 ref={(node) => {
                   lineRefs.current[index] = node;
                 }}
-                className={`text-lg sm:text-3xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out sm:text-4xl ${
+                className={`text-lg sm:text-4xl font-light tracking-tight text-white/90 transition-all duration-700 ease-out ${
                   lineVisible[index]
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-6"
@@ -412,49 +419,34 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 pt-16 pb-28">
+      <section className="relative mx-auto max-w-6xl px-6 py-16">
         <div className="mb-12">
           <p className="text-xs uppercase tracking-[0.4em] text-white/50">Values</p>
           <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Layered by intent.</h2>
         </div>
-        <div className="grid gap-6">
-          {layeredValues.map((value, index) => {
-            const direction = (index === 1 || index === 3) ? 1 : -1;
-            const offset = direction * 100;
-            return (
+        <div className="border-t border-white/10">
+          {layeredValues.map((value, index) => (
             <div
               key={value.title}
               ref={(node) => {
                 valueCardRefs.current[index] = node;
               }}
-              className="rounded-3xl bg-gradient-to-b from-white/20 via-white/10 to-white/15 p-[1px] shadow-[0_22px_60px_rgba(0,0,0,0.5)] transition-[transform,opacity,filter] duration-[1050ms]"
-              style={{
-                transform: valueVisible[index]
-                  ? "translate3d(0,0,0)"
-                  : `translate3d(${offset}px,0,0)`,
-                opacity: valueVisible[index] ? 1 : 0,
-                filter: valueVisible[index] ? "blur(0px)" : "blur(7px)",
-                transitionDelay: `${index * 160}ms`,
-                transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-                willChange: "transform, opacity, filter",
-              }}
+              className={`flex flex-col md:flex-row justify-between items-start gap-8 border-b border-white/10 py-8 transition-all duration-700 ease-out ${
+                valueVisible[index] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <div className="rounded-[calc(1.5rem-1px)] border border-white/10 bg-gradient-to-b from-[#121316] via-[#0d0f12] to-[#090a0c] p-8 backdrop-blur-2xl">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                    {value.title}
-                  </h3>
-                  <span className="pt-1 text-xs uppercase tracking-[0.45em] text-white/35">
-                    0{index + 1}
-                  </span>
-                </div>
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/60">
-                  {value.body}
-                </p>
+              <div className="flex gap-8 items-baseline flex-shrink-0">
+                <span className="text-xs text-white/20 tracking-widest font-mono">0{index + 1}</span>
+                <h3 className="text-4xl md:text-5xl font-bold text-white whitespace-nowrap">
+                  {value.title}
+                </h3>
               </div>
+              <p className="text-sm text-white/50 max-w-sm text-right">
+                {value.body}
+              </p>
             </div>
-          );
-          })}
+          ))}
         </div>
       </section>
 
@@ -468,39 +460,48 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             We partner with people who believe brand is felt before it is understood.
           </p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {clientTypes.map((type) => (
+        <div className="flex flex-col md:flex-row border-t border-white/10 gap-0">
+          {clientTypes.map((type, index) => (
             <div
-              key={type}
-              onMouseMove={handleTileMove}
-              onMouseLeave={handleTileLeave}
-              className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-transparent to-transparent p-8 transition-all duration-300"
-              style={{ transformStyle: "preserve-3d", boxShadow: "0 20px 50px rgba(0,0,0,0.35)" }}
+              key={type.name}
+              className={`border-r border-white/10 last:border-r-0 px-8 py-10 flex-1 transition-all duration-700 ease-out ${
+                valueVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="absolute inset-0 rounded-3xl bg-white/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-              <div className="relative">
-                <h3 className="text-3xl font-semibold tracking-tight">
-                  {type}
-                </h3>
-                <p className="mt-4 text-sm text-white/60">
-                  Teams seeking a point of view, not just a layout.
-                </p>
-              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">
+                {type.name}
+              </h3>
+              <p className="text-sm text-white/50">
+                {type.description}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="relative mx-auto max-w-6xl px-6 py-28">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-10">
-            <p className="text-xs uppercase tracking-[0.4em] text-white/50">Approach</p>
-            <h2 className="text-4xl font-semibold sm:text-5xl">A calm, precise process.</h2>
-            <div className="space-y-16">
+        <div className="space-y-10">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Approach</p>
+          <h2 className="text-4xl font-semibold sm:text-5xl">A calm, precise process.</h2>
+          <div className="space-y-10 relative">
+            <div
+              className="pointer-events-none absolute right-0 top-0 text-[20vw] font-black text-white/5 transition-all duration-300"
+              style={{
+                opacity: 0.3,
+              }}
+            >
+              {String(hoveredApproachStep + 1).padStart(2, '0')}
+            </div>
+            <div className="space-y-10 relative z-10">
               {approachSteps.map((step, index) => (
                 <div
                   key={step.title}
-                  className="max-w-lg"
+                  onMouseEnter={() => setHoveredApproachStep(index)}
+                  className={`max-w-lg cursor-default transition-all duration-500 ease-out ${
+                    valueVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                  }`}
+                  style={{ transitionDelay: `${index * 120}ms` }}
                 >
                   <p className="text-xs uppercase tracking-[0.4em] text-white/40">
                     Step 0{index + 1}
@@ -513,63 +514,6 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
                   </p>
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="relative">
-            <div className="sticky top-24 flex items-center gap-4">
-              <button
-                onClick={handlePrevApproach}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
-                aria-label="Previous step"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-10 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl overflow-hidden flex-1">
-                <div className="relative mb-8 h-48 w-full rounded-2xl bg-white/5 overflow-hidden">
-                  <img
-                    src={approachSteps[activeApproach].image}
-                    alt={approachSteps[activeApproach].title}
-                    className="w-full h-full object-cover transition-opacity duration-700"
-                    style={{ opacity: approachFadeIn ? 1 : 0 }}
-                  />
-                </div>
-                <div className={`space-y-4 transition-opacity duration-500 ${approachFadeIn ? "opacity-100" : "opacity-0"}`}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs uppercase tracking-[0.4em] text-white/40">
-                      Step 0{activeApproach + 1}
-                    </span>
-                    <div className="flex gap-1.5">
-                      {approachSteps.map((_, idx) => (
-                        <div
-                          key={idx}
-                          className={`h-1 rounded-full transition-all duration-300 ${
-                            idx === activeApproach
-                              ? "w-6 bg-white/70"
-                              : "w-1.5 bg-white/20"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <h3 className="text-3xl font-semibold">
-                    {approachSteps[activeApproach].title}
-                  </h3>
-                  <p className="text-sm text-white/60 sm:text-base">
-                    {approachSteps[activeApproach].body}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={handleNextApproach}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
-                aria-label="Next step"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
             </div>
           </div>
         </div>
