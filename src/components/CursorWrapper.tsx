@@ -6,7 +6,7 @@ import CustomCursor from "./CustomCursor";
 export default function CursorWrapper() {
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/websites/")) {
+  if (pathname?.startsWith("/project/")) {
     return null;
   }
 

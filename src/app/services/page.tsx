@@ -46,14 +46,14 @@ const SERVICES: Service[] = [
     previews: [
       {
         label: "NOXE",
-        href: "https://v0-noxe-fragrance-website.vercel.app/",
+        href: "/project/noxe",
         image: "/NOXE.png",
         description: "Luxury fragrance brand — dark editorial website",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
       {
         label: "ARCUS",
-        href: "/websites/arcus",
+        href: "/project/arcus",
         image: "/ARCUS.png",
         description: "Custom architecture & interior design studio website",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
@@ -76,8 +76,8 @@ const SERVICES: Service[] = [
     customLayout: true,
     previews: [
       {
-        label: "VELOX",
-        href: "#",
+        label: "VELORX",
+        href: "/project/velorx",
         image: "/Velox.jpg",
         description: "Electric vehicle product launch page",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
@@ -164,12 +164,13 @@ function WordSplit({ text, isVisible }: { text: string; isVisible: boolean }) {
 
 function ServicePreviewCard({ preview, delay, inView, shifted }: { preview: PreviewCard; delay: number; inView: boolean; shifted?: boolean }) {
   const isImage = preview.href.endsWith('.png') || preview.href.endsWith('.jpg') || preview.href.endsWith('.jpeg');
+  const isExternal = /^https?:\/\//i.test(preview.href);
   
   return (
     <a
       href={isImage ? "#" : preview.href}
-      target={isImage ? undefined : "_blank"}
-      rel={isImage ? undefined : "noopener noreferrer"}
+      target={isImage || !isExternal ? undefined : "_blank"}
+      rel={isImage || !isExternal ? undefined : "noopener noreferrer"}
       onClick={isImage ? (e) => e.preventDefault() : undefined}
       className={`group block ${shifted ? "sm:mt-6 md:mt-8" : ""}`}
     >
@@ -213,11 +214,13 @@ function ServicePreviewCard({ preview, delay, inView, shifted }: { preview: Prev
 }
 
 function CleanProjectPreview({ preview, delay, inView }: { preview: PreviewCard; delay: number; inView: boolean }) {
+  const isExternal = /^https?:\/\//i.test(preview.href);
+
   return (
     <a
       href={preview.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       className="group block"
     >
       <div

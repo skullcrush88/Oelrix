@@ -1,6 +1,6 @@
 "use client";
 
-import ArcusApp from "../../../../websites/Arcus/src/App";
+import ArcusApp from "../../../../project/Arcus/src/App";
 
 export default function ArcusPage() {
   return (
@@ -27,4 +27,3 @@ export default function ArcusPage() {
     </>
   );
 }
-

@@ -31,7 +31,7 @@ export default function NavBar() {
     { path: '/contact', label: 'Contact' },
   ];
 
-  if (pathname?.startsWith('/websites/')) {
+  if (pathname?.startsWith('/project/')) {
     return null;
   }
 
