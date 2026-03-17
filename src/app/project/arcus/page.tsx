@@ -1,29 +1,24 @@
-"use client";
+import type { Metadata } from 'next';
+import { ArcusContent } from './arcus-content';
 
-import ArcusApp from "../../../../project/Arcus/src/App";
+export const metadata: Metadata = {
+  title: 'Arcus — Luxury Jewelry Brand Website | Oelrix',
+  description: 'A luxury jewelry brand website designed and built entirely by Oelrix. Elegant, timeless, and sophisticated.',
+  canonical: 'https://oelrix.tech/project/arcus',
+  openGraph: {
+    title: 'Arcus — Luxury Jewelry Brand Website',
+    description: 'A luxury jewelry brand website designed and built entirely by Oelrix.',
+    images: [{ url: '/Arcus.png', width: 1200, height: 630, alt: 'Arcus by Oelrix' }],
+    url: 'https://oelrix.tech/project/arcus',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Arcus — Luxury Jewelry Brand Website',
+    description: 'A luxury jewelry brand website designed and built entirely by Oelrix.',
+    images: ['/Arcus.png'],
+  }
+}
 
 export default function ArcusPage() {
-  return (
-    <>
-      <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400&display=swap");
-        .arcus-native-shell {
-          font-family: "Inter", sans-serif;
-          color: #1a1a1a;
-          background: #ffffff;
-        }
-        .arcus-native-shell h1,
-        .arcus-native-shell h2,
-        .arcus-native-shell h3,
-        .arcus-native-shell h4,
-        .arcus-native-shell h5,
-        .arcus-native-shell h6 {
-          font-family: "Playfair Display", serif;
-        }
-      `}</style>
-      <div className="arcus-native-shell">
-        <ArcusApp />
-      </div>
-    </>
-  );
+  return <ArcusContent />;
 }
