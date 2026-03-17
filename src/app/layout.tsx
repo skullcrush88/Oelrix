@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://oelrix.tech'),
   title: {
     default: 'Oelrix — Web Design Studio',
-    template: '%s | Oelrix'
+    template: '%s'
   },
   description: 'Oelrix is a web design studio building high-quality, custom digital experiences for brands, businesses, and individuals. Based in London.',
   keywords: [
