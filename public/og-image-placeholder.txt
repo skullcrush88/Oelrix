@@ -1,0 +1,16 @@
+OG IMAGE PLACEHOLDER
+
+This file indicates that an actual OG image should be placed at:
+/public/og-image.jpg
+
+Requirements:
+- Dimensions: 1200x630 pixels (for Facebook/LinkedIn Open Graph)
+- JPEG format
+- Should showcase Oelrix branding and sophisticated aesthetic
+- All metadata is currently pointing to this file location
+
+The SEO metadata is configured to use:
+- og:image: /og-image.jpg
+- twitter:image: /og-image.jpg
+
+Replace this note file with the actual og-image.jpg file when ready.

@@ -89,6 +89,12 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   const [valueVisible, setValueVisible] = useState<boolean[]>(
     () => layeredValues.map(() => false)
   );
+  const [partnersVisible, setPartnersVisible] = useState<boolean[]>(
+    () => clientTypes.map(() => false)
+  );
+  const [approachVisible, setApproachVisible] = useState<boolean[]>(
+    () => approachSteps.map(() => false)
+  );
   const [finalVisible, setFinalVisible] = useState(false);
   const [activeApproach, setActiveApproach] = useState(0);
   const [hoveredApproachStep, setHoveredApproachStep] = useState(0);
@@ -97,6 +103,8 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
   const autoRotateRef = useRef<number | null>(null);
   const lineRefs = useRef<Array<HTMLParagraphElement | null>>([]);
   const valueCardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const partnerCardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const approachCardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const finalRef = useRef<HTMLDivElement | null>(null);
 
@@ -173,6 +181,52 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
     );
 
     valueCardRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setPartnersVisible((prev) => {
+          const next = [...prev];
+          entries.forEach((entry) => {
+            const index = partnerCardRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index >= 0 && entry.isIntersecting) {
+              next[index] = true;
+            }
+          });
+          return next;
+        });
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    partnerCardRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setApproachVisible((prev) => {
+          const next = [...prev];
+          entries.forEach((entry) => {
+            const index = approachCardRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index >= 0 && entry.isIntersecting) {
+              next[index] = true;
+            }
+          });
+          return next;
+        });
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    approachCardRefs.current.forEach((node) => node && observer.observe(node));
     return () => observer.disconnect();
   }, []);
 
@@ -344,16 +398,16 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             yGap={36}
           />
           <div
-            className="absolute -top-32 left-1/3 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-[140px]"
+            className="absolute -top-16 md:-top-32 left-1/3 h-[16rem] md:h-[28rem] w-[16rem] md:w-[28rem] rounded-full bg-white/10 blur-[140px]"
             style={{ animation: "gradientFloat 18s ease-in-out infinite" }}
           />
           <div
-            className="absolute bottom-0 right-10 h-[22rem] w-[22rem] rounded-full bg-white/5 blur-[120px]"
+            className="absolute -bottom-10 md:bottom-0 right-2 md:right-10 h-[12rem] md:h-[22rem] w-[12rem] md:w-[22rem] rounded-full bg-white/5 blur-[120px]"
             style={{ animation: "gradientFloat 22s ease-in-out infinite" }}
           />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-24 pt-28">
+        <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-5 md:px-12 lg:px-24 pb-16 md:pb-24 pt-16 md:pt-28">
           <div
             className={`max-w-3xl transition-all duration-1000 ease-out ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -361,10 +415,10 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             style={{ transform: `translateY(${heroParallax * -1}px) scale(${heroVisible ? 1 : 0.96})` }}
           >
             <p className="mb-4 text-xs uppercase tracking-[0.5em] text-white/60">About</p>
-            <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight">
               At Oelrix
             </h1>
-            <div className="mt-8 flex items-center gap-4 text-[clamp(2.25rem,7.5vw,5.25rem)] leading-[1.08] tracking-[-0.02em]">
+            <div className="mt-8 flex items-center gap-4 text-[clamp(2.25rem,7.5vw,5.25rem)] leading-[1.08]" style={{ letterSpacing: '-0.02em' }}>
               <span className="font-semibold tracking-tight text-white normal-case">We</span>
               <span className="relative inline-flex min-w-[3.2ch] items-center overflow-visible">
                 <span
@@ -376,7 +430,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
                 </span>
               </span>
             </div>
-            <p className="mt-10 text-lg text-white/70 sm:text-xl">
+            <p className="mt-10 text-base md:text-lg lg:text-xl text-white/70">
           We are a studio devoted to presence, where design serves as the quiet authority that defines a brand’s perception. At Oelrix, we craft every detail with precision and purpose, ensuring what you present communicates credibility, clarity, and distinction.
             </p>
           </div>
@@ -385,7 +439,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
 
       <section
         ref={statementSectionRef}
-        className="relative w-full overflow-hidden pb-8 pt-12 sm:pb-16 sm:pt-24"
+        className="relative w-full overflow-hidden pb-6 pt-8 md:pb-12 md:pt-16 lg:pb-16 lg:pt-24"
       >
         <div className="pointer-events-none absolute inset-0">
           <div
@@ -400,8 +454,8 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           />
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="relative z-10 mx-auto max-w-6xl px-6 flex flex-col sm:block">
-          <div className="max-w-none sm:max-w-3xl space-y-3 sm:space-y-6 w-1/2 sm:w-auto text-sm sm:text-base">
+        <div className="relative z-10 mx-auto max-w-6xl px-5 md:px-12 lg:px-24 flex flex-col sm:block">
+          <div className="max-w-none sm:max-w-3xl space-y-3 sm:space-y-6 w-full sm:w-auto text-sm sm:text-base">
             {statementLines.map((line, index) => (
               <p
                 key={line}
@@ -422,46 +476,11 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </section>
 
-      <section className="relative w-full overflow-hidden">
-        <div className="relative w-full px-8 md:px-16 lg:px-24 py-24 space-y-6">
-          <p className="text-xs uppercase tracking-[0.5em] text-white/40">Values</p>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight max-w-4xl">Layered by intent.</h2>
-        </div>
-        <div className="w-full">
-          {layeredValues.map((value, index) => (
-            <div
-              key={value.title}
-              ref={(node) => {
-                valueCardRefs.current[index] = node;
-              }}
-              className={`group relative min-h-screen overflow-hidden flex flex-col justify-center items-start px-8 md:px-16 lg:px-24 border-b border-white/10 transition-all duration-700 ease-out ${
-                valueVisible[index] ? "opacity-100" : "opacity-0"
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              <p className="absolute top-12 left-8 md:left-16 lg:left-24 text-xs uppercase tracking-widest text-white/20">
-                0{index + 1}
-              </p>
-
-              <h3 className="text-[15vw] font-bold leading-none text-white">
-                {value.title}
-              </h3>
-
-              <p className="absolute bottom-12 right-8 md:right-16 lg:right-24 max-w-sm text-right text-sm text-white/0 group-hover:text-white/60 transition-all duration-700">
-                {value.body}
-              </p>
-
-              <div className="absolute bottom-0 left-0 h-px bg-white/20 w-0 group-hover:w-full transition-all duration-700" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative w-full px-6 py-24 pb-24 border-t border-white/10">
-        <div className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between max-w-6xl mx-auto">
+      <section className="relative w-full px-5 md:px-12 lg:px-24 py-16 md:py-24 lg:py-32 border-t border-white/10">
+        <div className="mb-16 flex flex-col gap-4 sm:gap-8 sm:flex-row sm:items-end sm:justify-between max-w-6xl mx-auto">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-white/50">Who we work with</p>
-            <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Partners with ambition.</h2>
+            <h2 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-semibold">Partners with ambition.</h2>
           </div>
           <p className="max-w-md text-sm text-white/60">
             We partner with people who believe brand is felt before it is understood.
@@ -471,8 +490,11 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
           {clientTypes.map((type, index) => (
             <div
               key={type.name}
+              ref={(node) => {
+                partnerCardRefs.current[index] = node;
+              }}
               className={`group relative overflow-hidden transition-all duration-700 ease-out ${
-                valueVisible[index] ? "opacity-100" : "opacity-0"
+                partnersVisible[index] ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: `${index * 100}ms`, aspectRatio: '4/3' }}
             >
@@ -503,29 +525,32 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-6 py-28 pb-24 border-t border-white/10">
+      <section className="relative mx-auto max-w-6xl px-5 md:px-12 lg:px-24 py-16 md:py-28 border-t border-white/10">
         <div className="space-y-10">
           <p className="text-xs uppercase tracking-[0.4em] text-white/50">Approach</p>
-          <h2 className="text-4xl font-semibold sm:text-5xl">A calm, precise process.</h2>
-          <div className="flex flex-col lg:flex-row gap-16 items-start">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold">A calm, precise process.</h2>
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left side - Steps list */}
             <div className="w-full lg:w-1/2 space-y-0 border-t border-white/10">
               {approachSteps.map((step, index) => (
                 <div
                   key={step.title}
+                  ref={(node) => {
+                    approachCardRefs.current[index] = node;
+                  }}
                   onMouseEnter={() => setHoveredApproachStep(index)}
-                  className={`cursor-pointer transition-all duration-300 ease-out py-6 border-b border-white/10 group hover:bg-white/[0.01] px-6 -mx-6 ${
-                    valueVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                  className={`cursor-pointer transition-all duration-300 ease-out py-4 md:py-6 border-b border-white/10 group hover:bg-white/[0.01] px-5 md:px-6 -mx-5 md:-mx-6 ${
+                    approachVisible[index] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
                   }`}
                   style={{ transitionDelay: `${index * 120}ms` }}
                 >
                   <p className="text-xs uppercase tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors duration-300">
                     Step 0{index + 1}
                   </p>
-                  <h3 className="mt-3 text-2xl font-semibold tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left text-white/80 group-hover:text-white">
+                  <h3 className="mt-3 text-xl md:text-2xl font-semibold tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left text-white/80 group-hover:text-white">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-sm text-white/60 sm:text-base">
+                  <p className="mt-2 text-sm text-white/60">
                     {step.body}
                   </p>
                 </div>
@@ -533,7 +558,7 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
             </div>
 
             {/* Right side - Dynamic card */}
-            <div className="w-full lg:w-1/2 sticky top-32">
+            <div className="w-full lg:w-1/2 lg:sticky top-32">
               <div className="rounded-none border border-white/10 overflow-hidden bg-black/40 backdrop-blur-sm">
                 {/* Image container */}
                 <div className="relative w-full aspect-square overflow-hidden bg-white/5">
@@ -549,17 +574,52 @@ export default function AboutSection({ includeNav = false }: AboutSectionProps) 
                 </div>
 
                 {/* Info strip */}
-                <div className="bg-black/80 px-6 py-4 border-t border-white/10">
+                <div className="bg-black/80 px-4 md:px-6 py-3 md:py-4 border-t border-white/10">
                   <p className="text-xs uppercase tracking-[0.3em] text-white/40">
                     {String(hoveredApproachStep + 1).padStart(2, '0')} — Step
                   </p>
-                  <h4 className="mt-2 text-xl font-semibold text-white">
+                  <h4 className="mt-2 text-lg md:text-xl font-semibold text-white">
                     {approachSteps[hoveredApproachStep]?.title}
                   </h4>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="relative w-full overflow-hidden">
+        <div className="relative w-full px-5 md:px-12 lg:px-24 py-16 md:py-24 lg:py-32 space-y-6">
+          <p className="text-xs uppercase tracking-[0.5em] text-white/40">Values</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight max-w-4xl">Layered by intent.</h2>
+        </div>
+        <div className="w-full">
+          {layeredValues.map((value, index) => (
+            <div
+              key={value.title}
+              ref={(node) => {
+                valueCardRefs.current[index] = node;
+              }}
+              className={`group relative min-h-[60vh] md:min-h-screen overflow-hidden flex flex-col justify-center items-start px-5 md:px-12 lg:px-24 border-b border-white/10 transition-all duration-700 ease-out ${
+                valueVisible[index] ? "opacity-100" : "opacity-0"
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              <p className="absolute top-8 left-5 md:top-12 md:left-12 lg:left-24 text-xs uppercase tracking-widest text-white/20">
+                0{index + 1}
+              </p>
+
+              <h3 className="text-[12vw] md:text-[15vw] font-bold leading-none text-white">
+                {value.title}
+              </h3>
+
+              <p className="absolute bottom-8 md:bottom-12 right-5 md:right-12 lg:right-24 max-w-sm text-right text-sm text-white/0 group-hover:text-white/60 transition-all duration-700">
+                {value.body}
+              </p>
+
+              <div className="absolute bottom-0 left-0 h-px bg-white/20 w-0 group-hover:w-full transition-all duration-700" />
+            </div>
+          ))}
         </div>
       </section>
 

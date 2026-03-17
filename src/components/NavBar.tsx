@@ -103,18 +103,18 @@ export default function NavBar() {
 
       {/* Mobile Menu */}
       <div 
-        className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-md border-b border-white/5 overflow-hidden transition-all duration-300 ${
-          mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`md:hidden fixed inset-0 top-20 bg-black/95 backdrop-blur-md z-40 overflow-hidden transition-all duration-300 ${
+          mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
-        <div className="flex flex-col gap-0 p-4">
+        <div className="flex flex-col gap-0 p-6 pt-12 h-full items-center justify-start">
           {navItems.map((item) => (
             <button
               key={item.path}
               onClick={() => handleClick(item.path)}
-              className={`px-4 py-3 text-left text-xs uppercase tracking-widest transition-colors duration-300 ${
+              className={`w-full py-4 text-center text-2xl font-semibold uppercase tracking-widest transition-colors duration-300 ${
                 pathname === item.path
-                  ? 'text-white border-b border-white/20'
+                  ? 'text-white'
                   : 'text-white/50 hover:text-white'
               }`}
             >
@@ -123,9 +123,9 @@ export default function NavBar() {
           ))}
           <button
             onClick={() => handleClick('/contact')}
-            className="mt-4 px-4 py-3 text-xs uppercase tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+            className="w-full mt-8 py-4 text-center text-2xl font-semibold uppercase tracking-widest text-white hover:text-white transition-colors duration-300"
           >
-            Get Started →
+            Get Started
           </button>
         </div>
       </div>

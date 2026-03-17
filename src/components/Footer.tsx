@@ -1,5 +1,7 @@
 ﻿"use client";
 
+import Link from "next/link";
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -14,7 +16,7 @@ export default function Footer() {
       <div className="py-12 flex justify-between items-start">
         {/* Left Side - Description */}
         <div className="flex-1">
-          <p className="text-sm text-white/30 max-w-xs">Premium web design studio</p>
+          <p className="text-sm text-white/30 max-w-xs">Web design studio</p>
         </div>
 
         {/* Right Side - Three Columns */}
@@ -23,10 +25,10 @@ export default function Footer() {
           <div>
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Navigation</p>
             <nav className="space-y-2">
-              <a href="/" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</a>
-              <a href="/about" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</a>
-              <a href="/services" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</a>
-              <a href="/contact" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</a>
+              <Link href="/" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</Link>
+              <Link href="/about" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</Link>
+              <Link href="/services" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</Link>
+              <Link href="/contact" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</Link>
             </nav>
           </div>
 

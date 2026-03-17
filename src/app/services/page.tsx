@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import LightRays from "@/components/LightRays";
 import MarqueeTicker from "@/src/components/MarqueeTicker";
 import CustomCursor from "@/src/components/CustomCursor";
@@ -54,7 +55,7 @@ const SERVICES: Service[] = [
         label: "ARCUS",
         href: "/websites/arcus",
         image: "/ARCUS.png",
-        description: "Premium architecture & interior design studio website",
+        description: "Custom architecture & interior design studio website",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
       },
     ],
@@ -63,7 +64,7 @@ const SERVICES: Service[] = [
     tag: "ESTABLISH",
     title: "Focused Landing Pages",
     description:
-      "High-clarity pages designed to guide attention, highlight your core value, and turn interest into action. Each element serves the conversion goal.",
+      "One page. One goal. No distractions. Built for the moment when someone needs to be convinced — fast.",
     deliverables: [
       "Single conversion-focused page",
       "Lead capture form",
@@ -123,35 +124,7 @@ const SERVICES: Service[] = [
   },
 ];
 
-function revealClasses(isVisible: boolean, duration: number = 700) {
-  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
-    isVisible ? "opacity-100 translate-y-0 translate-x-0 scale-100" : "opacity-0"
-  }`;
-}
 
-function fadeUp(isVisible: boolean, delay: number = 0, duration: number = 700, translateDistance: number = 30) {
-  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
-    isVisible ? "opacity-100 translate-y-0" : `opacity-0 translate-y-[${translateDistance}px]`
-  }`;
-}
-
-function slideInLeft(isVisible: boolean, delay: number = 0, duration: number = 700) {
-  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
-    isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-[40px]"
-  }`;
-}
-
-function slideInRight(isVisible: boolean, delay: number = 0, duration: number = 700) {
-  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
-    isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[40px]"
-  }`;
-}
-
-function scaleIn(isVisible: boolean, duration: number = 700) {
-  return `transition-all duration-[${duration}ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${
-    isVisible ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
-  }`;
-}
 
 function CheckIcon() {
   return (
@@ -167,18 +140,19 @@ function CheckIcon() {
   );
 }
 
-function WordSplit({ text, isVisible, duration = 700, translateY = 30 }: { text: string; isVisible: boolean; duration?: number; translateY?: number }) {
+function WordSplit({ text, isVisible }: { text: string; isVisible: boolean }) {
   const words = text.split(" ");
   return (
     <>
       {words.map((word, index) => (
         <span
           key={index}
-          className={`inline-block ${fadeUp(isVisible, 0, duration, translateY)} mr-3 will-change-[transform,opacity]`}
+          className="inline-block mr-3"
           style={{
-            transitionDelay: `${index * 80}ms`,
             opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateY(0)" : `translateY(${translateY}px)`,
+            transform: isVisible ? "translateY(0)" : "translateY(32px)",
+            transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+            transitionDelay: `${index * 150}ms`,
           }}
         >
           {word}
@@ -188,7 +162,7 @@ function WordSplit({ text, isVisible, duration = 700, translateY = 30 }: { text:
   );
 }
 
-function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: PreviewCard; delay: number; isInView: boolean; shifted?: boolean }) {
+function ServicePreviewCard({ preview, delay, inView, shifted }: { preview: PreviewCard; delay: number; inView: boolean; shifted?: boolean }) {
   const isImage = preview.href.endsWith('.png') || preview.href.endsWith('.jpg') || preview.href.endsWith('.jpeg');
   
   return (
@@ -198,10 +172,15 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
       rel={isImage ? undefined : "noopener noreferrer"}
       onClick={isImage ? (e) => e.preventDefault() : undefined}
       className={`group block ${shifted ? "sm:mt-6 md:mt-8" : ""}`}
-      style={{ transitionDelay: `${delay}ms` }}
     >
       <div
-        className={`${revealClasses(isInView)} overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-white/25 bg-gradient-to-br from-white/[0.12] via-white/[0.04] to-white/[0.02] p-3 sm:p-5 shadow-[0_16px_48px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 group-hover:scale-105 group-hover:border-white/40 group-hover:shadow-[0_24px_64px_rgba(255,255,255,0.2),inset_0_1px_0_rgba(255,255,255,0.15)]`}
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? "scale(1)" : "scale(0.96)",
+          transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+          transitionDelay: `${delay}ms`,
+        }}
+        className="overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-white/25 bg-gradient-to-br from-white/[0.12] via-white/[0.04] to-white/[0.02] p-3 sm:p-5 shadow-[0_16px_48px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 group-hover:scale-105 group-hover:border-white/40 group-hover:shadow-[0_24px_64px_rgba(255,255,255,0.2),inset_0_1px_0_rgba(255,255,255,0.15)]"
       >
         <div className="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3 px-1">
           <span className="h-2.5 sm:h-3 w-2.5 sm:w-3 rounded-full bg-[#ff5f57] shadow-[0_2px_8px_rgba(255,95,87,0.3)]" />
@@ -233,18 +212,22 @@ function ServicePreviewCard({ preview, delay, isInView, shifted }: { preview: Pr
   );
 }
 
-function CleanProjectPreview({ preview, delay, isInView }: { preview: PreviewCard; delay: number; isInView: boolean }) {
+function CleanProjectPreview({ preview, delay, inView }: { preview: PreviewCard; delay: number; inView: boolean }) {
   return (
     <a
       href={preview.href}
       target="_blank"
       rel="noopener noreferrer"
       className="group block"
-      style={{ transitionDelay: `${delay}ms` }}
     >
       <div
-        className={`${scaleIn(isInView)} overflow-hidden rounded-sm`}
-        style={{ transitionDelay: `${delay}ms` }}
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? "scale(1)" : "scale(0.96)",
+          transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+          transitionDelay: `${delay}ms`,
+        }}
+        className="overflow-hidden rounded-sm"
       >
         <img
           src={preview.image}
@@ -263,27 +246,13 @@ function CleanProjectPreview({ preview, delay, isInView }: { preview: PreviewCar
 }
 
 function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBorder?: boolean }) {
-  const [isMobileView, setIsMobileView] = useState(false);
-
-  useEffect(() => {
-    setIsMobileView(window.innerWidth < 768);
-    const handleResize = () => setIsMobileView(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const duration = isMobileView ? 900 : 700;
-  const staggerDelay = isMobileView ? 60 : 100;
-  const translateY = isMobileView ? 16 : 30;
-  const threshold = isMobileView ? 0.1 : 0.25;
-
-  const { ref, isInView } = useInView<HTMLDivElement>({ threshold });
+  const { ref, inView } = useInView();
 
   // Custom layout for Brand Websites
   if (service.customLayout) {
     return (
       <div
-        ref={ref}
+        ref={ref as any}
         className={`relative px-6 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
       >
         <div className="mx-auto max-w-7xl w-full">
@@ -292,18 +261,36 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
             <div className={`flex flex-col ${service.align === "left" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 md:gap-16 items-start`}>
               {/* Left column */}
               <div className="w-full lg:w-1/2">
-                <p className={`${slideInRight(isInView, 0, duration)} text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+                <p 
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "translateY(0)" : "translateY(32px)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "0ms",
+                  }}
+                  className="text-xs uppercase tracking-[0.5em] text-white/45 font-bold"
+                >
                   {service.tag}
                 </p>
                 <h2
-                  className={`${slideInRight(isInView, 0, duration)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight`}
-                  style={{ transitionDelay: `${staggerDelay}ms` }}
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "translateY(0)" : "translateY(32px)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "150ms",
+                  }}
+                  className="mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight"
                 >
                   {service.title}
                 </h2>
                 <p
-                  className={`${slideInRight(isInView, 0, duration)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
-                  style={{ transitionDelay: `${staggerDelay * 2}ms` }}
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "translateY(0)" : "translateY(32px)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "300ms",
+                  }}
+                  className="text-base sm:text-lg md:text-base leading-relaxed text-white/75"
                 >
                   {service.description}
                 </p>
@@ -312,24 +299,36 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
               {/* Right column */}
               <div className="w-full lg:w-1/2 pt-0 md:pt-16">
                 <p
-                  className={`${slideInRight(isInView, 0, duration)} text-white/60 text-base leading-relaxed max-w-md`}
-                  style={{ transitionDelay: `${staggerDelay * 3}ms` }}
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "translateY(0)" : "translateY(32px)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "450ms",
+                  }}
+                  className="text-white/60 text-base leading-relaxed max-w-md"
                 >
                   {service.tag === "LAUNCH" 
                     ? "Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated."
                     : service.tag === "ESTABLISH"
-                    ? "Every brand website we build is a fully custom digital experience — designed from scratch, built for performance, and crafted to communicate your value at first glance. From structure to typography to the smallest interaction, nothing is templated."
+                    ? "A landing page has one job — and we build it to do that job exceptionally well. Every section, every line of copy, every visual decision is made with a single outcome in mind: turning the right visitor into a lead, a signup, or a sale."
                     : "Every refinement project begins with a full audit of what exists — structure, performance, and perception. We rebuild what needs rebuilding and sharpen what doesn't."}
                 </p>
 
-                <div className={slideInRight(isInView, 0, duration)} style={{ transitionDelay: `${staggerDelay * 4}ms` }}>
-                  <a
+                <div 
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "translateY(0)" : "translateY(32px)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "600ms",
+                  }}
+                >
+                  <Link
                     href="/contact"
                     className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
                   >
-                    Start this project
+                    {service.tag === "LAUNCH" ? "See how we build it" : service.tag === "ESTABLISH" ? "Explore this service" : "Talk about your site"}
                     <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -340,7 +339,14 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
             {service.tag === "EVOLVE" ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Before Image */}
-                <div>
+                <div
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "scale(1)" : "scale(0.96)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "600ms",
+                  }}
+                >
                   <img
                     src="/before.jpg"
                     alt="Before"
@@ -352,7 +358,14 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                 </div>
 
                 {/* After Image */}
-                <div>
+                <div
+                  style={{
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? "scale(1)" : "scale(0.96)",
+                    transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                    transitionDelay: "750ms",
+                  }}
+                >
                   <img
                     src="/after.jpg"
                     alt="After"
@@ -370,8 +383,8 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                   <CleanProjectPreview
                     key={preview.label}
                     preview={preview}
-                    delay={350 + index * 100}
-                    isInView={isInView}
+                    delay={600 + index * 150}
+                    inView={inView}
                   />
                 ))}
               </div>
@@ -385,38 +398,59 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
   // Standard layout for other services
   const textOrder = service.align === "left" ? "order-2 md:order-1" : "order-2 md:order-2";
   const previewOrder = service.align === "left" ? "order-1 md:order-2" : "order-1 md:order-1";
-  const textAlign = service.align === "left" ? "text-left" : "text-left md:text-right";
-  const listAlign = service.align === "left" ? "items-start" : "items-start md:items-end";
 
   return (
     <div
-      ref={ref}
-      className={`relative min-h-screen md:min-h-auto px-6 md:px-12 py-16 sm:py-20 md:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
+      ref={ref as any}
+      className={`relative min-h-screen md:min-h-auto px-5 md:px-12 lg:px-24 py-12 md:py-16 lg:py-24 ${hasBorder ? "border-b border-white/15" : ""}`}
     >
       <div className="mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 md:gap-20 md:grid-cols-2">
         <div className={`${textOrder} max-w-2xl w-full`}>
-          <p className={`${revealClasses(isInView, duration)} mb-4 sm:mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold`} style={{ transitionDelay: "0ms" }}>
+          <p 
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(32px)",
+              transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDelay: "0ms",
+            }}
+            className="mb-4 sm:mb-6 text-xs uppercase tracking-[0.5em] text-white/45 font-bold"
+          >
             {service.tag}
           </p>
           <h2
-            className={`${revealClasses(isInView, duration)} mb-6 sm:mb-8 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight`}
-            style={{ transitionDelay: `${staggerDelay}ms` }}
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(32px)",
+              transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDelay: "150ms",
+            }}
+            className="mb-6 sm:mb-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight"
           >
             {service.title}
           </h2>
           <p
-            className={`${revealClasses(isInView, duration)} text-base sm:text-lg md:text-base leading-relaxed text-white/75`}
-            style={{ transitionDelay: `${staggerDelay * 2}ms` }}
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(32px)",
+              transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDelay: "300ms",
+            }}
+            className="text-sm sm:text-base md:text-lg leading-relaxed text-white/75"
           >
             {service.description}
           </p>
 
-          <ul className={`mt-8 sm:mt-12 space-y-4 sm:space-y-5 ${listAlign}`}>
+          <ul className="mt-8 sm:mt-12 space-y-4 sm:space-y-5">
             {service.deliverables.map((item, index) => (
               <li
                 key={item}
-                className={`${revealClasses(isInView, duration)} flex max-w-md items-start gap-3 sm:gap-4 text-sm sm:text-base text-white/80`}
-                style={{ transitionDelay: `${300 + index * staggerDelay}ms` }}
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? "translateY(0)" : "translateY(32px)",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: `${450 + index * 150}ms`,
+                }}
+                className="flex max-w-md items-start gap-3 sm:gap-4 text-sm sm:text-base text-white/80"
               >
                 <span className="mt-1.5 flex-shrink-0 rounded-full bg-white/15 p-1">
                   <CheckIcon />
@@ -426,14 +460,21 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
             ))}
           </ul>
 
-          <div className={revealClasses(isInView, duration)} style={{ transitionDelay: `${300 + service.deliverables.length * staggerDelay}ms` }}>
-            <a
+          <div 
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(32px)",
+              transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDelay: `${600 + service.deliverables.length * 150}ms`,
+            }}
+          >
+            <Link
               href="/contact"
-              className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
+              className="mt-8 sm:mt-12 flex md:inline-flex w-full md:w-auto justify-center items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
             >
-              Start this project
+              {service.tag === "LAUNCH" ? "See how we build it" : service.tag === "ESTABLISH" ? "Explore this service" : "Talk about your site"}
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -443,8 +484,8 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
               <ServicePreviewCard
                 key={preview.label}
                 preview={preview}
-                delay={300 + service.deliverables.length * 100 + 100 + index * 100}
-                isInView={isInView}
+                delay={600 + service.deliverables.length * 150 + 100 + index * 150}
+                inView={inView}
                 shifted={index === 1}
               />
             ))}
@@ -456,270 +497,216 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
 }
 
 export default function Services() {
-  const [introVisible, setIntroVisible] = useState(false);
-  const [capabilityVisible, setCapabilityVisible] = useState<boolean[]>([false, false]);
-  const [manifestoVisible, setManifestoVisible] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
-    setIsMobileView(window.innerWidth < 768);
-    const handleResize = () => setIsMobileView(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // Hero appears on page load after delay
+    setHeroVisible(true);
   }, []);
 
-  const introThreshold = isMobileView ? 0.1 : 0.5;
-  const ctaThreshold = isMobileView ? 0.1 : 0.35;
-  const duration = isMobileView ? 900 : 700;
-  const staggerDelay = isMobileView ? 60 : 100;
-  const translateY = isMobileView ? 16 : 30;
+  const { ref: closingCtaRef, inView: closingCtaVisible } = useInView();
 
-  const { ref: closingCtaRef, isInView: closingCtaVisible } = useInView<HTMLDivElement>({ threshold: ctaThreshold });
-
-  const introRef = useRef<HTMLDivElement>(null);
-  const capabilityRefs = useRef<(HTMLParagraphElement | null)[]>([null, null]);
-  const manifestoRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!introRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIntroVisible(true);
-        }
-      },
-      { threshold: introThreshold }
-    );
-    observer.observe(introRef.current);
-    return () => observer.disconnect();
-  }, [introThreshold]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = capabilityRefs.current.indexOf(entry.target as HTMLParagraphElement);
-            if (index >= 0) {
-              setCapabilityVisible((prev) => {
-                const next = [...prev];
-                next[index] = true;
-                return next;
-              });
-            }
-          }
-        });
-      },
-      { threshold: introThreshold }
-    );
-    capabilityRefs.current.forEach((ref) => ref && observer.observe(ref));
-    return () => observer.disconnect();
-  }, [introThreshold]);
-
-  useEffect(() => {
-    if (!manifestoRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setManifestoVisible(true);
-        }
-      },
-      { threshold: introThreshold }
-    );
-    observer.observe(manifestoRef.current);
-    return () => observer.disconnect();
-  }, [introThreshold]);
+  // Manifesto section with early trigger: 0.05 threshold and -5% rootMargin
+  const { ref: manifestoRef, inView: manifestoInView } = useInView({ threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
 
   return (
     <SmoothScroll>
       <main className="w-full bg-black text-white overflow-hidden">
         <CustomCursor />
-      {/* INTRO SECTION */}
-      <section className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen">
-        <Image
-          src="/bg10.png"
-          alt=""
-          fill
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ opacity: 0.5 }}
-          priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 100%)'
-          }}
-        />
-        <div
-          ref={introRef}
-          className={`relative z-10 px-6 sm:px-8 md:px-16 lg:px-24 py-24 sm:py-32 pb-16 transition-all duration-1000 ease-out flex items-end md:items-center h-full ${
-            introVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <div className="w-full">
-            <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-8 sm:mb-12">Oelrix Studio</p>
-            <h1 className="w-full text-5xl md:text-6xl lg:text-[6vw] font-bold tracking-tight leading-[0.9] mb-6 sm:mb-8">
-              <WordSplit text="We build digital presence that defines how brands are perceived." isVisible={introVisible} duration={duration} translateY={translateY} />
-            </h1>
-            <p className={`${fadeUp(introVisible, 0, duration, translateY)} mt-12 text-sm text-white/50 leading-relaxed max-w-sm`}>
-              Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <MarqueeTicker />
-
-      {/* BUILD BLOCKS */}
-      <section className="w-full">
-        {SERVICES.map((service, index) => (
-          <ServiceBlock
-            key={service.tag}
-            service={service}
-            hasBorder={index < SERVICES.length - 1}
+        {/* INTRO SECTION */}
+        <section className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen">
+          <Image
+            src="/bg10.png"
+            alt=""
+            fill
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            style={{ opacity: 0.5 }}
+            priority
           />
-        ))}
-      </section>
-
-      {/* CAPABILITY STATEMENT & MANIFESTO */}
-      <section className="relative w-full overflow-hidden min-h-[600px]">
-        <style>{``}</style>
-        <Image
-          src="/bg12.png"
-          alt="Oelrix Studio"
-          fill
-          className="absolute inset-0 w-full h-full object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-          style={{
-            objectFit: 'cover',
-            objectPosition: 'center',
-            WebkitMaskImage: 'none',
-            maskImage: 'none',
-            opacity: 0.4,
-            transform: closingCtaVisible ? "scale(1)" : "scale(1.05)",
-          }}
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 py-20 sm:py-32 md:py-32">
-          <div className="space-y-6 sm:space-y-12">
-            <div className="w-full overflow-hidden">
-              {["We don't build volume.", "We build clarity."].map((line, index) => (
-                <div key={line} className="w-full overflow-hidden">
-                  {index === 0 ? (
-                    // First line - static, full text visible
-                    <p
-                      ref={(el) => {
-                        capabilityRefs.current[index] = el;
-                      }}
-                      className={`text-4xl md:text-[8vw] px-6 md:px-16 lg:px-24 pt-16 pb-16 font-bold leading-tight text-white will-change-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        capabilityVisible[index]
-                          ? "opacity-100 translate-y-0"
-                          : `opacity-0 translate-y-[${isMobileView ? 16 : 60}px]`
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 200}ms`,
-                        transitionDuration: `${duration}ms`,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {line}
-                    </p>
-                  ) : (
-                    // Second line - animated marquee
-                    <div
-                      style={{
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <p
-                        ref={(el) => {
-                          capabilityRefs.current[index] = el;
-                        }}
-                      className={`text-4xl md:text-[8vw] px-6 md:px-16 lg:px-24 pt-16 pb-16 font-bold leading-tight text-white will-change-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        capabilityVisible[index]
-                          ? "opacity-100 translate-y-0"
-                          : `opacity-0 translate-y-[${isMobileView ? 16 : 60}px]`
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 200}ms`,
-                        transitionDuration: `${duration}ms`,
-                        whiteSpace: 'nowrap',
-
-                          width: 'max-content',
-                        }}
-                      >
-                        {line}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div
-              ref={manifestoRef}
-              className={`ease-[cubic-bezier(0.16,1,0.3,1)] px-6 md:px-16 lg:px-24 will-change-[opacity] ${
-                manifestoVisible ? "opacity-100" : "opacity-0"
-              }`}
-              style={{ transitionDelay: `600ms`, transitionDuration: `${duration}ms` }}
-            >
-              <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl leading-relaxed text-white max-w-4xl">
-                What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.70) 40%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 100%)'
+            }}
+          />
+          <div
+            className="relative z-10 px-5 md:px-12 lg:px-24 py-20 sm:py-24 md:py-32 pb-12 md:pb-16 flex items-end md:items-center h-full"
+          >
+            <div className="w-full">
+              <p 
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(32px)",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: "300ms",
+                }}
+                className="text-xs uppercase tracking-[0.3em] text-white/40 mb-6 md:mb-8 lg:mb-12"
+              >
+                Oelrix Studio
+              </p>
+              <h1 
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transitionDuration: "1s",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: "500ms",
+                }}
+                className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[6vw] font-bold tracking-tight leading-[0.9] mb-4 md:mb-6 lg:mb-8"
+              >
+                We build digital presence that defines how brands are perceived.
+              </h1>
+              <p 
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(32px)",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: "1100ms",
+                }}
+                className="mt-8 md:mt-12 text-xs sm:text-sm text-white/50 leading-relaxed max-w-sm md:max-w-md"
+              >
+                Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
               </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section
-        ref={closingCtaRef}
-        className="w-full bg-transparent py-24 sm:py-40 px-6 md:px-12 flex flex-col items-center justify-center border-t border-white/10"
-      >
-        <div className="mx-auto max-w-5xl text-center relative">
-          <p className="text-xs uppercase tracking-widest text-white/20 mb-6 sm:mb-8">Oelrix Studio</p>
-          
-          {/* Radial glow behind heading */}
-          <div
+        <MarqueeTicker />
+
+        {/* BUILD BLOCKS */}
+        <section className="w-full">
+          {SERVICES.map((service, index) => (
+            <ServiceBlock
+              key={service.tag}
+              service={service}
+              hasBorder={index < SERVICES.length - 1}
+            />
+          ))}
+        </section>
+
+        {/* CAPABILITY STATEMENT & MANIFESTO */}
+        <section
+          ref={manifestoRef as any}
+          className="relative w-full overflow-hidden min-h-[500px] md:min-h-[600px]"
+        >
+          <Image
+            src="/bg12.png"
+            alt="Oelrix Studio"
+            fill
+            className="absolute inset-0 w-full h-full object-cover"
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '600px',
-              height: '600px',
-              background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)',
-              pointerEvents: 'none',
-              zIndex: 0,
+              objectFit: 'cover',
+              objectPosition: 'center',
+              opacity: 0.4,
+              transform: closingCtaVisible ? "scale(1)" : "scale(1.05)",
+              transition: "transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           />
-          
-          <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white w-full relative z-10"
-          >
-            <WordSplit text="Every great website starts with one conversation." isVisible={closingCtaVisible} duration={duration} translateY={translateY} />
-          </h2>
-          <div
-            className={`ease-[cubic-bezier(0.16,1,0.3,1)] mt-8 sm:mt-12 will-change-[transform,opacity]`}
-            style={{
-              transitionDelay: `500ms`,
-              transitionDuration: `${duration}ms`,
-              opacity: closingCtaVisible ? 1 : 0,
-              transform: closingCtaVisible ? "translateY(0)" : "translateY(16px)",
-              position: 'relative',
-              zIndex: 10,
-            }}
-          >
-            <a
-              href="/contact"
-              className="inline-block text-xs sm:text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
-            >
-              Start yours →
-            </a>
+          <div className="absolute inset-0 bg-black/75 md:bg-black/50" />
+          <div className="relative z-10 py-16 md:py-20 lg:py-32">
+            <div className="space-y-6 sm:space-y-8 md:space-y-12">
+              <div className="w-full overflow-hidden">
+                {["We don't build volume.", "We build clarity."].map((line, index) => (
+                  <div key={line} className="w-full overflow-hidden">
+                    <p
+                      style={{
+                        opacity: manifestoInView ? 1 : 0,
+                        transform: manifestoInView ? "translateX(0)" : "translateX(-48px)",
+                        transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                        transitionDelay: `${index * 200}ms`,
+                        willChange: "opacity, transform",
+                      }}
+                      className="text-2xl sm:text-4xl md:text-6xl lg:text-[8vw] px-5 md:px-12 lg:px-24 pt-8 md:pt-12 lg:pt-16 pb-8 md:pb-12 lg:pb-16 font-bold leading-tight text-white"
+                    >
+                      {line}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{
+                  opacity: manifestoInView ? 1 : 0,
+                  transform: manifestoInView ? "translateY(0)" : "translateY(32px)",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: "600ms",
+                  willChange: "opacity, transform",
+                }}
+                className="px-5 md:px-12 lg:px-24"
+              >
+                <p className="text-sm sm:text-base md:text-lg lg:text-2xl leading-relaxed text-white max-w-4xl">
+                  What we create is designed to be understood instantly, trusted immediately, and remembered effortlessly.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Premium Footer */}
-      <Footer />
-    </main>
+        <section
+          ref={closingCtaRef}
+          className="w-full bg-transparent py-16 md:py-24 lg:py-40 px-5 md:px-12 lg:px-24 flex flex-col items-center justify-center border-t border-white/10"
+        >
+          <div className="mx-auto max-w-5xl text-center relative">
+            <p 
+              style={{
+                opacity: closingCtaVisible ? 1 : 0,
+                transform: closingCtaVisible ? "translateY(0)" : "translateY(32px)",
+                transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: "0ms",
+              }}
+              className="text-xs uppercase tracking-widest text-white/20 mb-6 sm:mb-8"
+            >
+              Oelrix Studio
+            </p>
+            
+            {/* Radial glow behind heading */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '600px',
+                height: '600px',
+                background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)',
+                pointerEvents: 'none',
+                zIndex: 0,
+              }}
+            />
+            
+            <h2
+              style={{
+                opacity: closingCtaVisible ? 1 : 0,
+                transitionDuration: "1.4s",
+                transition: "opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: "150ms",
+              }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white w-full relative z-10"
+            >
+              Every great website starts with one conversation.
+            </h2>
+            <div
+              style={{
+                opacity: closingCtaVisible ? 1 : 0,
+                transform: closingCtaVisible ? "translateY(0)" : "translateY(24px)",
+                transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: "750ms",
+                position: 'relative',
+                zIndex: 10,
+              }}
+              className="mt-8 sm:mt-12"
+            >
+              <Link
+                href="/contact"
+                className="inline-block text-xs sm:text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
+              >
+                Let's talk about your project →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <Footer />
+      </main>
     </SmoothScroll>
   );
 }
