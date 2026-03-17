@@ -4,7 +4,9 @@ import { NoxeContent } from './noxe-content';
 export const metadata: Metadata = {
   title: 'NOXE — Luxury Fragrance Brand Website | Oelrix',
   description: 'A luxury fragrance brand website designed and built entirely by Oelrix. Dark, editorial, and intentional.',
-  canonical: 'https://oelrix.tech/project/noxe',
+  alternates: {
+    canonical: 'https://oelrix.tech/project/noxe',
+  },
   openGraph: {
     title: 'NOXE — Luxury Fragrance Brand Website',
     description: 'A luxury fragrance brand website designed and built entirely by Oelrix.',

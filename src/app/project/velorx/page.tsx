@@ -4,7 +4,9 @@ import { VelorxContent } from './velorx-content';
 export const metadata: Metadata = {
   title: 'Velorx — Electric Vehicle Brand Website | Oelrix',
   description: 'An electric vehicle brand website designed and built entirely by Oelrix. Futuristic, innovative, and cutting-edge.',
-  canonical: 'https://oelrix.tech/project/velorx',
+  alternates: {
+    canonical: 'https://oelrix.tech/project/velorx',
+  },
   openGraph: {
     title: 'Velorx — Electric Vehicle Brand Website',
     description: 'An electric vehicle brand website designed and built entirely by Oelrix.',

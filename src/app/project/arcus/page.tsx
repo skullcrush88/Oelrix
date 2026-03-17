@@ -4,7 +4,9 @@ import { ArcusContent } from './arcus-content';
 export const metadata: Metadata = {
   title: 'Arcus — Luxury Jewelry Brand Website | Oelrix',
   description: 'A luxury jewelry brand website designed and built entirely by Oelrix. Elegant, timeless, and sophisticated.',
-  canonical: 'https://oelrix.tech/project/arcus',
+  alternates: {
+    canonical: 'https://oelrix.tech/project/arcus',
+  },
   openGraph: {
     title: 'Arcus — Luxury Jewelry Brand Website',
     description: 'A luxury jewelry brand website designed and built entirely by Oelrix.',
