@@ -6,6 +6,16 @@ const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   compress: true,
+
+  async redirects() {
+    return [
+      {
+        source: '/websites/:path*',
+        destination: '/project/:path*',
+        permanent: true,
+      },
+    ];
+  },
   
   experimental: {
     optimizePackageImports: ['lucide-react', '@react-three/fiber', '@react-three/drei'],
