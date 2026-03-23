@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import LightRays from "@/components/LightRays";
-import MarqueeTicker from "@/src/components/MarqueeTicker";
 import CustomCursor from "@/src/components/CustomCursor";
 import SmoothScroll from "@/src/components/SmoothScroll";
 import Footer from "@/src/components/Footer";
@@ -572,8 +571,6 @@ export default function Services() {
             </div>
           </div>
         </section>
-
-        <MarqueeTicker />
 
         {/* BUILD BLOCKS */}
         <section className="w-full">
