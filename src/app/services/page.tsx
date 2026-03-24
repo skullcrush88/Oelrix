@@ -76,7 +76,7 @@ const SERVICES: Service[] = [
     previews: [
       {
         label: "VELOX",
-        href: "/project/velorx",
+        href: "/project/velox",
         image: "/Velox.jpg",
         description: "Electric vehicle product launch page",
         note: "An imaginary brand concept. Designed & built by Oelrix.",
