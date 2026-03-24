@@ -75,7 +75,7 @@ const SERVICES: Service[] = [
     customLayout: true,
     previews: [
       {
-        label: "VELORX",
+        label: "VELOX",
         href: "/project/velorx",
         image: "/Velox.jpg",
         description: "Electric vehicle product launch page",

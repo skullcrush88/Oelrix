@@ -1,12 +1,12 @@
 "use client";
 
-import CrosshairCursor from "../../../../project/VELORX/src/components/CrosshairCursor";
-import HeroSection from "../../../../project/VELORX/src/components/HeroSection";
-import StatsSection from "../../../../project/VELORX/src/components/StatsSection";
-import FeatureSection from "../../../../project/VELORX/src/components/FeatureSection";
-import SpecsSection from "../../../../project/VELORX/src/components/SpecsSection";
-import CTASection from "../../../../project/VELORX/src/components/CTASection";
-import FooterSection from "../../../../project/VELORX/src/components/FooterSection";
+import CrosshairCursor from "../../../../project/VELOX/src/components/CrosshairCursor";
+import HeroSection from "../../../../project/VELOX/src/components/HeroSection";
+import StatsSection from "../../../../project/VELOX/src/components/StatsSection";
+import FeatureSection from "../../../../project/VELOX/src/components/FeatureSection";
+import SpecsSection from "../../../../project/VELOX/src/components/SpecsSection";
+import CTASection from "../../../../project/VELOX/src/components/CTASection";
+import FooterSection from "../../../../project/VELOX/src/components/FooterSection";
 
 export function VelorxContent() {
   return (
