@@ -121,6 +121,12 @@
   html {
     overflow-x: hidden;
     background: #000;
+    /* Hide scrollbar */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
   }
   body {
     @apply bg-background text-foreground;

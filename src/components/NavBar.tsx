@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import MagneticWrapper from './MagneticWrapper';
 
 export default function NavBar() {
   const router = useRouter();
@@ -31,16 +32,29 @@ export default function NavBar() {
     };
   }, [mobileMenuOpen]);
 
-  const handleClick = (path: string) => {
-    router.push(path);
-    setMobileMenuOpen(false);
+  const handleClick = (path: string, label: string = "We Don't Build Average") => {
+    // Trigger sound
+    window.dispatchEvent(new Event("playTransitionSound"));
+
+    // Trigger transition animation with label
+    window.dispatchEvent(
+      new CustomEvent("startTransition", {
+        detail: { label },
+      })
+    );
+    
+    // Wait for animation before navigating
+    setTimeout(() => {
+      router.push(path);
+      setMobileMenuOpen(false);
+    }, 700);
   };
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/services', label: 'Services' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/', label: 'Home', transitionLabel: "We Don't Build Average" },
+    { path: '/about', label: 'About', transitionLabel: 'Who We Are' },
+    { path: '/services', label: 'Services', transitionLabel: 'What We Build' },
+    { path: '/contact', label: 'Contact', transitionLabel: "Let's Build Something" },
   ];
 
   if (pathname?.startsWith('/project/')) {
@@ -57,7 +71,7 @@ export default function NavBar() {
         {/* Logo - far left */}
         <div 
           className="flex items-center gap-2.5 cursor-pointer" 
-          onClick={() => handleClick('/')}
+          onClick={() => handleClick('/', "We Don't Build Average")}
         >
           <div className="relative w-8 h-8 opacity-80">
             <Image 
@@ -76,31 +90,34 @@ export default function NavBar() {
         {/* Navigation links - perfectly centered */}
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-12">
           {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => handleClick(item.path)}
-              className={`relative text-xs uppercase tracking-widest transition-colors duration-300 ${
-                pathname === item.path
-                  ? 'text-white'
-                  : 'text-white/50 hover:text-white'
-              }`}
-            >
-              {item.label}
-              {pathname === item.path && (
-                <span className="absolute -bottom-1 left-0 w-full h-px bg-white" />
-              )}
-            </button>
+            <MagneticWrapper key={item.path}>
+              <button
+                onClick={() => handleClick(item.path, item.transitionLabel)}
+                className={`relative text-xs uppercase tracking-widest transition-colors duration-300 ${
+                  pathname === item.path
+                    ? 'text-white'
+                    : 'text-white/50 hover:text-white'
+                }`}
+              >
+                {item.label}
+                {pathname === item.path && (
+                  <span className="absolute -bottom-1 left-0 w-full h-px bg-white" />
+                )}
+              </button>
+            </MagneticWrapper>
           ))}
         </div>
 
         {/* CTA - far right */}
         <div className="hidden md:block">
-          <button
-            onClick={() => handleClick('/contact')}
-            className="text-xs uppercase tracking-widest text-white/70 hover:text-white transition-colors duration-300 cursor-pointer"
-          >
-            Get Started →
-          </button>
+          <MagneticWrapper>
+            <button
+              onClick={() => handleClick('/contact', "Let's Build Something")}
+              className="text-xs uppercase tracking-widest text-white/70 hover:text-white transition-colors duration-300 cursor-pointer"
+            >
+              Get Started →
+            </button>
+          </MagneticWrapper>
         </div>
 
         {/* Mobile Menu Button */}
@@ -138,24 +155,27 @@ export default function NavBar() {
             </button>
 
             {navItems.map((item) => (
-              <button
-                key={item.path}
-                onClick={() => handleClick(item.path)}
-                className={`w-full py-5 text-center text-lg font-semibold uppercase tracking-widest border-b border-white/5 ${
-                  pathname === item.path
-                    ? 'text-white'
-                    : 'text-white/50 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </button>
+              <MagneticWrapper key={item.path}>
+                <button
+                  onClick={() => handleClick(item.path, item.transitionLabel)}
+                  className={`w-full py-5 text-center text-lg font-semibold uppercase tracking-widest border-b border-white/5 ${
+                    pathname === item.path
+                      ? 'text-white'
+                      : 'text-white/50 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </MagneticWrapper>
             ))}
-            <button
-              onClick={() => handleClick('/contact')}
-              className="w-full mt-6 py-5 text-center text-lg font-semibold uppercase tracking-widest text-white"
-            >
-              Get Started
-            </button>
+            <MagneticWrapper>
+              <button
+                onClick={() => handleClick('/contact', "Let's Build Something")}
+                className="w-full mt-6 py-5 text-center text-lg font-semibold uppercase tracking-widest text-white"
+              >
+                Get Started
+              </button>
+            </MagneticWrapper>
           </div>
         </div>
       )}

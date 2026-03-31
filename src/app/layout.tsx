@@ -5,6 +5,9 @@ import NavBar from "../components/NavBar";
 import RouteLoader from "../components/RouteLoader";
 import RepeatDebugClient from "../components/RepeatDebugClient";
 import CursorWrapper from "../components/CursorWrapper";
+import PageTransition from "../components/PageTransition";
+import AudioProvider from "../components/AudioProvider";
+import CursorGlow from "../components/CursorGlow";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://oelrix.tech'),
@@ -82,43 +85,48 @@ export default function RootLayout({
         <meta name="author" content="Oelrix" />
       </head>
       <body style={{ background: '#000' }}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ProfessionalService",
-              "name": "Oelrix",
-              "url": "https://oelrix.tech",
-              "logo": "https://oelrix.tech/favicon.png",
-              "description": "Web design studio building high-quality custom digital experiences for brands and businesses.",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "London",
-                "addressCountry": "GB"
-              },
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "email": "contact@oelrix.tech",
-                "contactType": "customer service"
-              },
-              "sameAs": [
-                "https://www.linkedin.com/company/oelrix"
-              ],
-              "serviceType": [
-                "Brand Website Design",
-                "Landing Page Design",
-                "Website Redesign",
-                "UI/UX Design"
-              ]
-            })
-          }}
-        />
-        <CursorWrapper />
-        {children}
-        <RepeatDebugClient />
-        <NavBar />
-        <RouteLoader />
+        <AudioProvider>
+          <CursorGlow />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "ProfessionalService",
+                "name": "Oelrix",
+                "url": "https://oelrix.tech",
+                "logo": "https://oelrix.tech/favicon.png",
+                "description": "Web design studio building high-quality custom digital experiences for brands and businesses.",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "London",
+                  "addressCountry": "GB"
+                },
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "email": "contact@oelrix.tech",
+                  "contactType": "customer service"
+                },
+                "sameAs": [
+                  "https://www.linkedin.com/company/oelrix"
+                ],
+                "serviceType": [
+                  "Brand Website Design",
+                  "Landing Page Design",
+                  "Website Redesign",
+                  "UI/UX Design"
+                ]
+              })
+            }}
+          />
+          <CursorWrapper />
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <NavBar />
+          <RepeatDebugClient />
+          <RouteLoader />
+        </AudioProvider>
       </body>
     </html>
   );
