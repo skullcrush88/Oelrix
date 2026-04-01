@@ -518,7 +518,7 @@ export default function Services() {
         {/* INTRO SECTION */}
         <section className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen">
           <Image
-            src="/bg10.png"
+            src="/bg10.jpg"
             alt=""
             fill
             className="absolute inset-0 w-full h-full object-cover object-center"
@@ -532,9 +532,9 @@ export default function Services() {
             }}
           />
           <div
-            className="relative z-10 px-5 md:px-12 lg:px-24 py-20 sm:py-24 md:py-32 pb-12 md:pb-16 flex items-end md:items-center h-full"
+            className="relative z-10 px-5 md:px-12 lg:px-24 py-20 sm:py-24 md:py-32 pb-12 md:pb-16 flex items-center h-full"
           >
-            <div className="w-full">
+            <div className="w-full max-w-4xl">
               <p 
                 style={{
                   opacity: heroVisible ? 1 : 0,
@@ -542,7 +542,7 @@ export default function Services() {
                   transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
                   transitionDelay: "300ms",
                 }}
-                className="text-xs uppercase tracking-[0.3em] text-white/40 mb-6 md:mb-8 lg:mb-12"
+                className="text-xs uppercase tracking-[0.25em] text-white/30 mb-8"
               >
                 Oelrix Studio
               </p>
@@ -553,9 +553,16 @@ export default function Services() {
                   transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1)",
                   transitionDelay: "500ms",
                 }}
-                className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[6vw] font-bold tracking-tight leading-[0.9] mb-4 md:mb-6 lg:mb-8"
+                className="font-serif text-[clamp(3rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.025em] text-white"
               >
-                We build digital presence that defines how brands are perceived.
+                We design presence <br />
+                that{" "}
+                <span className="italic text-white/75">
+                  defines
+                </span>{" "}
+                <span className="italic text-white/60">
+                  perception
+                </span>
               </h1>
               <p 
                 style={{
@@ -564,16 +571,45 @@ export default function Services() {
                   transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
                   transitionDelay: "1100ms",
                 }}
-                className="mt-8 md:mt-12 text-xs sm:text-sm text-white/50 leading-relaxed max-w-sm md:max-w-md"
+                className="mt-10 text-white/40 max-w-md text-base leading-relaxed"
               >
-                Every project we take on is designed to communicate clarity, credibility, and intent. We focus on structure, precision, and presentation so what people see reflects what your brand truly is.
+                Every detail is intentional — from structure to motion. What people see is what they believe your brand to be.
               </p>
+
+              {/* CTA BUTTONS */}
+              <div 
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(32px)",
+                  transition: "opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: "1300ms",
+                }}
+                className="mt-12 flex items-center gap-8"
+              >
+                <button 
+                  onClick={() => {
+                    document.querySelector('#services-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="px-7 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  Explore Services
+                </button>
+
+                <button
+                  onClick={() => {
+                    document.querySelector('#services-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-white/30 hover:text-white transition cursor-pointer text-sm"
+                >
+                  View Work →
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
         {/* BUILD BLOCKS */}
-        <section className="w-full">
+        <section className="w-full" id="services-section">
           {SERVICES.map((service, index) => (
             <ServiceBlock
               key={service.tag}

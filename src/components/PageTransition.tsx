@@ -3,6 +3,39 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
+// Words to italicize by default
+const ITALIC_WORDS = ["Build", "Explore", "Discover", "Innovate", "Craft", "Design"];
+
+// Function to render text with italic words
+function RenderTextWithItalics({ text }: { text: string }) {
+  const words = text.split(" ");
+  const isWhoWeAre = text.includes("Who We Are");
+
+  return (
+    <>
+      {words.map((word, index) => {
+        const cleanWord = word.replace(/[^\w]/g, "");
+        const shouldItalicize =
+          (isWhoWeAre && cleanWord.toLowerCase() === "we") ||
+          ITALIC_WORDS.some(
+            (iWord) => cleanWord.toLowerCase() === iWord.toLowerCase()
+          );
+
+        return (
+          <span key={index}>
+            {shouldItalicize ? (
+              <span className="italic text-white/75">{word}</span>
+            ) : (
+              word
+            )}
+            {index < words.length - 1 && " "}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
 export default function PageTransition({
   children,
 }: {
@@ -41,11 +74,11 @@ export default function PageTransition({
 
   return (
     <>
-      {/* BACKGROUND (cinematic depth) */}
+      {/* BACKGROUND (refined) */}
       <motion.div
         animate={{
-          scale: active ? 0.96 : 1,
-          filter: active ? "blur(10px) brightness(0.7)" : "blur(0px) brightness(1)",
+          scale: active ? 0.98 : 1,
+          filter: active ? "blur(6px) brightness(0.85)" : "blur(0px) brightness(1)",
         }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
@@ -100,56 +133,56 @@ export default function PageTransition({
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="z-10 text-center px-6"
+              className="z-10 text-center px-6 flex flex-col items-center"
             >
-              <motion.h1
-                variants={{
-                  hidden: {
-                    opacity: 0,
-                    y: 100,
-                    filter: "blur(20px)",
-                  },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                    transition: {
-                      duration: 0.7,
-                      delay: 0.35,
-                      ease: "easeOut",
+              {/* HEADLINE */}
+              <div className="relative inline-block leading-none">
+                <motion.h1
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: 80,
+                      scale: 0.96,
                     },
-                  },
-                  exit: {
-                    opacity: 0,
-                    y: -80,
-                    filter: "blur(10px)",
-                    transition: {
-                      duration: 0.4,
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                      transition: {
+                        duration: 1,
+                        delay: 0.35,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
                     },
-                  },
-                }}
-                className="text-white text-4xl md:text-7xl font-semibold tracking-tight"
-                style={{
-                  textShadow: "0px 0px 40px rgba(255,255,255,0.25)",
-                }}
-              >
-                {label}
-              </motion.h1>
+                    exit: {
+                      opacity: 0,
+                      y: -60,
+                      scale: 0.98,
+                      transition: {
+                        duration: 0.4,
+                      },
+                    },
+                  }}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="font-serif leading-[1.05] tracking-[-0.02em] text-white text-center pr-2"
+                  style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: "clamp(1.75rem, 4vw, 3.5rem)",
+                    textShadow: "0 0 20px rgba(255,255,255,0.05)",
+                  }}
+                >
+                  <RenderTextWithItalics text={label} />
+                </motion.h1>
+              </div>
 
-              {/* CINEMATIC LINE */}
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "70%", opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ delay: 0.5, duration: 0.7 }}
-                className="h-[1px] bg-white/30 mx-auto mt-6"
-              />
             </motion.div>
 
-            {/* LIGHT FLASH (very subtle) */}
+            {/* LIGHT FLASH (minimal) */}
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.08 }}
+              animate={{ opacity: 0.03 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
               className="absolute inset-0 bg-white pointer-events-none"

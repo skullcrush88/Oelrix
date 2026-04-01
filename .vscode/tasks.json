@@ -11,7 +11,12 @@
 			],
 			"isBackground": true,
 			"problemMatcher": [],
-			"group": "build"
+			"group": "build",
+			"cwd": "${workspaceFolder}/Oelrix",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }
