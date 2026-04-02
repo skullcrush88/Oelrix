@@ -64,9 +64,10 @@ export default function NavBar() {
   return (
     <>
       <nav 
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-start md:justify-between px-8 md:px-16 py-1.5 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-between py-1.5 transition-all duration-500 ${
           scrolled ? 'backdrop-blur-md bg-black/60 border-b border-white/5' : ''
         }`}
+        style={{ padding: '0.375rem clamp(1rem, 5vw, 4rem)' }}
       >
         {/* Logo - far left */}
         <div 
@@ -88,7 +89,7 @@ export default function NavBar() {
         </div>
 
         {/* Navigation links - perfectly centered */}
-        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-12">
+        <div className="hidden md:flex items-center gap-12 flex-1 justify-center">
           {navItems.map((item) => (
             <MagneticWrapper key={item.path}>
               <button
@@ -109,7 +110,7 @@ export default function NavBar() {
         </div>
 
         {/* CTA - far right */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex ml-auto">
           <MagneticWrapper>
             <button
               onClick={() => handleClick('/contact', "Let's Build Something")}
@@ -122,10 +123,9 @@ export default function NavBar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden flex flex-col gap-1.5 z-50 relative ml-auto"
+          className="md:hidden flex flex-col gap-1.5 z-50 ml-auto"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
-          style={{ cursor: 'pointer' }}
         >
           <span className={`w-5 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
           <span className={`w-5 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
