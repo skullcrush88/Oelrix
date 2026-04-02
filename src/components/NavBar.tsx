@@ -122,7 +122,7 @@ export default function NavBar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden flex flex-col gap-1.5 z-50 relative"
+          className="md:hidden flex flex-col gap-1.5 z-50 relative ml-auto"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
           style={{ cursor: 'pointer' }}
