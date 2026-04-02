@@ -64,26 +64,26 @@ export default function NavBar() {
   return (
     <>
       <nav 
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-6 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-16 py-1.5 transition-all duration-500 ${
           scrolled ? 'backdrop-blur-md bg-black/60 border-b border-white/5' : ''
         }`}
       >
         {/* Logo - far left */}
         <div 
-          className="flex items-center gap-2.5 cursor-pointer" 
+          className="flex items-center gap-0 cursor-pointer" 
           onClick={() => handleClick('/', "We Don't Build Average")}
         >
-          <div className="relative w-8 h-8 opacity-80">
+          <div className="relative w-20 h-20 opacity-80 hover:opacity-100 transition-opacity">
             <Image 
-              src="/favicon.png" 
+              src="/newlogo.png" 
               alt="Oelrix Logo" 
               fill
               className="object-contain"
               priority
             />
           </div>
-          <span className="text-lg font-bold tracking-widest text-white uppercase">
-            OELRIX
+          <span className="text-xl font-light tracking-wider text-white" style={{ marginLeft: '-1rem' }}>
+            oelrix
           </span>
         </div>
 

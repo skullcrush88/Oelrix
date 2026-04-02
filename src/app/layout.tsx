@@ -66,9 +66,24 @@ export const metadata: Metadata = {
     canonical: 'https://oelrix.tech'
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
     shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    other: [
+      {
+        rel: "manifest",
+        url: "/site.webmanifest",
+      },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Oelrix",
   },
 };
 
@@ -95,7 +110,7 @@ export default function RootLayout({
                 "@type": "ProfessionalService",
                 "name": "Oelrix",
                 "url": "https://oelrix.tech",
-                "logo": "https://oelrix.tech/favicon.png",
+                "logo": "https://oelrix.tech/newlogo.png",
                 "description": "Web design studio building high-quality custom digital experiences for brands and businesses.",
                 "address": {
                   "@type": "PostalAddress",
