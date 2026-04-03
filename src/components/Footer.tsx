@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 
@@ -13,14 +13,14 @@ export default function Footer() {
       </div>
 
       {/* Middle Block */}
-      <div className="py-12 flex justify-between items-start">
+      <div className="py-12 flex flex-col md:flex-row justify-between items-start gap-12 md:gap-0">
         {/* Left Side - Description */}
-        <div className="flex-1">
+        <div className="w-full md:flex-1">
           <p className="text-sm text-white/30 max-w-xs">Web design studio</p>
         </div>
 
         {/* Right Side - Three Columns */}
-        <div className="flex gap-16 flex-1 justify-end">
+        <div className="w-full md:flex-1 flex flex-col sm:flex-row gap-8 sm:gap-16 justify-start md:justify-end">
           {/* Column 1: Navigation */}
           <div>
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Navigation</p>

@@ -8,6 +8,7 @@ import CursorWrapper from "../components/CursorWrapper";
 import PageTransition from "../components/PageTransition";
 import AudioProvider from "../components/AudioProvider";
 import CursorGlow from "../components/CursorGlow";
+import InitialPreloader from "../components/InitialPreloader";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://oelrix.tech'),
@@ -135,6 +136,7 @@ export default function RootLayout({
             }}
           />
           <CursorWrapper />
+          <InitialPreloader />
           <PageTransition>
             {children}
           </PageTransition>

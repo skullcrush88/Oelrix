@@ -357,6 +357,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
           <div className="mt-8 inline-flex rounded-full border border-white/10 bg-white/5 p-1">
             <button
               type="button"
+              suppressHydrationWarning
               onClick={() => setActiveMode("quote")}
               className={`rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
                 activeMode === "quote"
@@ -368,6 +369,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
             </button>
             <button
               type="button"
+              suppressHydrationWarning
               onClick={() => setActiveMode("call")}
               className={`rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
                 activeMode === "call"

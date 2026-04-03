@@ -74,7 +74,7 @@ export default function NavBar() {
           className="flex items-center gap-0 cursor-pointer" 
           onClick={() => handleClick('/', "We Don't Build Average")}
         >
-          <div className="relative w-20 h-20 opacity-80 hover:opacity-100 transition-opacity">
+          <div className="relative w-12 h-12 md:w-20 md:h-20 opacity-80 hover:opacity-100 transition-opacity">
             <Image 
               src="/newlogo.png" 
               alt="Oelrix Logo" 
@@ -83,7 +83,7 @@ export default function NavBar() {
               priority
             />
           </div>
-          <span className="text-xl font-light tracking-wider text-white" style={{ marginLeft: '-1rem' }}>
+          <span className="text-xl font-light tracking-wider text-white -ml-1 md:-ml-4">
             oelrix
           </span>
         </div>
