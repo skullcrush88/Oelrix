@@ -1,15 +1,50 @@
 "use client";
 
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const word = "OELRIX";
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const letterVariants: Variants = {
+    hidden: { opacity: 0, x: 80, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      scale: 1,
+      transition: { duration: 0.8, ease: "easeOut" } 
+    },
+  };
 
   return (
-    <footer className="w-full bg-[#080808] border-t border-white/10 px-8 md:px-16 lg:px-24">
+    <footer className="w-full bg-[#080808] border-t border-white/10 px-8 md:px-16 lg:px-24 overflow-hidden">
       {/* Top Block - Massive OELRIX Wordmark */}
       <div className="pt-24 pb-16 border-b border-white/10">
-        <h1 className="text-[12vw] tracking-tighter text-white leading-none" style={{ fontFamily: 'Bebas Neue, sans-serif' }}>OELRIX</h1>
+        <motion.h1 
+          className="text-[12vw] tracking-tighter text-white leading-none flex" 
+          style={{ fontFamily: 'Bebas Neue, sans-serif' }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          {word.split("").map((char, index) => (
+            <motion.span key={index} variants={letterVariants} className="inline-block">
+              {char}
+            </motion.span>
+          ))}
+        </motion.h1>
       </div>
 
       {/* Middle Block */}
