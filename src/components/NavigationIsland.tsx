@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import TransitionLink from './TransitionLink';
 import './NavigationIsland.css';
 
 export default function NavigationIsland() {
@@ -38,34 +38,36 @@ export default function NavigationIsland() {
     >
       <nav className="nav-island-inner">
         {/* Brand Logo */}
-        <Link href="/" className="nav-brand">
+        <TransitionLink href="/" label="We Don't Build Average" className="nav-brand">
           <img src="/newlogo.png" alt="Oelrix logo" className="nav-logo" />
-        </Link>
+        </TransitionLink>
 
         {/* Dynamic Links Menu */}
         <ul className="nav-links-list">
           <li className="nav-link-item">
-            <Link 
+            <TransitionLink 
               href="/about" 
+              label="Who We Are"
               className={pathname === '/about' ? 'active' : ''}
             >
               About Us
-            </Link>
+            </TransitionLink>
           </li>
           <li className="nav-link-item">
-            <Link 
+            <TransitionLink 
               href="/services" 
+              label="What We Build"
               className={pathname === '/services' ? 'active' : ''}
             >
               Services
-            </Link>
+            </TransitionLink>
           </li>
         </ul>
 
         {/* CTA booking button */}
-        <Link href="/contact" className="nav-action-btn">
+        <TransitionLink href="/contact" label="Let's Build Something" className="nav-action-btn">
           Let's work
-        </Link>
+        </TransitionLink>
       </nav>
     </div>
   );

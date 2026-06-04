@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import Link from "next/link";
+import TransitionLink from "./TransitionLink";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -60,10 +60,10 @@ export default function Footer() {
           <div>
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Navigation</p>
             <nav className="space-y-2">
-              <Link href="/" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</Link>
-              <Link href="/about" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</Link>
-              <Link href="/services" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</Link>
-              <Link href="/contact" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</Link>
+              <TransitionLink href="/" label="We Don't Build Average" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</TransitionLink>
+              <TransitionLink href="/about" label="Who We Are" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</TransitionLink>
+              <TransitionLink href="/services" label="What We Build" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</TransitionLink>
+              <TransitionLink href="/contact" label="Let's Build Something" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</TransitionLink>
             </nav>
           </div>
 

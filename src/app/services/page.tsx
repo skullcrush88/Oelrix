@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import TransitionLink from "../../components/TransitionLink";
 import LightRays from "@/components/LightRays";
 import CustomCursor from "@/src/components/CustomCursor";
 import SmoothScroll from "@/src/components/SmoothScroll";
@@ -324,13 +324,14 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                     transitionDelay: "600ms",
                   }}
                 >
-                  <Link
+                  <TransitionLink
                     href="/contact"
+                    label="Let's Build Something"
                     className="mt-8 sm:mt-12 inline-flex items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
                   >
                     {service.tag === "LAUNCH" ? "See how we build it" : service.tag === "ESTABLISH" ? "Explore this service" : "Talk about your site"}
                     <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </Link>
+                  </TransitionLink>
                 </div>
               </div>
             </div>
@@ -470,13 +471,14 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
               transitionDelay: `${600 + service.deliverables.length * 150}ms`,
             }}
           >
-            <Link
+            <TransitionLink
               href="/contact"
+              label="Let's Build Something"
               className="mt-8 sm:mt-12 flex md:inline-flex w-full md:w-auto justify-center items-center gap-2 rounded-none border-2 border-white/80 bg-white/10 px-6 sm:px-7 py-2.5 sm:py-3 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_16px_32px_rgba(255,255,255,0.3)]" 
             >
               {service.tag === "LAUNCH" ? "See how we build it" : service.tag === "ESTABLISH" ? "Explore this service" : "Talk about your site"}
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
+            </TransitionLink>
           </div>
         </div>
 
@@ -730,12 +732,13 @@ export default function Services() {
               }}
               className="mt-8 sm:mt-12"
             >
-              <Link
+              <TransitionLink
                 href="/contact"
+                label="Let's Build Something"
                 className="inline-block text-xs sm:text-sm uppercase tracking-widest text-white border-b border-white/40 pb-0.5 transition-all duration-300 hover:border-white"
               >
                 Let's talk about your project →
-              </Link>
+              </TransitionLink>
             </div>
           </div>
         </section>
