@@ -70,11 +70,6 @@ export default function NavigationIsland() {
           </li>
         </ul>
 
-        {/* CTA booking button */}
-        <TransitionLink href="/contact" label="Let's Build Something" className="nav-action-btn">
-          Let's work
-        </TransitionLink>
-
         {/* Mobile Hamburger Toggle */}
         <button 
           className="nav-mobile-toggle"
@@ -83,6 +78,11 @@ export default function NavigationIsland() {
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
+
+        {/* CTA booking button */}
+        <TransitionLink href="/contact" label="Let's Build Something" className="nav-action-btn">
+          Let's work
+        </TransitionLink>
       </nav>
     </div>
   );
