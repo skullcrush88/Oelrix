@@ -1,0 +1,227 @@
+/* Navigation Island Floating Shell */
+.nav-island-container {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 90%;
+  max-width: 520px; /* Reduced from 600px to bring components closer */
+  transition: max-width 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              top 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.4s ease;
+}
+
+.nav-island-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 40px;
+  /* Enhanced Glassmorphism styling */
+  background: rgba(10, 11, 13, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Hover effect on standard container */
+.nav-island-inner:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(8, 9, 10, 0.75);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 
+              0 0 30px rgba(255, 255, 255, 0.03), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Brand styling */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  white-space: nowrap;
+  transition: opacity 0.4s ease;
+  text-decoration: none;
+}
+
+.nav-logo {
+  height: 56px; /* Enlarged from 48px to look prominent */
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.1));
+  transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-island-container.scrolled .nav-logo {
+  height: 44px; /* Enlarged from 38px */
+}
+
+/* Central Links List */
+.nav-links-list {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  opacity: 1;
+  max-width: 400px;
+  transition: opacity 0.4s ease, max-width 0.5s ease, transform 0.5s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link-item a {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-link-item a:hover {
+  color: #ffffff;
+}
+
+.nav-link-item a.active {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Active indicator element */
+.nav-link-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 14px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.nav-link-item a.active::after {
+  transform: translateX(-50%) scaleX(1);
+  opacity: 1;
+}
+
+/* CTA Action Button */
+.nav-action-btn {
+  background: #ffffff;
+  color: #000000;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.nav-action-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+}
+
+/* Scrolled Compact State */
+.nav-island-container.scrolled {
+  max-width: 230px; /* Reduced from 340px to create a tight compact capsule */
+  top: 1rem;
+}
+
+.nav-island-container.scrolled .nav-island-inner {
+  padding: 0.4rem 1.1rem;
+  background: rgba(6, 7, 8, 0.85);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.nav-island-container.scrolled .nav-links-list {
+  opacity: 0;
+  max-width: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  overflow: hidden;
+  margin: 0;
+  gap: 0;
+}
+
+.nav-island-container.scrolled .nav-brand {
+  font-size: 0.85rem;
+}
+
+/* Hover Expanded Scrolled State */
+.nav-island-container.scrolled.hovered {
+  max-width: 520px; /* Reduced from 600px */
+}
+
+.nav-island-container.scrolled.hovered .nav-island-inner {
+  background: rgba(8, 9, 10, 0.9);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 
+              0 0 30px rgba(255, 255, 255, 0.04);
+}
+
+.nav-island-container.scrolled.hovered .nav-links-list {
+  opacity: 1;
+  max-width: 400px;
+  transform: scale(1);
+  pointer-events: auto;
+  gap: 1.75rem;
+}
+
+/* Scroll Direction Hide State */
+.nav-island-container.hidden {
+  top: -5rem;
+}
+
+/* Mobile Responsiveness Adjustments */
+@media (max-width: 768px) {
+  .nav-island-container {
+    width: 92%;
+    max-width: 230px !important; /* Tight capsule on mobile too */
+    top: 1rem;
+  }
+
+  .nav-island-inner {
+    padding: 0.4rem 1.1rem;
+    background: rgba(6, 7, 8, 0.92);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-links-list {
+    display: none !important;
+  }
+
+  .nav-brand {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-logo {
+    height: 44px !important;
+  }
+
+  .nav-action-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.75rem;
+  }
+}

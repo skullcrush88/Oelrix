@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../lib/debugRepeat";
-import NavBar from "../components/NavBar";
+import NavigationIsland from "../components/NavigationIsland";
+import GradualBlurWrapper from "../components/GradualBlurWrapper";
 import RouteLoader from "../components/RouteLoader";
 import RepeatDebugClient from "../components/RepeatDebugClient";
 import CursorWrapper from "../components/CursorWrapper";
@@ -140,7 +141,8 @@ export default function RootLayout({
           <PageTransition>
             {children}
           </PageTransition>
-          <NavBar />
+          <NavigationIsland />
+          <GradualBlurWrapper />
           <RepeatDebugClient />
           <RouteLoader />
         </AudioProvider>
