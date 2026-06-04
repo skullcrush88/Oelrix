@@ -187,28 +187,60 @@
   gap: 1.75rem;
 }
 
-/* Scroll Direction Hide State */
-.nav-island-container.hidden {
-  top: -5rem;
+/* Mobile toggle button hidden by default on desktop */
+.nav-mobile-toggle {
+  display: none;
 }
 
 /* Mobile Responsiveness Adjustments */
 @media (max-width: 768px) {
   .nav-island-container {
     width: 92%;
-    max-width: 230px !important; /* Tight capsule on mobile too */
+    max-width: 290px !important; /* Slightly wider to fit CTA and hamburger together nicely */
     top: 1rem;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s ease;
+  }
+
+  .nav-island-container.mobile-open {
+    max-width: 320px !important; /* Grow container width when open */
   }
 
   .nav-island-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     padding: 0.4rem 1.1rem;
     background: rgba(6, 7, 8, 0.92);
     border-color: rgba(255, 255, 255, 0.16);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nav-island-container.mobile-open .nav-island-inner {
+    border-radius: 24px;
+    padding: 0.8rem 1.2rem;
   }
 
   .nav-links-list {
     display: none !important;
+  }
+
+  /* When mobile navigation is open, stack the links vertically */
+  .nav-island-container.mobile-open .nav-links-list {
+    display: flex !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    flex-direction: column;
+    width: 100%;
+    order: 10;
+    margin-top: 1rem;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem 0 0.4rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .nav-brand {
@@ -223,5 +255,28 @@
   .nav-action-btn {
     padding: 0.4rem 0.9rem;
     font-size: 0.75rem;
+  }
+
+  /* Style mobile hamburger / close toggle */
+  .nav-mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 0.3rem;
+    margin-left: 0.4rem;
+    outline: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .nav-mobile-toggle:hover {
+    color: #ffffff;
+  }
+
+  .nav-mobile-toggle:active {
+    transform: scale(0.9);
   }
 }
