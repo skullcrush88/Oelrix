@@ -7,8 +7,8 @@ import GradualBlur from './GradualBlur';
 export default function GradualBlurWrapper() {
   const pathname = usePathname();
 
-  // Render on all pages except the home page
-  if (pathname === '/') return null;
+  // Render on all pages except the home page and the about page
+  if (pathname === '/' || pathname === '/about') return null;
 
   return (
     <GradualBlur
