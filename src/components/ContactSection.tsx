@@ -15,8 +15,8 @@ const budgetCurrencySymbol = "$";
 const contactOptions = [
   {
     label: "Email",
-    href: "mailto:contact@oelrix.tech",
-    sublabel: "contact@oelrix.tech",
+    href: "mailto:contact@oelrix.com",
+    sublabel: "contact@oelrix.com",
     description: "Drop us a message anytime, we'll get back to you within 24 hours.",
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-7 w-7">

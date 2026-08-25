@@ -70,7 +70,7 @@ export default function Footer() {
           {/* Column 2: Contact */}
           <div>
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Contact</p>
-            <a href="mailto:contact@oelrix.tech" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">contact@oelrix.tech</a>
+            <a href="mailto:contact@oelrix.com" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">contact@oelrix.com</a>
           </div>
 
           {/* Column 3: Follow */}

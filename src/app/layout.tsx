@@ -12,7 +12,7 @@ import CursorGlow from "../components/CursorGlow";
 import InitialPreloader from "../components/InitialPreloader";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://oelrix.tech'),
+  metadataBase: new URL('https://oelrix.com'),
   title: {
     default: 'Oelrix — Web Design Studio',
     template: '%s'
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'web design agency',
     'Oelrix'
   ],
-  authors: [{ name: 'Oelrix Studio', url: 'https://oelrix.tech' }],
+  authors: [{ name: 'Oelrix Studio', url: 'https://oelrix.com' }],
   creator: 'Oelrix Studio',
   publisher: 'Oelrix Studio',
   robots: {
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://oelrix.tech',
+    url: 'https://oelrix.com',
     siteName: 'Oelrix',
     title: 'Oelrix — Web Design Studio',
     description: 'Oelrix is a web design studio building high-quality, custom digital experiences for brands, businesses, and individuals.',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     creator: '@oelrix'
   },
   alternates: {
-    canonical: 'https://oelrix.tech'
+    canonical: 'https://oelrix.com'
   },
   icons: {
     icon: [
@@ -111,8 +111,8 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "ProfessionalService",
                 "name": "Oelrix",
-                "url": "https://oelrix.tech",
-                "logo": "https://oelrix.tech/newlogo.png",
+                "url": "https://oelrix.com",
+                "logo": "https://oelrix.com/newlogo.png",
                 "description": "Web design studio building high-quality custom digital experiences for brands and businesses.",
                 "address": {
                   "@type": "PostalAddress",
@@ -121,7 +121,7 @@ export default function RootLayout({
                 },
                 "contactPoint": {
                   "@type": "ContactPoint",
-                  "email": "contact@oelrix.tech",
+                  "email": "contact@oelrix.com",
                   "contactType": "customer service"
                 },
                 "sameAs": [
