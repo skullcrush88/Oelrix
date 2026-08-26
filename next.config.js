@@ -14,6 +14,25 @@ const nextConfig = {
         destination: '/project/:path*',
         permanent: true,
       },
+      // Redirect all requests coming to the old .tech domain to the new .com domain
+      {
+        source: '/:path*',
+        has: [
+          { type: 'host', value: 'oelrix.tech' },
+          { type: 'host', value: 'www.oelrix.tech' },
+        ],
+        destination: 'https://oelrix.com/:path*',
+        permanent: true,
+      },
+      // Force www -> apex for .com
+      {
+        source: '/:path*',
+        has: [
+          { type: 'host', value: 'www.oelrix.com' },
+        ],
+        destination: 'https://oelrix.com/:path*',
+        permanent: true,
+      },
     ];
   },
   
