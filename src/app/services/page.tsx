@@ -8,6 +8,7 @@ import CustomCursor from "@/src/components/CustomCursor";
 import SmoothScroll from "@/src/components/SmoothScroll";
 import Footer from "@/src/components/Footer";
 import { useInView } from "@/src/hooks/useInView";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 type PreviewCard = {
   label: string;
@@ -502,6 +503,10 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
 
 export default function Services() {
   const [heroVisible, setHeroVisible] = useState(false);
+  const heroParallaxX = useMotionValue(0);
+  const heroParallaxY = useMotionValue(0);
+  const smoothHeroX = useSpring(heroParallaxX, { stiffness: 110, damping: 22, mass: 0.5 });
+  const smoothHeroY = useSpring(heroParallaxY, { stiffness: 110, damping: 22, mass: 0.5 });
 
   useEffect(() => {
     // Hero appears on page load after delay
@@ -513,20 +518,41 @@ export default function Services() {
   // Manifesto section with early trigger: 0.05 threshold and -5% rootMargin
   const { ref: manifestoRef, inView: manifestoInView } = useInView({ threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
 
+  const handleHeroPointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    heroParallaxX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * -18);
+    heroParallaxY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * -12);
+  };
+
+  const resetHeroParallax = () => {
+    heroParallaxX.set(0);
+    heroParallaxY.set(0);
+  };
+
   return (
     <SmoothScroll>
       <main className="w-full bg-black text-white overflow-hidden">
         <CustomCursor />
         {/* INTRO SECTION */}
-        <section className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen">
-          <Image
-            src="/bg10.jpg"
-            alt=""
-            fill
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            style={{ opacity: 0.5 }}
-            priority
-          />
+        <section
+          className="relative w-full overflow-hidden min-h-[70vh] sm:min-h-screen"
+          onPointerMove={handleHeroPointerMove}
+          onPointerLeave={resetHeroParallax}
+        >
+          <motion.div
+            className="absolute -inset-[3%]"
+            style={{ x: smoothHeroX, y: smoothHeroY }}
+          >
+            <Image
+              src="/bg10.jpg"
+              alt=""
+              fill
+              className="h-full w-full object-cover object-center"
+              style={{ opacity: 0.5 }}
+              priority
+            />
+          </motion.div>
           <div
             className="absolute inset-0"
             style={{
