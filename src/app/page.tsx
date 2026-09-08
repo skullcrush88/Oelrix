@@ -15,7 +15,7 @@ function HomeContent() {
       </h1>
       <section className="sr-only">
         <p>
-          Oelrix is a London web design studio creating custom brand websites, focused landing pages, and thoughtful redesigns for ambitious businesses.
+          Oelrix is a London multidisciplinary design studio creating premium websites, brand systems, and digital experiences for ambitious businesses.
         </p>
         <nav aria-label="Explore Oelrix">
           <Link href="/services">Services</Link>

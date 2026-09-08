@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Web Design Services | Oelrix",
-  description: "Explore Oelrix web design services: custom brand websites, focused landing pages, and strategic website refinement for ambitious businesses.",
+  description: "Oelrix is a multidisciplinary design studio creating brand websites, digital experiences, landing pages, and strategic redesigns.",
   alternates: { canonical: "https://www.oelrix.com/services" },
   openGraph: {
     title: "Web Design Services | Oelrix",
-    description: "Custom brand websites, focused landing pages, and strategic website redesign from Oelrix.",
+    description: "Multidisciplinary design services from Oelrix: brand websites, digital experiences, focused landing pages, and redesigns.",
     url: "https://www.oelrix.com/services",
     type: "website",
   },

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -191,7 +191,7 @@ function ServicePreviewCard({ preview, delay, inView, shifted }: { preview: Prev
           {isImage ? (
             <img
               src={preview.href}
-              alt={preview.label}
+              alt={preview.description || `${preview.label} website concept by Oelrix`}
               className="h-32 sm:h-40 md:h-48 w-full object-contain bg-neutral-950"
             />
           ) : (
@@ -352,7 +352,7 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                 >
                   <img
                     src="/before.jpg"
-                    alt="Before"
+                    alt="Before: local business website ready for a strategic redesign"
                     className="w-full object-cover rounded-sm hover:opacity-80 transition-opacity duration-300"
                     style={{ aspectRatio: '16/10' }}
                   />
@@ -371,7 +371,7 @@ function ServiceBlock({ service, hasBorder = true }: { service: Service; hasBord
                 >
                   <img
                     src="/after.jpg"
-                    alt="After"
+                    alt="After: refined local business website redesign by Oelrix"
                     className="w-full object-cover rounded-sm hover:opacity-80 transition-opacity duration-300"
                     style={{ aspectRatio: '16/10' }}
                   />
@@ -575,7 +575,7 @@ export default function Services() {
                 }}
                 className="mt-10 text-white/40 max-w-md text-base leading-relaxed"
               >
-                Every detail is intentional — from structure to motion. What people see is what they believe your brand to be.
+                Oelrix is a multidisciplinary design studio building brand websites, landing pages, and digital experiences for ambitious teams in London, New York, India, Los Angeles, Malaysia, Dubai, and beyond.
               </p>
 
               {/* CTA BUTTONS */}

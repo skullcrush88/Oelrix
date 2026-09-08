@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   },
   description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
   keywords: [
+    'multidisciplinary design studio',
+    'digital experience design',
     'web design studio',
     'brand websites',
     'landing page design',
@@ -115,8 +117,15 @@ export default function RootLayout({
                     "name": "Oelrix",
                     "url": "https://www.oelrix.com/",
                     "logo": "https://www.oelrix.com/newlogo.png",
-                    "description": "London web design studio building high-quality custom digital experiences for brands and businesses.",
-                    "areaServed": "United Kingdom",
+                    "description": "Oelrix is a multidisciplinary design studio creating premium websites, brand systems, and digital experiences for ambitious businesses.",
+                    "areaServed": [
+                      { "@type": "City", "name": "London" },
+                      { "@type": "City", "name": "New York" },
+                      { "@type": "Country", "name": "India" },
+                      { "@type": "City", "name": "Los Angeles" },
+                      { "@type": "Country", "name": "Malaysia" },
+                      { "@type": "City", "name": "Dubai" }
+                    ],
                     "address": {
                       "@type": "PostalAddress",
                       "addressLocality": "London",
@@ -126,7 +135,7 @@ export default function RootLayout({
                       "@type": "ContactPoint",
                       "email": "contact@oelrix.com",
                       "contactType": "customer service",
-                      "areaServed": "GB",
+                      "areaServed": ["GB", "US", "IN", "MY", "AE"],
                       "availableLanguage": "English"
                     },
                     "sameAs": [
@@ -136,7 +145,17 @@ export default function RootLayout({
                       "Brand Website Design",
                       "Landing Page Design",
                       "Website Redesign",
-                      "UI/UX Design"
+                      "UI/UX Design",
+                      "Digital Experience Design",
+                      "Brand Strategy",
+                      "Art Direction"
+                    ],
+                    "knowsAbout": [
+                      "Brand identity",
+                      "Web design",
+                      "Digital product design",
+                      "User experience design",
+                      "Creative development"
                     ]
                   },
                   {
@@ -144,7 +163,7 @@ export default function RootLayout({
                     "@id": "https://www.oelrix.com/#website",
                     "url": "https://www.oelrix.com/",
                     "name": "Oelrix",
-                    "description": "Custom web design and digital experiences for ambitious brands and businesses.",
+                    "description": "Multidisciplinary design studio building premium websites and digital experiences for ambitious brands and businesses.",
                     "publisher": { "@id": "https://www.oelrix.com/#organization" },
                     "inLanguage": "en"
                   }

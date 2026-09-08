@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Oelrix | Web Design Studio",
-  description: "Learn how Oelrix combines strategy, design, and refinement to create clear, high-performing websites for ambitious brands.",
+  title: "About Oelrix | Multidisciplinary Design Studio",
+  description: "Learn how Oelrix combines brand strategy, design, and development to create premium digital experiences for ambitious brands worldwide.",
   alternates: { canonical: "https://www.oelrix.com/about" },
   openGraph: {
-    title: "About Oelrix | Web Design Studio",
-    description: "The thinking and process behind Oelrix's custom websites and digital experiences.",
+    title: "About Oelrix | Multidisciplinary Design Studio",
+    description: "The thinking and process behind Oelrix's custom websites, brand systems, and digital experiences.",
     url: "https://www.oelrix.com/about",
     type: "website",
   },

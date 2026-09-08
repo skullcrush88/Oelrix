@@ -31,7 +31,7 @@ export default function Footer() {
     <footer className="w-full bg-[#080808] border-t border-white/10 px-8 md:px-16 lg:px-24 overflow-hidden">
       {/* Top Block - Massive OELRIX Wordmark */}
       <div className="pt-24 pb-16 border-b border-white/10">
-        <motion.h1 
+        <motion.div 
           className="text-[12vw] tracking-tighter text-white leading-none flex" 
           style={{ fontFamily: 'Bebas Neue, sans-serif' }}
           variants={containerVariants}
@@ -44,14 +44,14 @@ export default function Footer() {
               {char}
             </motion.span>
           ))}
-        </motion.h1>
+        </motion.div>
       </div>
 
       {/* Middle Block */}
       <div className="py-12 flex flex-col md:flex-row justify-between items-start gap-12 md:gap-0">
         {/* Left Side - Description */}
         <div className="w-full md:flex-1">
-          <p className="text-sm text-white/30 max-w-xs">Web design studio</p>
+          <p className="text-sm text-white/30 max-w-xs">Multidisciplinary design studio</p>
         </div>
 
         {/* Right Side - Three Columns */}
