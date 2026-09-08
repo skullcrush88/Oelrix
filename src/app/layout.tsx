@@ -12,12 +12,12 @@ import CursorGlow from "../components/CursorGlow";
 import InitialPreloader from "../components/InitialPreloader";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://oelrix.com'),
+  metadataBase: new URL('https://www.oelrix.com/'),
   title: {
-    default: 'Oelrix — Web Design Studio',
+    default: 'Oelrix — Premium Digital Experiences',
     template: '%s'
   },
-  description: 'Oelrix is a web design studio building high-quality, custom digital experiences for brands, businesses, and individuals. Based in London.',
+  description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
   keywords: [
     'web design studio',
     'brand websites',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'web design agency',
     'Oelrix'
   ],
-  authors: [{ name: 'Oelrix Studio', url: 'https://oelrix.com' }],
+  authors: [{ name: 'Oelrix Studio', url: 'https://www.oelrix.com/' }],
   creator: 'Oelrix Studio',
   publisher: 'Oelrix Studio',
   robots: {
@@ -43,29 +43,28 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_GB',
-    url: 'https://oelrix.com',
+    locale: 'en_US',
+    url: 'https://www.oelrix.com/',
     siteName: 'Oelrix',
-    title: 'Oelrix — Web Design Studio',
-    description: 'Oelrix is a web design studio building high-quality, custom digital experiences for brands, businesses, and individuals.',
+    title: 'Oelrix — Multidisciplinary Digital Experiences',
+    description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: 'https://www.oelrix.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Oelrix — Web Design Studio',
+        alt: 'Oelrix — Premium Digital Experiences',
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Oelrix — Web Design Studio',
-    description: 'Oelrix is a web design studio building high-quality, custom digital experiences for brands, businesses, and individuals.',
-    images: ['/og-image.jpg'],
-    creator: '@oelrix'
+    title: 'Oelrix — Premium Digital Experiences',
+    description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
+    images: [{ url: 'https://www.oelrix.com/og-image.png', alt: 'Oelrix — Premium Digital Experiences' }],
   },
   alternates: {
-    canonical: 'https://oelrix.com'
+    canonical: 'https://www.oelrix.com/'
   },
   icons: {
     icon: [
@@ -112,10 +111,10 @@ export default function RootLayout({
                 "@graph": [
                   {
                     "@type": "ProfessionalService",
-                    "@id": "https://oelrix.com/#organization",
+                    "@id": "https://www.oelrix.com/#organization",
                     "name": "Oelrix",
-                    "url": "https://oelrix.com",
-                    "logo": "https://oelrix.com/newlogo.png",
+                    "url": "https://www.oelrix.com/",
+                    "logo": "https://www.oelrix.com/newlogo.png",
                     "description": "London web design studio building high-quality custom digital experiences for brands and businesses.",
                     "areaServed": "United Kingdom",
                     "address": {
@@ -142,12 +141,12 @@ export default function RootLayout({
                   },
                   {
                     "@type": "WebSite",
-                    "@id": "https://oelrix.com/#website",
-                    "url": "https://oelrix.com",
+                    "@id": "https://www.oelrix.com/#website",
+                    "url": "https://www.oelrix.com/",
                     "name": "Oelrix",
                     "description": "Custom web design and digital experiences for ambitious brands and businesses.",
-                    "publisher": { "@id": "https://oelrix.com/#organization" },
-                    "inLanguage": "en-GB"
+                    "publisher": { "@id": "https://www.oelrix.com/#organization" },
+                    "inLanguage": "en"
                   }
                 ]
               })

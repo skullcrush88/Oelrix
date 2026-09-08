@@ -14,15 +14,15 @@ Oelrix works through four stages: understand the business and audience, design t
 
 ## Important pages
 
-- [Services](https://oelrix.com/services): service details, deliverables, and portfolio examples.
-- [About](https://oelrix.com/about): Oelrix's approach, values, and process.
-- [Contact](https://oelrix.com/contact): request a website design project or quote.
+- [Services](https://www.oelrix.com/services): service details, deliverables, and portfolio examples.
+- [About](https://www.oelrix.com/about): Oelrix's approach, values, and process.
+- [Contact](https://www.oelrix.com/contact): request a website design project or quote.
 
 ## Selected work
 
-- [Velox](https://oelrix.com/project/velox): imaginary electric vehicle product launch concept.
-- [Noxe](https://oelrix.com/project/noxe): imaginary luxury fragrance brand concept.
-- [Arcus](https://oelrix.com/project/arcus): imaginary architecture and interior design studio concept.
+- [Velox](https://www.oelrix.com/project/velox): imaginary electric vehicle product launch concept.
+- [Noxe](https://www.oelrix.com/project/noxe): imaginary luxury fragrance brand concept.
+- [Arcus](https://www.oelrix.com/project/arcus): imaginary architecture and interior design studio concept.
 
 ## Business details
 
