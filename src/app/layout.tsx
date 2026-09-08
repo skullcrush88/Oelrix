@@ -109,29 +109,46 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "ProfessionalService",
-                "name": "Oelrix",
-                "url": "https://oelrix.com",
-                "logo": "https://oelrix.com/newlogo.png",
-                "description": "Web design studio building high-quality custom digital experiences for brands and businesses.",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "London",
-                  "addressCountry": "GB"
-                },
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "email": "contact@oelrix.com",
-                  "contactType": "customer service"
-                },
-                "sameAs": [
-                  "https://www.linkedin.com/company/oelrix"
-                ],
-                "serviceType": [
-                  "Brand Website Design",
-                  "Landing Page Design",
-                  "Website Redesign",
-                  "UI/UX Design"
+                "@graph": [
+                  {
+                    "@type": "ProfessionalService",
+                    "@id": "https://oelrix.com/#organization",
+                    "name": "Oelrix",
+                    "url": "https://oelrix.com",
+                    "logo": "https://oelrix.com/newlogo.png",
+                    "description": "London web design studio building high-quality custom digital experiences for brands and businesses.",
+                    "areaServed": "United Kingdom",
+                    "address": {
+                      "@type": "PostalAddress",
+                      "addressLocality": "London",
+                      "addressCountry": "GB"
+                    },
+                    "contactPoint": {
+                      "@type": "ContactPoint",
+                      "email": "contact@oelrix.com",
+                      "contactType": "customer service",
+                      "areaServed": "GB",
+                      "availableLanguage": "English"
+                    },
+                    "sameAs": [
+                      "https://www.linkedin.com/company/oelrix"
+                    ],
+                    "serviceType": [
+                      "Brand Website Design",
+                      "Landing Page Design",
+                      "Website Redesign",
+                      "UI/UX Design"
+                    ]
+                  },
+                  {
+                    "@type": "WebSite",
+                    "@id": "https://oelrix.com/#website",
+                    "url": "https://oelrix.com",
+                    "name": "Oelrix",
+                    "description": "Custom web design and digital experiences for ambitious brands and businesses.",
+                    "publisher": { "@id": "https://oelrix.com/#organization" },
+                    "inLanguage": "en-GB"
+                  }
                 ]
               })
             }}

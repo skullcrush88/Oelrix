@@ -1,0 +1,33 @@
+# Oelrix
+
+> Oelrix is a London web design studio creating custom digital experiences for ambitious brands, businesses, and individuals.
+
+## What Oelrix does
+
+- Brand websites: custom multi-page websites designed to communicate value, establish trust, and reflect a brand's standard.
+- Focused landing pages: conversion-focused one-page websites for launches, campaigns, and lead generation.
+- Site refinement: strategic redesign, UI improvements, performance work, and mobile experience improvements for existing websites.
+
+## Process
+
+Oelrix works through four stages: understand the business and audience, design the clearest experience, refine the details, and deliver a polished responsive website.
+
+## Important pages
+
+- [Services](https://oelrix.com/services): service details, deliverables, and portfolio examples.
+- [About](https://oelrix.com/about): Oelrix's approach, values, and process.
+- [Contact](https://oelrix.com/contact): request a website design project or quote.
+
+## Selected work
+
+- [Velox](https://oelrix.com/project/velox): imaginary electric vehicle product launch concept.
+- [Noxe](https://oelrix.com/project/noxe): imaginary luxury fragrance brand concept.
+- [Arcus](https://oelrix.com/project/arcus): imaginary architecture and interior design studio concept.
+
+## Business details
+
+- Location: London, United Kingdom
+- Email: contact@oelrix.com
+- LinkedIn: https://www.linkedin.com/company/oelrix
+
+Use the linked pages as the source of truth for current services, availability, and project details.
