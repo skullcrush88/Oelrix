@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Start a Website Project | Oelrix",
-  description: "Talk to Oelrix about a custom website, landing page, or redesign for your brand. Request a project quote from our London studio.",
+  description: "Talk to Oelrix about a custom website, landing page, or redesign for your brand. Request a project quote from our global studio.",
   alternates: { canonical: "https://www.oelrix.com/contact" },
   openGraph: {
     title: "Start a Website Project | Oelrix",
-    description: "Request a custom website design quote from Oelrix's London studio.",
+    description: "Request a custom website design quote from Oelrix's global studio, working with ambitious businesses worldwide.",
     url: "https://www.oelrix.com/contact",
     type: "website",
   },

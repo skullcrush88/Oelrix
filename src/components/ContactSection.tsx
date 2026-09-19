@@ -341,6 +341,9 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
           <p className="mt-6 text-lg text-white/70 sm:text-xl">
             If you’re ready to elevate your online presence, we’d love to hear from you.
           </p>
+          <p className="mt-3 text-sm uppercase tracking-[0.18em] text-white/40">
+            Working globally across London, New York, Melbourne, Dubai and beyond.
+          </p>
         </div>
       </div>
 

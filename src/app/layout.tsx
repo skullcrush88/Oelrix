@@ -14,10 +14,10 @@ import InitialPreloader from "../components/InitialPreloader";
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.oelrix.com/'),
   title: {
-    default: 'Oelrix — Premium Digital Experiences',
+    default: 'Oelrix — Global Multidisciplinary Design Studio',
     template: '%s'
   },
-  description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
+  description: 'Oelrix is a global multidisciplinary design studio creating premium websites, brand systems and digital experiences for ambitious businesses worldwide.',
   keywords: [
     'multidisciplinary design studio',
     'digital experience design',
@@ -48,22 +48,22 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.oelrix.com/',
     siteName: 'Oelrix',
-    title: 'Oelrix — Multidisciplinary Digital Experiences',
-    description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
+    title: 'Oelrix — Global Multidisciplinary Design Studio',
+    description: 'Oelrix is a global multidisciplinary design studio creating premium websites, brand systems and digital experiences for ambitious businesses worldwide.',
     images: [
       {
         url: 'https://www.oelrix.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Oelrix — Premium Digital Experiences',
+        alt: 'Oelrix — Global Multidisciplinary Design Studio',
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Oelrix — Premium Digital Experiences',
-    description: 'Oelrix designs and builds premium websites and digital experiences for ambitious brands.',
-    images: [{ url: 'https://www.oelrix.com/og-image.png', alt: 'Oelrix — Premium Digital Experiences' }],
+    title: 'Oelrix — Global Multidisciplinary Design Studio',
+    description: 'Oelrix is a global multidisciplinary design studio creating premium websites, brand systems and digital experiences for ambitious businesses worldwide.',
+    images: [{ url: 'https://www.oelrix.com/og-image.png', alt: 'Oelrix — Global Multidisciplinary Design Studio' }],
   },
   alternates: {
     canonical: 'https://www.oelrix.com/'
@@ -117,10 +117,15 @@ export default function RootLayout({
                     "name": "Oelrix",
                     "url": "https://www.oelrix.com/",
                     "logo": "https://www.oelrix.com/newlogo.png",
-                    "description": "Oelrix is a multidisciplinary design studio creating premium websites, brand systems, and digital experiences for ambitious businesses.",
+                    "description": "Oelrix is a global multidisciplinary design studio creating premium websites, brand systems and digital experiences for ambitious businesses worldwide.",
                     "areaServed": [
                       { "@type": "City", "name": "London" },
                       { "@type": "City", "name": "New York" },
+                      { "@type": "City", "name": "Melbourne" },
+                      { "@type": "Country", "name": "United Kingdom" },
+                      { "@type": "Country", "name": "United States" },
+                      { "@type": "Country", "name": "Australia" },
+                      { "@type": "Country", "name": "United Arab Emirates" },
                       { "@type": "Country", "name": "India" },
                       { "@type": "City", "name": "Los Angeles" },
                       { "@type": "Country", "name": "Malaysia" },
@@ -163,7 +168,7 @@ export default function RootLayout({
                     "@id": "https://www.oelrix.com/#website",
                     "url": "https://www.oelrix.com/",
                     "name": "Oelrix",
-                    "description": "Multidisciplinary design studio building premium websites and digital experiences for ambitious brands and businesses.",
+                    "description": "Global multidisciplinary design studio building premium websites, brand systems and digital experiences for ambitious brands and businesses worldwide.",
                     "publisher": { "@id": "https://www.oelrix.com/#organization" },
                     "inLanguage": "en"
                   }
