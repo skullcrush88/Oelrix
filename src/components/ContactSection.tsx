@@ -195,10 +195,14 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
       })
     : "No date selected";
 
-  const emailJsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
-  const emailJsQuoteTemplateId = process.env.NEXT_PUBLIC_EMAILJS_QUOTE_TEMPLATE_ID ?? "";
-  const emailJsMeetingTemplateId = process.env.NEXT_PUBLIC_EMAILJS_MEETING_TEMPLATE_ID ?? "";
-  const emailJsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+  const emailJsServiceId =
+    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_kf8ljq8";
+  const emailJsQuoteTemplateId =
+    process.env.NEXT_PUBLIC_EMAILJS_QUOTE_TEMPLATE_ID || "template_44hoque";
+  const emailJsMeetingTemplateId =
+    process.env.NEXT_PUBLIC_EMAILJS_MEETING_TEMPLATE_ID || "template_bqpy7os";
+  const emailJsPublicKey =
+    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "d9nZIxRBedvKwcNe2";
 
   const hasEmailJsConfig =
     emailJsServiceId && emailJsQuoteTemplateId && emailJsMeetingTemplateId && emailJsPublicKey;
