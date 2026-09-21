@@ -15,8 +15,8 @@ const budgetCurrencySymbol = "$";
 const contactOptions = [
   {
     label: "Email",
-    href: "mailto:contact@oelrix.com",
-    sublabel: "contact@oelrix.com",
+    href: "mailto:oelrix.inc@gmail.com",
+    sublabel: "oelrix.inc@gmail.com",
     description: "Drop us a message anytime, we'll get back to you within 24 hours.",
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-7 w-7">
@@ -239,6 +239,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
       setBudgetInr("");
       setSelectedHelp([]);
     } catch (error) {
+      console.error("EmailJS Quote Error:", error);
       setQuoteStatus("error");
     } finally {
       setQuoteSending(false);
@@ -250,6 +251,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
     setMeetingStatus(null);
 
     if (!hasEmailJsConfig) {
+      console.error("EmailJS configuration is missing or incomplete.");
       setMeetingStatus("error");
       return;
     }
@@ -283,6 +285,7 @@ export default function ContactSection({ includeNav = false }: ContactSectionPro
       setCallerNotes("");
       setGuestEmail("");
     } catch (error) {
+      console.error("EmailJS Meeting Error:", error);
       setMeetingStatus("error");
     } finally {
       setMeetingSending(false);

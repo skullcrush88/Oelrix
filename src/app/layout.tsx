@@ -138,7 +138,7 @@ export default function RootLayout({
                     },
                     "contactPoint": {
                       "@type": "ContactPoint",
-                      "email": "contact@oelrix.com",
+                      "email": "oelrix.inc@gmail.com",
                       "contactType": "customer service",
                       "areaServed": ["GB", "US", "IN", "MY", "AE"],
                       "availableLanguage": "English"

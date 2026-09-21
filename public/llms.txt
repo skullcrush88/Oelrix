@@ -30,7 +30,7 @@ Oelrix works through four stages: understand the business and audience, design t
 ## Business details
 
 - Location: London, United Kingdom
-- Email: contact@oelrix.com
+- Email: oelrix.inc@gmail.com
 - LinkedIn: https://www.linkedin.com/company/oelrix
 
 Use the linked pages as the source of truth for current services, availability, and project details.
