@@ -601,7 +601,7 @@ export default function Services() {
                 }}
                 className="mt-10 text-white/40 max-w-md text-base leading-relaxed"
               >
-                Oelrix is a multidisciplinary design studio building brand websites, landing pages, and digital experiences for ambitious teams in London, New York, India, Los Angeles, Malaysia, Dubai, and beyond.
+                Oelrix is a global multidisciplinary design studio building brand websites, landing pages, and digital experiences for ambitious teams worldwide, including in London, New York, India, Malaysia, and Dubai.
               </p>
 
               {/* CTA BUTTONS */}

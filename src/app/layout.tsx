@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     'UI UX design',
     'Next.js web development',
     'custom website design',
-    'London web design studio',
+    'global design studio',
     'web design agency',
     'Oelrix'
   ],
@@ -112,7 +112,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@graph": [
                   {
-                    "@type": "ProfessionalService",
+                    "@type": "Organization",
                     "@id": "https://www.oelrix.com/#organization",
                     "name": "Oelrix",
                     "url": "https://www.oelrix.com/",
@@ -131,11 +131,6 @@ export default function RootLayout({
                       { "@type": "Country", "name": "Malaysia" },
                       { "@type": "City", "name": "Dubai" }
                     ],
-                    "address": {
-                      "@type": "PostalAddress",
-                      "addressLocality": "London",
-                      "addressCountry": "GB"
-                    },
                     "contactPoint": {
                       "@type": "ContactPoint",
                       "email": "oelrix.inc@gmail.com",

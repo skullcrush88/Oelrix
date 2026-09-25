@@ -29,7 +29,7 @@ Oelrix works through four stages: understand the business and audience, design t
 
 ## Business details
 
-- Location: London, United Kingdom
+- Service footprint: Global, including the United Kingdom, United States, Australia, UAE, India, and Malaysia
 - Email: oelrix.inc@gmail.com
 - LinkedIn: https://www.linkedin.com/company/oelrix
 
