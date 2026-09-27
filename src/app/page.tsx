@@ -19,6 +19,7 @@ function HomeContent() {
         </p>
         <nav aria-label="Explore Oelrix">
           <Link href="/services">Services</Link>
+          <Link href="/work">Work</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Start a project</Link>
         </nav>

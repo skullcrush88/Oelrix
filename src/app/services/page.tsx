@@ -623,14 +623,12 @@ export default function Services() {
                   Explore Services
                 </button>
 
-                <button
-                  onClick={() => {
-                    document.querySelector('#services-section')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                <TransitionLink
+                  href="/work"
                   className="text-white/30 hover:text-white transition cursor-pointer text-sm"
                 >
                   View Work →
-                </button>
+                </TransitionLink>
               </div>
             </div>
           </div>

@@ -61,6 +61,7 @@ export default function Footer() {
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Navigation</p>
             <nav className="space-y-2">
               <TransitionLink href="/" label="We Don't Build Average" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Home</TransitionLink>
+              <TransitionLink href="/work" label="Selected Work" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Work</TransitionLink>
               <TransitionLink href="/about" label="Who We Are" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">About</TransitionLink>
               <TransitionLink href="/services" label="What We Build" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Services</TransitionLink>
               <TransitionLink href="/contact" label="Let's Build Something" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Contact</TransitionLink>
@@ -77,8 +78,7 @@ export default function Footer() {
           <div>
             <p className="text-xs tracking-widest text-white/20 mb-4 uppercase">Follow</p>
             <div className="space-y-2">
-              <a href="#" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">LinkedIn</a>
-              <a href="#" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">Instagram</a>
+              <a href="https://www.linkedin.com/company/oelrix" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors duration-200 block">LinkedIn</a>
             </div>
           </div>
         </div>
