@@ -99,8 +99,6 @@ export default function RootLayout({
     <html lang="en" style={{ background: '#000' }}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="author" content="Oelrix" />
       </head>
       <body style={{ background: '#000' }}>
         <AudioProvider>
