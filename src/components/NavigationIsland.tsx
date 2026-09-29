@@ -51,15 +51,6 @@ export default function NavigationIsland() {
         {/* Dynamic Links Menu */}
         <ul className="nav-links-list">
           <li className="nav-link-item">
-            <TransitionLink
-              href="/work"
-              label="Selected Work"
-              className={pathname === '/work' || pathname.startsWith('/project/') ? 'active' : ''}
-            >
-              Work
-            </TransitionLink>
-          </li>
-          <li className="nav-link-item">
             <TransitionLink 
               href="/about" 
               label="Who We Are"

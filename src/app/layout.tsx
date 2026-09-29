@@ -116,24 +116,12 @@ export default function RootLayout({
                     "url": "https://www.oelrix.com/",
                     "logo": "https://www.oelrix.com/newlogo.png",
                     "description": "Oelrix is a global multidisciplinary design studio creating premium websites, brand systems and digital experiences for ambitious businesses worldwide.",
-                    "areaServed": [
-                      { "@type": "City", "name": "London" },
-                      { "@type": "City", "name": "New York" },
-                      { "@type": "City", "name": "Melbourne" },
-                      { "@type": "Country", "name": "United Kingdom" },
-                      { "@type": "Country", "name": "United States" },
-                      { "@type": "Country", "name": "Australia" },
-                      { "@type": "Country", "name": "United Arab Emirates" },
-                      { "@type": "Country", "name": "India" },
-                      { "@type": "City", "name": "Los Angeles" },
-                      { "@type": "Country", "name": "Malaysia" },
-                      { "@type": "City", "name": "Dubai" }
-                    ],
+                    "areaServed": "Worldwide",
                     "contactPoint": {
                       "@type": "ContactPoint",
                       "email": "oelrix.inc@gmail.com",
                       "contactType": "customer service",
-                      "areaServed": ["GB", "US", "IN", "MY", "AE"],
+                      "areaServed": "Worldwide",
                       "availableLanguage": "English"
                     },
                     "sameAs": [

@@ -23,6 +23,7 @@ Oelrix works through four stages: understand the business and audience, design t
 
 ## Selected work
 
+- [Selected work](https://www.oelrix.com/work): browse Oelrix's website and digital experience concepts.
 - [Velox](https://www.oelrix.com/project/velox): imaginary electric vehicle product launch concept.
 - [Noxe](https://www.oelrix.com/project/noxe): imaginary luxury fragrance brand concept.
 - [Arcus](https://www.oelrix.com/project/arcus): imaginary architecture and interior design studio concept.
